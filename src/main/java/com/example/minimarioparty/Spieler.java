@@ -26,12 +26,20 @@ public class Spieler {
         return position;
     }
 
+    public void fuegeWuerfelhinzu(Wuerfel wuerfel){
+        wuerfelList.add(wuerfel);
+
+    }
+
 
     //Methoden
     public int wuerfeln(){
         int ergebnis = 0;
         for (Wuerfel w : wuerfelList){
-            ergebnis = w.wuerfeln();
+            ergebnis =ergebnis + w.wuerfeln();
+        }
+        if (wuerfelList.size()==2){
+            wuerfelList.remove(1);
         }
 
         return ergebnis;
