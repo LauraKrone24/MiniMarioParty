@@ -18,4 +18,16 @@ public class Spieler {
     public String getName() {
         return name;
     }
+
+    public int wuerfeln(){
+        int ergebnis = 0;
+
+        return ergebnis;
+    }
+
+    public void bewegeSpieler(){
+
+
+    }
+
 }
