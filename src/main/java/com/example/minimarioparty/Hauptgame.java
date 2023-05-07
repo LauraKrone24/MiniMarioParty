@@ -6,8 +6,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Hauptgame extends Application {
+    private ArrayList<Feld> felder = new ArrayList<Feld>();
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Hauptgame.class.getResource("hauptgame.fxml"));
@@ -16,6 +18,10 @@ public class Hauptgame extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void setFelder(){
+
+    };
 
     public static void main(String[] args) {
         launch();
