@@ -3,6 +3,7 @@ package com.example.minimarioparty;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -20,13 +21,18 @@ public class Hauptgame extends Application {
         Scene scene = new Scene(fxmlLoader.load(),1000,800);
         stage.setTitle("Mini Mario Party");
         stage.setScene(scene);
-        stage.show();
+
         System.out.println("hi");
-        String spielername = "hi";
+        TextInputDialog td = new TextInputDialog("");
+        td.setHeaderText("Gib deinen Namen ein");
+        td.showAndWait();
+        String spielername = td.getEditor().getText();
         spieler[0] = new Spieler(spielername,false);
         spieler[1] =  new Spieler("Computer",true);
         aktuellerSpieler = chooseStartspieler();
         System.out.println(aktuellerSpieler.getName());
+        stage.show();
+
     }
 
     public void setFelder(){
