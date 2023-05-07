@@ -8,7 +8,7 @@ public class Wuerfel {
     private String normalerWuerfel;
     private String leichterGewonnenerWuerfel;
     private String schwererGewonnenerWuerfel;
-    ArrayList<Integer> Wuerfel = new ArrayList<>();
+    ArrayList<Integer> Werfel = new ArrayList<>();
 
 
 
