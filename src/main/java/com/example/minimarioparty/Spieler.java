@@ -3,6 +3,7 @@ package com.example.minimarioparty;
 import java.util.List;
 
 public class Spieler {
+
     private String name;
     private boolean computer;
     private List<Wuerfel> wuerfelList;
@@ -29,6 +30,9 @@ public class Spieler {
     //Methoden
     public int wuerfeln(){
         int ergebnis = 0;
+        for (Wuerfel w : wuerfelList){
+            ergebnis = w.wuerfeln();
+        }
 
         return ergebnis;
     }
@@ -42,9 +46,8 @@ public class Spieler {
         }else {
             System.out.println("Du hast gewonnen");
         }
-
-
-
     }
+
+
 
 }
