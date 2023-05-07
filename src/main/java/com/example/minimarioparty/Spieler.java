@@ -1,12 +1,13 @@
 package com.example.minimarioparty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Spieler {
 
     private String name;
     private boolean computer;
-    private List<Wuerfel> wuerfelList;
+    private List<Wuerfel> wuerfelList =  new ArrayList<>();
     private Feld position;
     //hier Grafik einfügen
 

@@ -15,12 +15,14 @@ public class Hauptgame extends Application {
     private ArrayList<Feld> felder = new ArrayList<Feld>();
     @Override
     public void start(Stage stage) throws IOException {
+
         FXMLLoader fxmlLoader = new FXMLLoader(Hauptgame.class.getResource("hauptgame.fxml"));
         Scene scene = new Scene(fxmlLoader.load(),1000,800);
         stage.setTitle("Mini Mario Party");
         stage.setScene(scene);
         stage.show();
-        String spielername = JOptionPane.showInputDialog ("Gib deinen Namen ein: ");
+        System.out.println("hi");
+        String spielername = "hi";
         spieler[0] = new Spieler(spielername,false);
         spieler[1] =  new Spieler("Computer",true);
         aktuellerSpieler = chooseStartspieler();
