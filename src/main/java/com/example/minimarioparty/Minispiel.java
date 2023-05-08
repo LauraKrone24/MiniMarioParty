@@ -91,7 +91,7 @@ public  abstract class Minispiel extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Spielanleitgung");
+                alert.setTitle("Spielanleitung");
                 alert.setHeaderText("Spielanleitung");
                 alert.setContentText(spielanleitungText);
                 alert.showAndWait();
