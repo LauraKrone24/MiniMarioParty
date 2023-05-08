@@ -143,7 +143,7 @@ public class Hauptgame extends Application {
 
         p.getChildren().addAll(wurfel1Rect,wurfel2Rect,wuerfelLable,wuerfel1Lable,wuerfel2Lable,wuefelbutton);
 
-        //Image hintergrundimage = new Image(""); //Hier wenn vorhanden Bild einfügen
+        Image hintergrundimage = new Image(""); //Hier wenn vorhanden Bild einfügen
         ImageView spielfeldhintergrund = new ImageView();
         //spielfeldhintergrund.setImage(hintergrundimage);
         spielfeldhintergrund.setFitHeight(750);
