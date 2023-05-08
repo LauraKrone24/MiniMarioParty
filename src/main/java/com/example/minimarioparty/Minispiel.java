@@ -4,12 +4,18 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.Objects;
@@ -21,21 +27,50 @@ public  abstract class Minispiel extends Application {
     private boolean leicht;
 
     protected Pane p= new Pane();
+    protected javafx.scene.shape.Rectangle menuRectangle = new Rectangle();
 
-    protected Label MinispielSchwierigkeitLable  = new Label();
+    protected Label MinispielSchwierigkeitLable  = new Label("Schwierigkeit");
+    protected Label MinispielTitleLabel = new Label("Minispieltitel");
+    protected Button spielanleitungButton = new Button("Spielanleitung");
+
+    protected String hauptfarbe = "#8361FF";
+
+    protected String spielanleitungText = new String();
 
 
 
 
     public void start(Stage stage) throws IOException {
 
+        menuRectangle.setLayoutX(0);
+        menuRectangle.setLayoutY(0);
+        menuRectangle.setWidth(1000);
+        menuRectangle.setHeight(100);
+        menuRectangle.setFill(Paint.valueOf(hauptfarbe));
+
         Button zuruckButton = new Button("Zurück");
-        zuruckButton.setLayoutX(100);
-        zuruckButton.setLayoutY(100);
+        zuruckButton.setLayoutX(25);
+        zuruckButton.setLayoutY(35);
+        zuruckButton.prefWidth(100);
+        zuruckButton.prefHeight(50);
 
         MinispielSchwierigkeitLable.setFont(new Font("system",24));
-        MinispielSchwierigkeitLable.setLayoutX(20);
-        MinispielSchwierigkeitLable.setLayoutY(20);
+        MinispielSchwierigkeitLable.setLayoutX(500);
+        MinispielSchwierigkeitLable.setLayoutY(35);
+        MinispielSchwierigkeitLable.prefWidth(50);
+        MinispielSchwierigkeitLable.prefHeight(55);
+        MinispielSchwierigkeitLable.setTextFill(Paint.valueOf("#ffffff"));
+
+        spielanleitungButton.setLayoutX(875);
+        spielanleitungButton.setLayoutY(35);
+
+        MinispielTitleLabel.setFont(new Font("system", 24));
+        MinispielTitleLabel.setLayoutX(350);
+        MinispielTitleLabel.setLayoutY(35);
+        MinispielTitleLabel.prefWidth(150);
+        MinispielTitleLabel.prefHeight(55);
+        MinispielTitleLabel.setTextFill(Paint.valueOf("#ffffff"));
+
 
 
 
@@ -52,9 +87,24 @@ public  abstract class Minispiel extends Application {
             }
         });
 
+        spielanleitungButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Spielanleitgung");
+                alert.setHeaderText("Spielanleitung");
+                alert.setContentText(spielanleitungText);
+                alert.showAndWait();
+
+            }
+        });
 
 
-        p.getChildren().addAll(zuruckButton);
+
+
+        p.getChildren().addAll(menuRectangle);
+        p.getChildren().addAll(zuruckButton, spielanleitungButton, MinispielTitleLabel, MinispielSchwierigkeitLable);
+        //ende vom code, danach nichts mehr einfügen
         Scene scene = new Scene(p,1000,800);
         stage.setTitle("Minispiel");
         stage.setScene(scene);
