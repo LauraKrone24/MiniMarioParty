@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Hauptgame extends Application {
-    private Spieler[] spieler = new Spieler[2];
+    private static Spieler[] spieler = new Spieler[2];
     private Spieler aktuellerSpieler;
     private Spieler naesterSpieler;
     private Rectangle wurfel1Rect;
@@ -136,6 +136,7 @@ public class Hauptgame extends Application {
         wuefelbutton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+
                 zug();
             }
         });
@@ -225,7 +226,8 @@ public class Hauptgame extends Application {
         }
         try{Thread.sleep(200);}catch (Exception e){}
         if(aktuellerSpieler.getPosition() instanceof Aktionsfeld){
-            ((Aktionsfeld) aktuellerSpieler.getPosition()).starteMinispiel();
+            Minispielrueckgabewert minispielrueckgabewert = ((Aktionsfeld) aktuellerSpieler.getPosition()).starteMinispiel();
+
         }
         nextSpieler();
     }
@@ -241,7 +243,9 @@ public class Hauptgame extends Application {
         nichtAktuellerSpielerLable.setText(naesterSpieler.getName());
     };
 
-
+    public static Spieler[] getSpieler() {
+        return spieler;
+    }
 
     public static void main(String[] args) {
         launch();

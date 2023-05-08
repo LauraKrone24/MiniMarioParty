@@ -11,7 +11,6 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <Pane maxHeight="800.0" maxWidth="1000.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.minimarioparty.Hauptcontroller">
    <children>
       <Label layoutX="800.0" layoutY="100.0" prefWidth="200.0" text="Spielerreihenfolge">
@@ -71,6 +70,6 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" layoutX="820.0" layoutY="500.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
       <ImageView fitHeight="750.0" fitWidth="750.0" layoutX="25.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
       <Ellipse fx:id="Spieler1" fill="DODGERBLUE" layoutX="40.0" layoutY="710.0" radiusX="15.0" radiusY="15.0" stroke="BLACK" strokeType="INSIDE" />
-      <Ellipse fx:id="Spieler2" fill="DODGERBLUE" layoutX="70.0" layoutY="740.0" radiusX="15.0" radiusY="15.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fx:id="Spieler2" fill="DODGERBLUE" layoutX="70.0" layoutY="745.0" radiusX="15.0" radiusY="15.0" stroke="BLACK" strokeType="INSIDE" />
    </children>
 </Pane>

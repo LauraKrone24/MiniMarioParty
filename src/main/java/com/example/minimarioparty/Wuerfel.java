@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Wuerfel {
     private String name;
-
     int start;
     int end;
 
@@ -24,8 +23,7 @@ public class Wuerfel {
 
     }
 
-
-
-
-
+    public String getName() {
+        return name;
+    }
 }

@@ -1,5 +1,8 @@
 package com.example.minimarioparty;
 
+import javafx.scene.control.Alert;
+import javafx.stage.Stage;
+
 import java.util.List;
 
 public class Aktionsfeld extends Feld{
@@ -16,8 +19,19 @@ public class Aktionsfeld extends Feld{
         return x;
     }
 
-    public void  starteMinispiel(){
+    public Minispielrueckgabewert  starteMinispiel(){
         int minispielnummer = getMinispielnummer();
-        //hier minispiel Start einfügen
+        Minispiel m = minispielListe.get(minispielnummer);
+        try{m.start(new Stage());
+           Minispielrueckgabewert spielRueck=  m.getMinispielrueckgabewert();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Minispielende");
+            alert.setHeaderText(null);
+            alert.setContentText(spielRueck.toString());
+            alert.showAndWait();
+            return spielRueck;
+        }catch (Exception e){}
+        return new Minispielrueckgabewert(true,null,null);
+
     };
 }
