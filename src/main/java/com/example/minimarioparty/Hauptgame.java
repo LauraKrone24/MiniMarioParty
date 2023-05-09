@@ -1,6 +1,8 @@
 package com.example.minimarioparty;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,6 +22,7 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -33,7 +36,7 @@ public class Hauptgame extends Application {
     private Ellipse nichtAktuellerSpielerEllipse;
     private Ellipse aktuellerSpielerEllipse;
     private Rectangle wurfel2Rect;
-    protected static ArrayList<Feld> felder = new ArrayList<Feld>();
+    protected static Feld[] felder = new Feld[100];;
     private Label aktuellerSpielerLable;
     private Label nichtAktuellerSpielerLable;
     private Button wuefelbutton;
@@ -105,7 +108,7 @@ public class Hauptgame extends Application {
         wurfel2Rect.setArcHeight(5);
         wurfel2Rect.setArcWidth(5);
 
-        wuerfel1Lable = new Label("5");
+        wuerfel1Lable = new Label("");
         wuerfel1Lable.setPrefWidth(50);
         wuerfel1Lable.setPrefWidth(50);
         wuerfel1Lable.setLayoutY(570);
@@ -113,7 +116,7 @@ public class Hauptgame extends Application {
         wuerfel1Lable.setFont(new Font("System",24));
         wuerfel1Lable.setAlignment(Pos.CENTER);
 
-        wuerfel2Lable = new Label("1");
+        wuerfel2Lable = new Label("");
         wuerfel2Lable.setPrefWidth(50);
         wuerfel2Lable.setPrefWidth(50);
         wuerfel2Lable.setLayoutY(570);
@@ -121,7 +124,7 @@ public class Hauptgame extends Application {
         wuerfel2Lable.setFont(new Font("System",24));
         wuerfel2Lable.setAlignment(Pos.CENTER);
 
-        wuerfelSUMLable = new Label("6");
+        wuerfelSUMLable = new Label("");
         wuerfelSUMLable.setPrefWidth(75);
         wuerfelSUMLable.setPrefWidth(75);
         wuerfelSUMLable.setLayoutY(600);
@@ -142,7 +145,7 @@ public class Hauptgame extends Application {
             }
         });
 
-        p.getChildren().addAll(wurfel1Rect,wurfel2Rect,wuerfelLable,wuerfel1Lable,wuerfel2Lable,wuefelbutton);
+        p.getChildren().addAll(wurfel1Rect,wurfel2Rect,wuerfelLable,wuerfel1Lable,wuerfel2Lable,wuefelbutton,wuerfelSUMLable);
 
         Image hintergrundimage = new Image("Spielbrett.jpg"); //Hier wenn vorhanden Bild einfügen
         ImageView spielfeldhintergrund = new ImageView();
@@ -176,19 +179,23 @@ public class Hauptgame extends Application {
 
         aktuellerSpieler = new Spieler(spielername,false,SPIELER1FARBE);
         naesterSpieler = new Spieler("Computer",true,SPIELER2FARBE);
+        setFelder();
+
+        System.out.println("Felder in Hauptgame:");
+        System.out.println(felder);
         chooseStartspieler();
         updateOberflache();
 
         stage.show();
 
-        auswahl();
+        if(aktuellerSpieler.isComputer())zug();
+
 
 
 
     }
 
     public void setFelder(){
-        Feld[] felder = new Feld[100];
         int x = 25;
         int y = 700;
         for (int i = 0; i <= 9; i++) {
@@ -344,58 +351,74 @@ public class Hauptgame extends Application {
 
     public void nextSpieler(){
        changeSpieler();
-       updateOberflache();
-       auswahl();
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+            updateOberflache();
+
+        });
+        pause.play();
+        PauseTransition pause2 = new PauseTransition(Duration.seconds(2));
+        pause2.setOnFinished(event -> {
+
+            if(aktuellerSpieler.isComputer()){
+
+                zug();
+
+            }else{
+                wuefelbutton.setVisible(true);
+            }
+
+        });
+        pause2.play();
+
     }
 
-    public void auswahl (){
-        if(aktuellerSpieler.isComputer()){
-            wuefelbutton.setVisible(false);
-            try{Thread.sleep(2000);}catch (Exception e){}
-            zug();
-        }
-        else {
-            wuefelbutton.setVisible(true);
-        }
-    }
+
 
     public void zug(){
-        //wuerfelSUMLable.setText(String.valueOf(aktuellerSpieler.bewegeSpieler()));
-        try{Thread.sleep(2000);}catch (Exception e){}
+        wuefelbutton.setVisible(false);
+
+        wuerfelSUMLable.setText(String.valueOf(aktuellerSpieler.bewegeSpieler()));
+
         if(aktuellerSpieler.isComputer()){
-            System.out.println(aktuellerSpieler.getPosition().getX());
             figurComputer.setLayoutX(aktuellerSpieler.getPosition().getX()+50);
             figurComputer.setLayoutY(aktuellerSpieler.getPosition().getY()+50);
+
         }else{
             figurSpieler.setLayoutX(aktuellerSpieler.getPosition().getX()+25);
             figurSpieler.setLayoutY(aktuellerSpieler.getPosition().getY()+25);
+
         }
-        try{Thread.sleep(2000);}catch (Exception e){}
+
+
 
         if(aktuellerSpieler.getPosition() instanceof Aktionsfeld){
-            ((Aktionsfeld) aktuellerSpieler.getPosition()).starteMinispiel();
+            //((Aktionsfeld) aktuellerSpieler.getPosition()).starteMinispiel();
+            System.out.println("Hier sollte ein Minispiel gestartet werden");
 
         }
+
         nextSpieler();
+
     }
 
     public void updateOberflache(){
         wuerfel1Lable.setText("");
         wuerfel2Lable.setText("");
         wuerfelSUMLable.setText("");
-
         wurfel2Rect.setVisible(false);
 
         if(aktuellerSpieler.getWuerfelList().size()>1){
             wurfel2Rect.setVisible(true);
+            wurfel2Rect.setFill(Paint.valueOf(aktuellerSpieler.getWuerfelList().get(1).color));
         }
-
-
 
         aktuellerSpielerEllipse.setFill(Paint.valueOf(aktuellerSpieler.getFarbe()));
         aktuellerSpielerLable.setText(aktuellerSpieler.getName());
         nichtAktuellerSpielerEllipse.setFill(Paint.valueOf(naesterSpieler.getFarbe()));
         nichtAktuellerSpielerLable.setText(naesterSpieler.getName());
+
+
     };
 
     public static Spieler[] getSpieler() {

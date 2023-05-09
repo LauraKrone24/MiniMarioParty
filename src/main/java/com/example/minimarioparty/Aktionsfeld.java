@@ -22,7 +22,8 @@ public class Aktionsfeld extends Feld{
     public void  starteMinispiel(){
         int minispielnummer = getMinispielnummer();
         Minispiel m = minispielListe.get(minispielnummer);
-        try{m.start(new Stage());
+        try{
+            m.start(new Stage());
            Minispielrueckgabewert minispielrueckgabewert=  m.getMinispielrueckgabewert();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Minispielende");
