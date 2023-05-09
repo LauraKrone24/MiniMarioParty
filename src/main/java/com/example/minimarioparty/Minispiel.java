@@ -26,6 +26,8 @@ public  abstract class Minispiel extends Application {
     private boolean leicht;
 
     protected Pane p= new Pane();
+
+    protected  Spieler[] spieler = new Spieler[2];
     protected javafx.scene.shape.Rectangle menuRectangle = new Rectangle();
 
     protected Label MinispielSchwierigkeitLable  = new Label("Schwierigkeit");
@@ -46,6 +48,8 @@ public  abstract class Minispiel extends Application {
         menuRectangle.setWidth(1000);
         menuRectangle.setHeight(100);
         menuRectangle.setFill(Paint.valueOf(hauptfarbe));
+
+        spieler  =  Hauptgame.getSpieler();
 
         Button zuruckButton = new Button("Zurück");
         zuruckButton.setLayoutX(25);

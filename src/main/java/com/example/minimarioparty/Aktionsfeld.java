@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import java.util.List;
 
 public class Aktionsfeld extends Feld{
-    private List<Minispiel>  minispielListe;
+
     public Aktionsfeld(int number, int x, int y) {
         super(number, x, y);
         // hier muss auch noch die Minispielliste initialisert werden
@@ -15,16 +15,20 @@ public class Aktionsfeld extends Feld{
 
 
     public int getMinispielnummer(){
-        int x = (int) Math.random()*minispielListe.size();
+        int x = (int) Math.random()*Hauptgame.minispielListe.size();
         return x;
     }
 
     public void  starteMinispiel(){
         int minispielnummer = getMinispielnummer();
-        Minispiel m = minispielListe.get(minispielnummer);
+
+
+
         try{
+            Minispiel m = Hauptgame.minispielListe.remove(minispielnummer);
             m.start(new Stage());
-           Minispielrueckgabewert minispielrueckgabewert=  m.getMinispielrueckgabewert();
+            Minispielrueckgabewert minispielrueckgabewert =  m.getMinispielrueckgabewert();
+            System.out.println(minispielrueckgabewert);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Minispielende");
             alert.setHeaderText(null);
@@ -34,7 +38,9 @@ public class Aktionsfeld extends Feld{
                 minispielrueckgabewert.getWinner().fuegeWuerfelhinzu(minispielrueckgabewert.getWuerfel());
             }
 
-        }catch (Exception e){}
+        }catch (Exception e){
+            System.out.println("Kein Minispiel gefunden");
+        }
 
     };
 }

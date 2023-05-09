@@ -27,7 +27,8 @@ public class TestMiniSpiel extends Minispiel{
         winButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                minispielrueckgabewert = new Minispielrueckgabewert(false,new Spieler("TestSpieler",false,"red"),new GuterWuerfel());
+                minispielrueckgabewert = new Minispielrueckgabewert(false,spieler[0],new GuterWuerfel());
+
                 stage.close();
             }
         });

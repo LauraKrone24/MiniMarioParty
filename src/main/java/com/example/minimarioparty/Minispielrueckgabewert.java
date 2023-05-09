@@ -13,7 +13,7 @@ public class Minispielrueckgabewert {
 
     @Override
     public String toString() {
-        if(winner!= null && wuerfel!= null){
+        if(!abbruch){
             return winner.getName()+" hat gewonnen und bekommt einen "+wuerfel.getName();
         }
         return "Spiel vorzeitig abgebrochen";

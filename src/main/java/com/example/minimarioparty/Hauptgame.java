@@ -27,6 +27,8 @@ import javafx.util.Duration;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Hauptgame extends Application {
     private static Spieler[] spieler = new Spieler[2];
@@ -46,6 +48,7 @@ public class Hauptgame extends Application {
 
     private  Ellipse figurSpieler;
     private Ellipse figurComputer;
+    public static List<Minispiel> minispielListe = new LinkedList<>();
 
     private final String SPIELER1FARBE = "#1e90ff";
     private final String SPIELER2FARBE = "770000";
@@ -179,7 +182,11 @@ public class Hauptgame extends Application {
 
         aktuellerSpieler = new Spieler(spielername,false,SPIELER1FARBE);
         naesterSpieler = new Spieler("Computer",true,SPIELER2FARBE);
+        spieler[0]= aktuellerSpieler;
+        spieler[1]  = naesterSpieler;
         setFelder();
+
+        addMinispiele();
 
         System.out.println("Felder in Hauptgame:");
         System.out.println(felder);
@@ -193,6 +200,11 @@ public class Hauptgame extends Application {
 
 
 
+    }
+
+    private void addMinispiele() {
+        minispielListe.add(new TestMiniSpiel());
+        minispielListe.add(new TestMiniSpiel());
     }
 
     public void setFelder(){
@@ -393,8 +405,8 @@ public class Hauptgame extends Application {
 
 
         if(aktuellerSpieler.getPosition() instanceof Aktionsfeld){
-            //((Aktionsfeld) aktuellerSpieler.getPosition()).starteMinispiel();
-            System.out.println("Hier sollte ein Minispiel gestartet werden");
+
+            ((Aktionsfeld) aktuellerSpieler.getPosition()).starteMinispiel();
 
         }
 
