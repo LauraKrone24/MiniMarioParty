@@ -188,6 +188,144 @@ public class Hauptgame extends Application {
     }
 
     public void setFelder(){
+        Feld[] felder = new Feld[100];
+        int x = 25;
+        int y = 700;
+        for (int i = 0; i <= 9; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            x += 75;
+        }
+        x -=75;
+        y -= 75;
+        for (int i = 10; i <= 18; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            y -= 75;
+        }
+        y +=75;
+        x -= 75;
+        for (int i = 19; i <= 27; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            x -= 75;
+        }
+        x +=75;
+        y += 75;
+        for (int i = 28; i <= 35; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            y += 75;
+        }
+        y -=75;
+        x += 75;
+        for (int i = 36; i <= 43; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            x += 75;
+        }
+        x -=75;
+        y -= 75;
+        for (int i = 44; i <= 50; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            y -= 75;
+        }
+        y+=75;
+        x -= 75;
+        for (int i = 51; i <= 57; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            x -= 75;
+        }
+        x +=75;
+        y += 75;
+        for (int i = 58; i <= 63; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            y += 75;
+        }
+        y-=75;
+        x += 75;
+        for (int i = 64; i <= 69; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            x += 75;
+        }
+        x -=75;
+        y -= 75;
+        for (int i = 70; i <= 74; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            y -= 75;
+        }
+        y+=75;
+        x -= 75;
+        for (int i = 75; i <= 79; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            x -= 75;
+        }
+        x+=75;
+        y += 75;
+        for (int i = 80; i <= 83; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            y += 75;
+        }
+        y -=75;
+
+        x += 75;
+        for (int i = 84; i <= 87; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            x += 75;
+        }
+        x -=75;
+
+        y -= 75;
+        for (int i = 88; i <= 90; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            y -= 75;
+        }
+        y+=75;
+
+        x -= 75;
+        for (int i = 91; i <= 93; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            x -= 75;
+        }
+        x+=75;
+
+        y += 75;
+        for (int i = 94; i <= 95; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            y += 75;
+        }
+        y -=75;
+
+        x += 75;
+        for (int i = 96; i <= 97; i++) {
+            felder[i] = new Feld(i+1, x, y);
+            x += 75;
+        }
+        x -=75;
+
+        y -= 75;
+        for (int i = 98; i <= 98; i++) {
+            felder[i] = new Feld(i+1, x, y);
+
+        }
+
+
+        x -= 75;
+        for (int i = 99; i <= 99; i++) {
+            felder[i] = new Feld(i+1, x, y);
+
+        }
+
+        for (Feld feld: felder){
+            if (feld.getNumber()% 5 == 0){
+                int speicher = feld.getNumber();
+                int a = feld.getX();
+                int b = feld.getY();
+                felder[speicher -1] = new Aktionsfeld(speicher,a,b);
+
+            }
+
+        }
+
+
+
+
+
 
     };
 
