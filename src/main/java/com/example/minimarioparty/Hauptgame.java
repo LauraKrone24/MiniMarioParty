@@ -37,9 +37,9 @@ public class Hauptgame extends Application {
     private Label aktuellerSpielerLable;
     private Label nichtAktuellerSpielerLable;
     private Button wuefelbutton;
-    private Label wuerfelSUMLable;
-    public Label wuerfel1Lable;
-    public  Label wuerfel2Lable;
+    private Label wuerfelSUMLable = new Label();
+    private Label wuerfel1Lable = new Label();
+    private  Label wuerfel2Lable = new Label();
 
     private  Ellipse figurSpieler;
     private Ellipse figurComputer;
@@ -50,6 +50,7 @@ public class Hauptgame extends Application {
     public void start(Stage stage) throws IOException {
 
         Pane p = new Pane();
+        p.setMaxSize(1000,800);
 
         Label MarioParty= new Label("Mini Mario Party");
         MarioParty.setLayoutX(800);
@@ -93,14 +94,14 @@ public class Hauptgame extends Application {
         wurfel1Rect = new Rectangle(50,50);
         wurfel1Rect.setLayoutY(500);
         wurfel1Rect.setLayoutX(820);
-        wurfel1Rect.setFill(Paint.valueOf("#1e90ff"));
+        wurfel1Rect.setFill(Paint.valueOf("#8361ff"));
         wurfel1Rect.setArcHeight(5);
         wurfel1Rect.setArcWidth(5);
 
         wurfel2Rect = new Rectangle(50,50);
         wurfel2Rect.setLayoutY(500);
         wurfel2Rect.setLayoutX(930);
-        wurfel2Rect.setFill(Paint.valueOf("#1e90ff"));
+        wurfel2Rect.setFill(Paint.valueOf("#ffffff"));
         wurfel2Rect.setArcHeight(5);
         wurfel2Rect.setArcWidth(5);
 
@@ -143,9 +144,9 @@ public class Hauptgame extends Application {
 
         p.getChildren().addAll(wurfel1Rect,wurfel2Rect,wuerfelLable,wuerfel1Lable,wuerfel2Lable,wuefelbutton);
 
-        Image hintergrundimage = new Image(""); //Hier wenn vorhanden Bild einfügen
+        Image hintergrundimage = new Image("Spielbrett.jpg"); //Hier wenn vorhanden Bild einfügen
         ImageView spielfeldhintergrund = new ImageView();
-        //spielfeldhintergrund.setImage(hintergrundimage);
+        spielfeldhintergrund.setImage(hintergrundimage);
         spielfeldhintergrund.setFitHeight(750);
         spielfeldhintergrund.setFitWidth(750);
         spielfeldhintergrund.setLayoutX(25);
@@ -154,13 +155,13 @@ public class Hauptgame extends Application {
 
 
         figurSpieler = new Ellipse(15,15);
-        figurSpieler.setLayoutX(40);
-        figurSpieler.setLayoutY(715);
+        figurSpieler.setLayoutX(50);
+        figurSpieler.setLayoutY(725);
         figurSpieler.setFill(Paint.valueOf(SPIELER1FARBE));
 
         figurComputer = new Ellipse(15,15);
-        figurComputer.setLayoutX(70);
-        figurComputer.setLayoutY(745);
+        figurComputer.setLayoutX(75);
+        figurComputer.setLayoutY(750);
         figurComputer.setFill(Paint.valueOf(SPIELER2FARBE));
 
         p.getChildren().addAll(figurSpieler,figurComputer);
@@ -168,7 +169,7 @@ public class Hauptgame extends Application {
         Scene scene = new Scene(p,1000,800);
         stage.setTitle("Mini Mario Party");
         stage.setScene(scene);
-        TextInputDialog td = new TextInputDialog("");
+        TextInputDialog td = new TextInputDialog();
         td.setHeaderText("Gib deinen Namen ein");
         td.showAndWait();
         String spielername = td.getEditor().getText();
@@ -179,6 +180,10 @@ public class Hauptgame extends Application {
         updateOberflache();
 
         stage.show();
+
+        auswahl();
+
+
 
     }
 
@@ -191,8 +196,6 @@ public class Hauptgame extends Application {
         if(i<=0.5){
             changeSpieler();
         }
-        nextSpieler();
-
     };
 
     public void changeSpieler(){
@@ -203,30 +206,36 @@ public class Hauptgame extends Application {
 
     public void nextSpieler(){
        changeSpieler();
-        updateOberflache();
+       updateOberflache();
+       auswahl();
+    }
+
+    public void auswahl (){
         if(aktuellerSpieler.isComputer()){
             wuefelbutton.setVisible(false);
-            try{Thread.sleep(200);}catch (Exception e){}
+            try{Thread.sleep(2000);}catch (Exception e){}
             zug();
         }
         else {
             wuefelbutton.setVisible(true);
         }
-    };
+    }
 
     public void zug(){
-        wuerfelSUMLable.setText(String.valueOf(aktuellerSpieler.wuerfeln()));
-        try{Thread.sleep(200);}catch (Exception e){}
+        //wuerfelSUMLable.setText(String.valueOf(aktuellerSpieler.bewegeSpieler()));
+        try{Thread.sleep(2000);}catch (Exception e){}
         if(aktuellerSpieler.isComputer()){
-            figurComputer.setLayoutX(aktuellerSpieler.getPosition().getX()+45);
-            figurComputer.setLayoutX(aktuellerSpieler.getPosition().getY()+45);
+            System.out.println(aktuellerSpieler.getPosition().getX());
+            figurComputer.setLayoutX(aktuellerSpieler.getPosition().getX()+50);
+            figurComputer.setLayoutY(aktuellerSpieler.getPosition().getY()+50);
         }else{
-            figurSpieler.setLayoutX(aktuellerSpieler.getPosition().getX()+45);
-            figurSpieler.setLayoutX(aktuellerSpieler.getPosition().getY()+45);
+            figurSpieler.setLayoutX(aktuellerSpieler.getPosition().getX()+25);
+            figurSpieler.setLayoutY(aktuellerSpieler.getPosition().getY()+25);
         }
-        try{Thread.sleep(200);}catch (Exception e){}
+        try{Thread.sleep(2000);}catch (Exception e){}
+
         if(aktuellerSpieler.getPosition() instanceof Aktionsfeld){
-            Minispielrueckgabewert minispielrueckgabewert = ((Aktionsfeld) aktuellerSpieler.getPosition()).starteMinispiel();
+            ((Aktionsfeld) aktuellerSpieler.getPosition()).starteMinispiel();
 
         }
         nextSpieler();
@@ -236,6 +245,14 @@ public class Hauptgame extends Application {
         wuerfel1Lable.setText("");
         wuerfel2Lable.setText("");
         wuerfelSUMLable.setText("");
+
+        wurfel2Rect.setVisible(false);
+
+        if(aktuellerSpieler.getWuerfelList().size()>1){
+            wurfel2Rect.setVisible(true);
+        }
+
+
 
         aktuellerSpielerEllipse.setFill(Paint.valueOf(aktuellerSpieler.getFarbe()));
         aktuellerSpielerLable.setText(aktuellerSpieler.getName());

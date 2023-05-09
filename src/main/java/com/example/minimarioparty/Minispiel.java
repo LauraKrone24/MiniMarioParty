@@ -15,8 +15,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public  abstract class Minispiel extends Application {
-    private String spielname;
-    private int spiel_Id;
+
     protected Minispielrueckgabewert minispielrueckgabewert;
     private boolean leicht;
 

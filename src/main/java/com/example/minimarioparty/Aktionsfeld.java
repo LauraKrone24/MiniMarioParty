@@ -19,19 +19,21 @@ public class Aktionsfeld extends Feld{
         return x;
     }
 
-    public Minispielrueckgabewert  starteMinispiel(){
+    public void  starteMinispiel(){
         int minispielnummer = getMinispielnummer();
         Minispiel m = minispielListe.get(minispielnummer);
         try{m.start(new Stage());
-           Minispielrueckgabewert spielRueck=  m.getMinispielrueckgabewert();
+           Minispielrueckgabewert minispielrueckgabewert=  m.getMinispielrueckgabewert();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Minispielende");
             alert.setHeaderText(null);
-            alert.setContentText(spielRueck.toString());
+            alert.setContentText(minispielrueckgabewert.toString());
             alert.showAndWait();
-            return spielRueck;
+            if(!minispielrueckgabewert.getAbbruch()){
+                minispielrueckgabewert.getWinner().fuegeWuerfelhinzu(minispielrueckgabewert.getWuerfel());
+            }
+
         }catch (Exception e){}
-        return new Minispielrueckgabewert(true,null,null);
 
     };
 }

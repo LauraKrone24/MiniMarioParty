@@ -20,4 +20,16 @@ public class Minispielrueckgabewert {
 
 
     }
+
+    public Spieler getWinner() {
+        return winner;
+    }
+
+    public Wuerfel getWuerfel() {
+        return wuerfel;
+    }
+
+    public Boolean getAbbruch() {
+        return abbruch;
+    }
 }

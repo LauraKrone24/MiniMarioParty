@@ -17,8 +17,8 @@ public class Spieler {
         this.name = name;
         this.computer = computer;
         this.farbe = farbe;
-        this.position = new Feld(0,40,710);//Hauptgame.felder.get(0)
-        wuerfelList.add(new Wuerfel("Normaler Wuefel",1,6));
+        this.position = new Feld(0,25,700);//Hauptgame.felder.get(0)
+        wuerfelList.add(new Normalerwuerfel());
 
     }
 
@@ -48,24 +48,28 @@ public class Spieler {
     public int wuerfeln(){
         int ergebnis = 0;
         for (Wuerfel w : wuerfelList){
-            ergebnis =ergebnis + w.wuerfeln();
+            ergebnis = ergebnis + w.wuerfeln();
         }
         if (wuerfelList.size()==2){
             wuerfelList.remove(1);
         }
 
+
+
         return ergebnis;
     }
 
-    public void bewegeSpieler(){
-
-        int ergebnis = this.position.getNumber() + wuerfeln();
+    public int bewegeSpieler(){
+        int wuerfeln  = wuerfeln();
+        int ergebnis = this.position.getNumber() + wuerfeln;
         if (ergebnis<99){
             this.position= Hauptgame.felder.get(ergebnis);
             System.out.println("Bewegt zu "+ergebnis);
+            System.out.println(ergebnis);
         }else {
             System.out.println("Du hast gewonnen");
         }
+        return wuerfeln;
     }
 
 
