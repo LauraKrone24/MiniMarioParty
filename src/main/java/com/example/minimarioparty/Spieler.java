@@ -5,11 +5,11 @@ import java.util.List;
 
 public class Spieler {
 
-    private String name;
-    private boolean computer;
+    private final String name;
+    private final boolean computer;
 
-    private String farbe;
-    private List<Wuerfel> wuerfelList =  new ArrayList<>();
+    private final String farbe;
+    private final List<Wuerfel> wuerfelList =  new ArrayList<>();
     private Feld position;
     //hier Grafik einfügen
 

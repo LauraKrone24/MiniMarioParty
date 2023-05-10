@@ -5,21 +5,20 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
-import java.util.List;
+
 import java.util.Optional;
 
 public class Aktionsfeld extends Feld{
 
     public Aktionsfeld(int number, int x, int y) {
         super(number, x, y);
-        // hier muss auch noch die Minispielliste initialisert werden
+        // hier muss auch noch die Minispielliste initialisiert werden
     }
 
 
 
     public int getMinispielnummer(){
-        int x = (int) Math.random()*Hauptgame.minispielListe.size();
-        return x;
+        return (int) (Math.random()*Hauptgame.minispielListe.size());
     }
 
     public void  starteMinispiel(){
@@ -70,5 +69,5 @@ public class Aktionsfeld extends Feld{
         }
         });
 
-    };
+    }
 }

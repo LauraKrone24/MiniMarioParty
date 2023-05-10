@@ -2,15 +2,9 @@ package com.example.minimarioparty;
 
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -24,21 +18,18 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.swing.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Hauptgame extends Application {
-    private static Spieler[] spieler = new Spieler[2];
+    private final static Spieler[] spieler = new Spieler[2];
     private Spieler aktuellerSpieler;
     private Spieler naesterSpieler;
-    private Rectangle wurfel1Rect;
     private Ellipse nichtAktuellerSpielerEllipse;
     private Ellipse aktuellerSpielerEllipse;
     private Rectangle wurfel2Rect;
-    protected static Feld[] felder = new Feld[100];;
+    protected static Feld[] felder = new Feld[100];
     private Label aktuellerSpielerLable;
     private Label nichtAktuellerSpielerLable;
     private Button wuefelbutton;
@@ -50,10 +41,11 @@ public class Hauptgame extends Application {
     private Ellipse figurComputer;
     public static List<Minispiel> minispielListe = new LinkedList<>();
 
-    private final String SPIELER1FARBE = "#7eb774";
-    private final String SPIELER2FARBE = "ed7b84";
+
     @Override
     public void start(Stage stage) throws IOException {
+        final String SPIELER1FARBE = "#7eb774";
+        final String SPIELER2FARBE = "ed7b84";
 
         Pane p = new Pane();
         p.setMaxSize(1000,800);
@@ -97,7 +89,7 @@ public class Hauptgame extends Application {
         wuerfelLable.setFont(new Font("System",24));
         wuerfelLable.setAlignment(Pos.CENTER);
 
-        wurfel1Rect = new Rectangle(50,50);
+        Rectangle wurfel1Rect = new Rectangle(50, 50);
         wurfel1Rect.setLayoutY(500);
         wurfel1Rect.setLayoutX(820);
         wurfel1Rect.setFill(Paint.valueOf("#8361ff"));
@@ -140,13 +132,7 @@ public class Hauptgame extends Application {
         wuefelbutton.setPrefWidth(180);
         wuefelbutton.setLayoutY(690);
         wuefelbutton.setLayoutX(810);
-        wuefelbutton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-
-                zug();
-            }
-        });
+        wuefelbutton.setOnAction(event-> zug());
 
         p.getChildren().addAll(wurfel1Rect,wurfel2Rect,wuerfelLable,wuerfel1Lable,wuerfel2Lable,wuefelbutton,wuerfelSUMLable);
 
@@ -188,8 +174,7 @@ public class Hauptgame extends Application {
 
         addMinispiele();
 
-        System.out.println("Felder in Hauptgame:");
-        System.out.println(felder);
+
         chooseStartspieler();
         updateOberflache();
 
@@ -346,28 +331,25 @@ public class Hauptgame extends Application {
 
 
 
-    };
+    }
 
     public void chooseStartspieler(){
         double  i = Math.random();
         if(i<=0.5){
             changeSpieler();
         }
-    };
+    }
 
     public void changeSpieler(){
         Spieler p = naesterSpieler;
         naesterSpieler = aktuellerSpieler;
         aktuellerSpieler = p;
-    };
+    }
 
     public void nextSpieler(){
        changeSpieler();
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
-        pause.setOnFinished(event -> {
-            updateOberflache();
-
-        });
+        pause.setOnFinished(event -> updateOberflache());
         pause.play();
         PauseTransition pause2 = new PauseTransition(Duration.seconds(2));
         pause2.setOnFinished(event -> {
@@ -429,7 +411,7 @@ public class Hauptgame extends Application {
         nichtAktuellerSpielerLable.setText(naesterSpieler.getName());
 
 
-    };
+    }
 
     public static Spieler[] getSpieler() {
         return spieler;

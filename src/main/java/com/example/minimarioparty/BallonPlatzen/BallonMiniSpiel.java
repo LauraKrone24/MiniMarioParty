@@ -1,16 +1,14 @@
 package com.example.minimarioparty.BallonPlatzen;
 
+import com.example.minimarioparty.GuterWuerfel;
 import com.example.minimarioparty.Minispiel;
+import com.example.minimarioparty.SchlechterWuerfel;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -18,51 +16,53 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 
 public class BallonMiniSpiel extends Minispiel {
-    private Pane innerPane = new Pane();
+    private final Pane innerPane = new Pane();
 
-    private Label Zeitlable;
+    private final int minPunkte = 5000;
+
+    private Label ZeitLabel;
 
     private int  punkte =0;
 
-    private Label Punktelable;
+    private Label PunkteLabel;
     long Endzeit;
 
     int ballonarten ;
     int faktor;
     @Override
     public void start(Stage stage) throws IOException {
-        if(leicht == true){
+        if(leicht){
             ballonarten = 2;
             faktor =1;
+            minispielrueckgabewert.setWuerfel(new SchlechterWuerfel());
         }else{
             ballonarten = 3;
             faktor = 2;
+            minispielrueckgabewert.setWuerfel(new GuterWuerfel());
         }
 
         Button b  = new Button("Start Game");
         b.setPrefSize(100,100);
         b.setLayoutX(450);
         b.setLayoutY(400);
-        b.setOnAction(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                System.out.println("Button pressed ");
-                Platform.runLater(()->b.setVisible(false));
-                DecimalFormat df = new DecimalFormat("0.0");
-                long Startzeit = System.currentTimeMillis();
-                Endzeit= Startzeit + 60*1000;
-                new Thread(()->{
-                    try{
-                        while(Endzeit>=System.currentTimeMillis()){
+        b.setOnAction(event->{
+            System.out.println("Button pressed ");
+            Platform.runLater(()->b.setVisible(false));
+            DecimalFormat df = new DecimalFormat("0.0");
+            long Startzeit = System.currentTimeMillis();
+            Endzeit= Startzeit + 60*1000;
+            new Thread(()->{
+                try{
+                    while(Endzeit>=System.currentTimeMillis()){
 
-                            Platform.runLater(()->Zeitlable.setText(df.format((Endzeit-System.currentTimeMillis())/1000)));
-                            Thread.sleep(100);
-                        }
-                    }catch(InterruptedException e){}
-                }).start();
-                BallonErzeugen();
-
-            }
+                        Platform.runLater(()->ZeitLabel.setText(df.format((Endzeit-System.currentTimeMillis())/1000)));
+                        Thread.sleep(100);
+                    }
+                }catch(InterruptedException e){
+                    System.out.println("InterruptedException");
+                }
+            }).start();
+            BallonErzeugen();
 
         });
 
@@ -70,20 +70,20 @@ public class BallonMiniSpiel extends Minispiel {
         innerPane.setLayoutX(50);
         innerPane.setLayoutY(150);
 
-        Zeitlable = new Label("60.0");
-        Zeitlable.setPrefSize(100,100);
-        Zeitlable.setLayoutY(75);
-        Zeitlable.setLayoutX(450);
-        Zeitlable.setAlignment(Pos.CENTER);
+        ZeitLabel = new Label("60.0");
+        ZeitLabel.setPrefSize(100,100);
+        ZeitLabel.setLayoutY(75);
+        ZeitLabel.setLayoutX(450);
+        ZeitLabel.setAlignment(Pos.CENTER);
 
-        Punktelable = new Label("/3000");
-        Punktelable.setPrefSize(100,100);
-        Punktelable.setLayoutY(75);
-        Punktelable.setLayoutX(900);
-        Punktelable.setAlignment(Pos.CENTER);
+        PunkteLabel = new Label("/"+minPunkte);
+        PunkteLabel.setPrefSize(100,100);
+        PunkteLabel.setLayoutY(75);
+        PunkteLabel.setLayoutX(900);
+        PunkteLabel.setAlignment(Pos.CENTER);
 
 
-        p.getChildren().addAll(innerPane,b,Zeitlable,Punktelable);
+        p.getChildren().addAll(innerPane,b,ZeitLabel, PunkteLabel);
 
         super.start(stage);
     }
@@ -106,27 +106,18 @@ public class BallonMiniSpiel extends Minispiel {
 
 
         p.getChildren().add(b);
-        b.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
+        b.setOnMouseClicked(e->{
                 punkte = punkte + (int) b.getPunkte();
-                Platform.runLater(()->Punktelable.setText(punkte+"/5000"));
+                Platform.runLater(()-> PunkteLabel.setText(punkte+"/"+minPunkte));
                 Platform.runLater(()->p.getChildren().remove(b));
 
-            }
         });
-        new Thread(){
-            public void run(){
-                b.grow(faktor);
-                PauseTransition pause = new PauseTransition(Duration.seconds(1/faktor));
-                pause.setOnFinished(event -> {
-                    Platform.runLater(()->p.getChildren().remove(b));
-                });
-                pause.play();
-
-            }
-
-        }.start();
+        new Thread(()->{
+            b.grow(faktor);
+            PauseTransition pause = new PauseTransition(Duration.seconds(1/faktor));
+            pause.setOnFinished(event -> Platform.runLater(()->p.getChildren().remove(b)));
+            pause.play();
+        }).start();
 
         PauseTransition pause = new PauseTransition(Duration.seconds(1));
         pause.setOnFinished(event -> {
@@ -146,6 +137,14 @@ public class BallonMiniSpiel extends Minispiel {
     }
 
     private void gewinnauswertung() {
+
+        minispielrueckgabewert.setAbbruch(false);
+        if(punkte>=minPunkte){
+            minispielrueckgabewert.setWinner(spieler[0]);
+        }else {
+            minispielrueckgabewert.setWinner(spieler[1]);
+        }
+
 
     }
 

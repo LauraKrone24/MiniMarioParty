@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class TestMiniSpiel extends Minispiel{
-    // Dies ist eine Beispiel Testklasse
+    // Dies ist eine Beispieltestklasse
 
 
     @Override

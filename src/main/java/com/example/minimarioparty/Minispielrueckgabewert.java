@@ -21,6 +21,18 @@ public class Minispielrueckgabewert {
 
     }
 
+    public void setWinner(Spieler winner) {
+        this.winner = winner;
+    }
+
+    public void setWuerfel(Wuerfel wuerfel) {
+        this.wuerfel = wuerfel;
+    }
+
+    public void setAbbruch(Boolean abbruch) {
+        this.abbruch = abbruch;
+    }
+
     public Spieler getWinner() {
         return winner;
     }

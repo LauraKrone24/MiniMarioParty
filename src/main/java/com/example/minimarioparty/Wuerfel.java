@@ -1,9 +1,8 @@
 package com.example.minimarioparty;
 
-import java.util.ArrayList;
 
 public abstract class Wuerfel {
-    private String name;
+    private final String name;
     int start;
     int end;
     String color;

@@ -1,28 +1,21 @@
 package com.example.minimarioparty;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.util.Objects;
 
 public  abstract class Minispiel extends Application {
 
-    protected Minispielrueckgabewert minispielrueckgabewert;
+    protected Minispielrueckgabewert minispielrueckgabewert = new Minispielrueckgabewert(true, null, null);
     protected boolean leicht;
 
     protected Pane p = new Pane();
@@ -36,7 +29,7 @@ public  abstract class Minispiel extends Application {
 
     protected String hauptfarbe = "#8361FF";
 
-    protected String spielanleitungText = new String();
+    protected String spielanleitungText = "";
 
 
 
@@ -79,27 +72,21 @@ public  abstract class Minispiel extends Application {
 
 
 
-        zuruckButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                minispielrueckgabewert= new Minispielrueckgabewert(true,null,null);
+        zuruckButton.setOnAction(actionEvent -> {
+            minispielrueckgabewert= new Minispielrueckgabewert(true,null,null);
 
-                Stage stage = (Stage) zuruckButton.getScene().getWindow();
-                stage.close();
+            Stage stage1 = (Stage) zuruckButton.getScene().getWindow();
+            stage1.close();
 
-            }
         });
 
-        spielanleitungButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Spielanleitung");
-                alert.setHeaderText("Spielanleitung");
-                alert.setContentText(spielanleitungText);
-                alert.showAndWait();
+        spielanleitungButton.setOnAction(actionEvent -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Spielanleitung");
+            alert.setHeaderText("Spielanleitung");
+            alert.setContentText(spielanleitungText);
+            alert.showAndWait();
 
-            }
         });
 
 
