@@ -23,7 +23,7 @@ import java.util.Objects;
 public  abstract class Minispiel extends Application {
 
     protected Minispielrueckgabewert minispielrueckgabewert;
-    private boolean leicht;
+    protected boolean leicht;
 
     protected Pane p = new Pane();
 

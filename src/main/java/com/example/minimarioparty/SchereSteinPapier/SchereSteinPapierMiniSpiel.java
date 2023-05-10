@@ -7,8 +7,7 @@ import java.io.IOException;
 
 public class SchereSteinPapierMiniSpiel extends Minispiel {
     @Override
-    public SchereSteinPapierMiniSpiel (Stage stage) throws IOException {
+    public void start(Stage stage) throws IOException{
         super.start(stage);
-
     }
 }
