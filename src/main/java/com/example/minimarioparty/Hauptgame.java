@@ -373,9 +373,7 @@ public class Hauptgame extends Application {
         pause2.setOnFinished(event -> {
 
             if(aktuellerSpieler.isComputer()){
-
                 zug();
-
             }else{
                 wuefelbutton.setVisible(true);
             }

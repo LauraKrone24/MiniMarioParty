@@ -25,7 +25,7 @@ public  abstract class Minispiel extends Application {
     protected Minispielrueckgabewert minispielrueckgabewert;
     private boolean leicht;
 
-    protected Pane p= new Pane();
+    protected Pane p = new Pane();
 
     protected  Spieler[] spieler = new Spieler[2];
     protected javafx.scene.shape.Rectangle menuRectangle = new Rectangle();
@@ -113,6 +113,10 @@ public  abstract class Minispiel extends Application {
         stage.setScene(scene);
         stage.showAndWait();
 
+    }
+
+    public void setLeicht(boolean leicht) {
+        this.leicht = leicht;
     }
 
     public Minispielrueckgabewert getMinispielrueckgabewert() {

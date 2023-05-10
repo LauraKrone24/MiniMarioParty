@@ -1,5 +1,6 @@
 package com.example.minimarioparty;
 
+import com.example.minimarioparty.BallonPlatzen.BallonMiniSpiel;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,7 +22,7 @@ public class MinispielAufrufTester extends Application {
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Minispiel test = new TestMiniSpiel(); // Hier Minispielklassennamen zumTesten einfügen
+                Minispiel test = new BallonMiniSpiel(); // Hier Minispielklassennamen zum Testen einfügen
                 try{test.start(new Stage());
                 Minispielrueckgabewert  back = test.getMinispielrueckgabewert();
                     System.out.println(back);
