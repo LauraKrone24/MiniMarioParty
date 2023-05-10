@@ -50,8 +50,8 @@ public class Hauptgame extends Application {
     private Ellipse figurComputer;
     public static List<Minispiel> minispielListe = new LinkedList<>();
 
-    private final String SPIELER1FARBE = "#1e90ff";
-    private final String SPIELER2FARBE = "770000";
+    private final String SPIELER1FARBE = "#7eb774";
+    private final String SPIELER2FARBE = "ed7b84";
     @Override
     public void start(Stage stage) throws IOException {
 
