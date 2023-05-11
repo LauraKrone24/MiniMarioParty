@@ -19,8 +19,10 @@ public class MinispielAufrufTester extends Application {
         startButton.setPrefWidth(200);
         startButton.setOnAction(actionEvent -> {
             Minispiel test = new BallonMiniSpiel(); // Hier Minispielklassennamen zum Testen einfügen
-            try{test.start(new Stage());
-            Minispielrueckgabewert  back = test.getMinispielrueckgabewert();
+            test.setLeicht(false);
+            try{
+                test.start(new Stage());
+                Minispielrueckgabewert  back = test.getMinispielrueckgabewert();
                 System.out.println(back);
             }catch (Exception e){
                 System.out.println("Spiel konnte nicht gestartet werden");

@@ -21,7 +21,7 @@ public abstract class Ballon extends Circle {
             Platform.runLater(()->setRadius(finali));
 
             try {
-                Thread.sleep(150/faktor);
+                Thread.sleep(150);
             } catch (InterruptedException ex) {
                 throw new RuntimeException(ex);
             }

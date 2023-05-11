@@ -1,5 +1,6 @@
 package com.example.minimarioparty;
 
+import com.example.minimarioparty.BallonPlatzen.BallonMiniSpiel;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -21,24 +22,29 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+
 
 public class Hauptgame extends Application {
     private final static Spieler[] spieler = new Spieler[2];
-    private Spieler aktuellerSpieler;
-    private Spieler naesterSpieler;
-    private Ellipse nichtAktuellerSpielerEllipse;
-    private Ellipse aktuellerSpielerEllipse;
-    private Rectangle wurfel2Rect;
+    public static Boolean finished = true;
+    private static Spieler aktuellerSpieler;
+    private static Spieler naesterSpieler;
+    private static Ellipse nichtAktuellerSpielerEllipse;
+    private static Ellipse aktuellerSpielerEllipse;
+    private static Rectangle wurfel2Rect;
     protected static Feld[] felder = new Feld[100];
-    private Label aktuellerSpielerLable;
-    private Label nichtAktuellerSpielerLable;
-    private Button wuefelbutton;
-    private Label wuerfelSUMLable = new Label();
-    private Label wuerfel1Lable = new Label();
-    private  Label wuerfel2Lable = new Label();
+    private static Label aktuellerSpielerLable;
+    private static Label nichtAktuellerSpielerLable;
+    private static Button wuefelbutton;
+    private static Label wuerfelSUMLable = new Label();
+    private static Label wuerfel1Lable = new Label();
+    private static Label wuerfel2Lable = new Label();
 
-    private  Ellipse figurSpieler;
-    private Ellipse figurComputer;
+    private static Ellipse figurSpieler;
+    private static Ellipse figurComputer;
     public static List<Minispiel> minispielListe = new LinkedList<>();
 
 
@@ -168,7 +174,7 @@ public class Hauptgame extends Application {
 
         aktuellerSpieler = new Spieler(spielername,false,SPIELER1FARBE);
         naesterSpieler = new Spieler("Computer",true,SPIELER2FARBE);
-        spieler[0]= aktuellerSpieler;
+        spieler[0]  = aktuellerSpieler;
         spieler[1]  = naesterSpieler;
         setFelder();
 
@@ -188,7 +194,9 @@ public class Hauptgame extends Application {
     }
 
     private void addMinispiele() {
-        minispielListe.add(new TestMiniSpiel());
+        minispielListe.add(new BallonMiniSpiel());
+        minispielListe.add(new BallonMiniSpiel());
+        minispielListe.add(new BallonMiniSpiel());
         minispielListe.add(new TestMiniSpiel());
     }
 
@@ -340,15 +348,16 @@ public class Hauptgame extends Application {
         }
     }
 
-    public void changeSpieler(){
+    public static void changeSpieler(){
         Spieler p = naesterSpieler;
         naesterSpieler = aktuellerSpieler;
         aktuellerSpieler = p;
     }
 
-    public void nextSpieler(){
-       changeSpieler();
-        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+    public static void nextSpieler(){
+        finished = true;
+        changeSpieler();
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
         pause.setOnFinished(event -> updateOberflache());
         pause.play();
         PauseTransition pause2 = new PauseTransition(Duration.seconds(2));
@@ -367,7 +376,7 @@ public class Hauptgame extends Application {
 
 
 
-    public void zug(){
+    public static void zug(){
         wuefelbutton.setVisible(false);
 
         wuerfelSUMLable.setText(String.valueOf(aktuellerSpieler.bewegeSpieler()));
@@ -382,19 +391,24 @@ public class Hauptgame extends Application {
 
         }
 
-
-
         if(aktuellerSpieler.getPosition() instanceof Aktionsfeld){
+            finished = false;
 
-            ((Aktionsfeld) aktuellerSpieler.getPosition()).starteMinispiel();
+            System.out.println("start"+System.currentTimeMillis());
+
+                ((Aktionsfeld) aktuellerSpieler.getPosition()).starteMinispiel();
+
 
         }
 
-        nextSpieler();
+        if(finished){
+            nextSpieler();
+        }
+
 
     }
 
-    public void updateOberflache(){
+    public static void updateOberflache(){
         wuerfel1Lable.setText("");
         wuerfel2Lable.setText("");
         wuerfelSUMLable.setText("");
@@ -419,5 +433,11 @@ public class Hauptgame extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public static void warten(){
+        while (!finished){
+            System.out.println("");
+        }
     }
 }

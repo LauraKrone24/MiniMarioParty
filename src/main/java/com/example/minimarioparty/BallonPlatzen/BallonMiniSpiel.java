@@ -29,8 +29,10 @@ public class BallonMiniSpiel extends Minispiel {
 
     int ballonarten ;
     int faktor;
+    Stage stage;
     @Override
     public void start(Stage stage) throws IOException {
+        this.stage = stage;
         if(leicht){
             ballonarten = 2;
             faktor =1;
@@ -50,13 +52,15 @@ public class BallonMiniSpiel extends Minispiel {
             Platform.runLater(()->b.setVisible(false));
             DecimalFormat df = new DecimalFormat("0.0");
             long Startzeit = System.currentTimeMillis();
-            Endzeit= Startzeit + 60*1000;
+            Endzeit= Startzeit + 10*1000;
             new Thread(()->{
                 try{
                     while(Endzeit>=System.currentTimeMillis()){
 
                         Platform.runLater(()->ZeitLabel.setText(df.format((Endzeit-System.currentTimeMillis())/1000)));
                         Thread.sleep(100);
+
+
                     }
                 }catch(InterruptedException e){
                     System.out.println("InterruptedException");
@@ -119,7 +123,7 @@ public class BallonMiniSpiel extends Minispiel {
             pause.play();
         }).start();
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+        PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
         pause.setOnFinished(event -> {
 
             if(Endzeit>=System.currentTimeMillis()){
@@ -139,11 +143,13 @@ public class BallonMiniSpiel extends Minispiel {
     private void gewinnauswertung() {
 
         minispielrueckgabewert.setAbbruch(false);
-        if(punkte>=minPunkte){
+
+        if(punkte>=10){
             minispielrueckgabewert.setWinner(spieler[0]);
         }else {
             minispielrueckgabewert.setWinner(spieler[1]);
         }
+        stage.close();
 
 
     }

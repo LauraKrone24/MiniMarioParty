@@ -12,7 +12,6 @@ public class Aktionsfeld extends Feld{
 
     public Aktionsfeld(int number, int x, int y) {
         super(number, x, y);
-        // hier muss auch noch die Minispielliste initialisiert werden
     }
 
 
@@ -23,6 +22,7 @@ public class Aktionsfeld extends Feld{
 
     public void  starteMinispiel(){
         int minispielnummer = getMinispielnummer();
+
 
         Platform.runLater(()->{
 
@@ -53,21 +53,31 @@ public class Aktionsfeld extends Feld{
 
             m.start(new Stage());
             Minispielrueckgabewert minispielrueckgabewert =  m.getMinispielrueckgabewert();
-            System.out.println(minispielrueckgabewert);
+
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Minispielende");
             alert.setHeaderText(null);
             alert.setContentText(minispielrueckgabewert.toString());
             alert.showAndWait();
+
+
+
             if(!minispielrueckgabewert.getAbbruch()){
                 minispielrueckgabewert.getWinner().fuegeWuerfelhinzu(minispielrueckgabewert.getWuerfel());
             }
+
 
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("Kein Minispiel gefunden");
         }
+            Hauptgame.nextSpieler();
         });
+
+
+
+
 
     }
 }
