@@ -22,9 +22,6 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 
 
 public class Hauptgame extends Application {
@@ -435,9 +432,4 @@ public class Hauptgame extends Application {
         launch();
     }
 
-    public static void warten(){
-        while (!finished){
-            System.out.println("");
-        }
-    }
 }
