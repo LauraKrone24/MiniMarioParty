@@ -11,15 +11,19 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+
 
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SchereSteinPapierMiniSpiel extends Minispiel {
 
@@ -27,7 +31,25 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
     private  final Pane spielfeld = new Pane();
     private final Pane spielstandPane = new Pane();
 
-    String test;
+    private int spielstandSpieler = 0;
+    private int spielstandComputer = 0;
+    private Image schereBild = new Image("Schere.jpg");
+    private Image steinBild = new Image("Stein.jpg");
+    private Image papierBild = new Image("Papier.jpg");
+
+    private Label startText = new Label("Bitte wähle Schere, Stein oder Papier");
+
+    ArrayList <Image> computerAuswahlListe = new ArrayList<>(Arrays.asList(schereBild,steinBild, papierBild));
+
+    private int spielerAuswahl;
+
+
+
+
+
+
+
+
 
 
 
@@ -104,7 +126,7 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
             innerPaneSpielstand.setLayoutY(50);
             innerPaneSpielstand.setPrefWidth(200);
             innerPaneSpielstand.setPrefHeight(150);
-            innerPaneSpielstand.setStyle("-fx-background-color: #000000;");
+            innerPaneSpielstand.setStyle("-fx-background-color: #bfefff;");
             spielstandPane.getChildren().add(innerPaneSpielstand);
 
 
@@ -116,10 +138,114 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
             innerPaneSpielstand.getChildren().add(spieler);
 
             Label computer =new Label("Computer");
-            computer.setLayoutX(134);
+            computer.setLayoutX(100);
             computer.setLayoutY(15);
             computer.setFont(new Font("Arial", 21));
             innerPaneSpielstand.getChildren().add(computer);
+
+            Label spielstandSpielerLabel = new Label();
+            spielstandSpielerLabel.setLayoutX(33);
+            spielstandSpielerLabel.setLayoutY(67);
+            spielstandSpielerLabel.setFont(new Font("Arial", 33));
+            innerPaneSpielstand.getChildren().add(spielstandSpielerLabel);
+
+
+            spielstandSpielerLabel.setText(Integer.toString(spielstandSpieler));
+
+            Label spielstandComputerLabel = new Label();
+            spielstandComputerLabel.setLayoutX(148);
+            spielstandComputerLabel.setLayoutY(67);
+            spielstandComputerLabel.setFont(new Font("Arial", 33));
+            innerPaneSpielstand.getChildren().add(spielstandComputerLabel);
+
+            spielstandComputerLabel.setText(Integer.toString(spielstandComputer));
+
+
+            ImageView spielerBild = new ImageView();
+            spielerBild.setLayoutX(262);
+            spielerBild.setLayoutY(262);
+
+            ImageView computerBild = new ImageView();
+            computerBild.setLayoutX(262);
+            computerBild.setLayoutY(40);
+
+
+            startText.setLayoutX(108);
+            startText.setLayoutY(227);
+            startText.setFont(new Font("Arial", 30));
+
+            spielfeld.getChildren().add(computerBild);
+            spielfeld.getChildren().add(spielerBild);
+            spielfeld.getChildren().add(startText);
+
+            schere.setOnAction(event1 ->{
+
+                spielerBild.setImage(schereBild);
+                int zufallszahl = (int) (Math.random()*3);
+                computerBild.setImage(computerAuswahlListe.get(zufallszahl));
+                if (zufallszahl == 0 ){
+                    startText.setText("Unentschieden");
+                    startText.setLayoutX(257);
+                } else if (zufallszahl == 1) {
+                    startText.setText("Du hast verloren");
+                    startText.setLayoutX(257);
+                    spielstandComputer += 1;
+                    spielstandComputerLabel.setText(Integer.toString(spielstandComputer));
+
+                } else {
+                    startText.setText("Du hast gewonnen");
+                    startText.setLayoutX(257);
+                    spielstandSpieler +=1;
+                    spielstandSpielerLabel.setText(Integer.toString(spielstandSpieler));
+                }
+
+
+            });
+
+            stein.setOnAction(event2 ->{
+
+                spielerBild.setImage(steinBild);
+                int zufallszahl = (int) (Math.random()*3);
+                computerBild.setImage(computerAuswahlListe.get(zufallszahl));
+                if (zufallszahl == 0 ){
+                    startText.setText("Du hast gewonnen");
+                    startText.setLayoutX(257);
+                    spielstandSpieler +=1;
+                    spielstandSpielerLabel.setText(Integer.toString(spielstandSpieler));
+                } else if (zufallszahl == 1) {
+                    startText.setText("Unentschieden");
+                    startText.setLayoutX(257);
+                } else {
+                    startText.setText("Du hast verloren");
+                    startText.setLayoutX(257);
+                    spielstandComputer += 1;
+                    spielstandComputerLabel.setText(Integer.toString(spielstandComputer));
+
+                }
+            });
+
+            papier.setOnAction(event3 ->{
+
+                spielerBild.setImage(papierBild);
+                int zufallszahl = (int) (Math.random()*3);
+                computerBild.setImage(computerAuswahlListe.get(zufallszahl));
+                if (zufallszahl == 0 ){
+                    startText.setText("Du hast verloren");
+                    startText.setLayoutX(257);
+                    spielstandComputer +=1;
+                    spielstandComputerLabel.setText(Integer.toString(spielstandComputer));
+
+                } else if (zufallszahl == 1) {
+                    startText.setText("Du hast gewonnen");
+                    startText.setLayoutX(257);
+                    spielstandSpieler += 1;
+                    spielstandSpielerLabel.setText(Integer.toString(spielstandSpieler));
+                } else {
+                    startText.setText("Unentschieden");
+                    startText.setLayoutX(257);
+                }
+            });
+
 
 
 
