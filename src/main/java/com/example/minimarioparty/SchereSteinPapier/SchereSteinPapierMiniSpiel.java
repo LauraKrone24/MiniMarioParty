@@ -27,6 +27,8 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
     private  final Pane spielfeld = new Pane();
     private final Pane spielstandPane = new Pane();
 
+    String test;
+
 
 
 
