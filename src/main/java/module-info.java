@@ -8,4 +8,6 @@ module com.example.minimarioparty {
     exports com.example.minimarioparty;
     exports com.example.minimarioparty.BallonPlatzen;
     opens com.example.minimarioparty.BallonPlatzen to javafx.fxml;
+    exports com.example.minimarioparty.Labyrinth;
+    opens com.example.minimarioparty.Labyrinth to javafx.fxml;
 }
