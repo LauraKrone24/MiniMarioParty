@@ -85,7 +85,7 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
             spielfeld.setPrefSize(700, 600);
             spielfeld.setLayoutX(75);
             spielfeld.setLayoutY(150);
-            spielfeld.setStyle("-fx-background-color: #3f888f;");
+            spielfeld.setStyle("-fx-background-color: #b4cdcd;");
             p.getChildren().add(spielfeld);
 
             Button schere = new Button("Schere");
@@ -112,7 +112,7 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
             spielstandPane.setPrefSize(200, 200);
             spielstandPane.setLayoutX(786);
             spielstandPane.setLayoutY(150);
-            spielstandPane.setStyle("-fx-background-color: #a1cf9a;");
+            spielstandPane.setStyle("-fx-background-color: #79cdcd;");
             p.getChildren().add(spielstandPane);
 
             Label spielstand = new Label("Spielstand");
@@ -126,7 +126,7 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
             innerPaneSpielstand.setLayoutY(50);
             innerPaneSpielstand.setPrefWidth(200);
             innerPaneSpielstand.setPrefHeight(150);
-            innerPaneSpielstand.setStyle("-fx-background-color: #bfefff;");
+            innerPaneSpielstand.setStyle("-fx-background-color: #b4cdcd;");
             spielstandPane.getChildren().add(innerPaneSpielstand);
 
 
@@ -173,6 +173,12 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
             startText.setLayoutX(108);
             startText.setLayoutY(227);
             startText.setFont(new Font("Arial", 30));
+
+            Label ueberschrift = new Label("Wer zuerst fünf mal gewonnen hat, gewinnt das Spiel");
+            p.getChildren().add(ueberschrift);
+            ueberschrift.setLayoutY(110);
+            ueberschrift.setLayoutX(100);
+            ueberschrift.setFont(new Font("Arial", 30));
 
             spielfeld.getChildren().add(computerBild);
             spielfeld.getChildren().add(spielerBild);
@@ -270,6 +276,8 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
 
 
     }
+
+
 
 
 }
