@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Spielkarten {
 
-    private Image bild;
+    private Image  bild;
     private int wert;
 
     public Spielkarten(Image bild, int wert){

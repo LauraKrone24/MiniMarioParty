@@ -20,7 +20,7 @@ import java.util.Dictionary;
 import java.util.List;
 
 
-public class BlackJackMinispiel extends Minispiel {
+public class BlackJackMinispiel  extends Minispiel {
 
     private Stage stage;
     Pane spielfeldPane = new Pane();

@@ -26,7 +26,7 @@ public class Karteninitialisieren {
     Image siebenKreuzBild = new Image("siebenKreuz.png");
     Spielkarten siebenKreuz = new Spielkarten(siebenKreuzBild, 7);
     Image achtKreuzBild = new Image("achtKreuz.png");
-    Spielkarten achtKreuz = new Spielkarten(achtKreuzBild, 8);
+    Spielkarten achtKreuz  = new Spielkarten(achtKreuzBild, 8);
     Image neunKreuzBild = new Image("neunKreuz.png");
     Spielkarten neunKreuz = new Spielkarten(neunKreuzBild, 9);
     Image zehnKreuzBild = new Image("zehnKreuz.png");

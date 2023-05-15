@@ -69,7 +69,7 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
                 "Das Ziel der Spieler:innen liegt darin, eine höherwertige Geste als der Gegner zu spielen. So ist die Rangfolge:\n" +
                 "\n" +
                 "Stein schlägt Schere (Denn der Stein kann die Schere schleifen.)\n" +
-                "Schere schlägt Papier (Denn die Schere kann das Papier schneiden.)\n" +
+                "Schere schlägt Papier (Denn die Schere kann das Papier schneiden.) \n" +
                 "Papier schlägt Stein (Denn das Papier kann den Stein einwickeln.)\n" +
                 "Du wählst nun ein Symbol aus und der Computer wird über ein Zufallssystem sein Symbol auswählen\n" +
                 "\n" +
