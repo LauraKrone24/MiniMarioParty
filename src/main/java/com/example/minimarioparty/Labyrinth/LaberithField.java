@@ -25,12 +25,12 @@ public class LaberithField extends Rectangle {
     }
 
     private void setColor(){
-        switch (selectValue){
-            case 1: setFill(Paint.valueOf("#000000")); break;// Feld = Mauer
-            case 2: setFill(Paint.valueOf("#006600")); break;// Feld = Startfeld
-            case 3: setFill(Paint.valueOf("#660000")); break;// Feld = Ziel
-            case 4: setFill(Paint.valueOf("#000066")); break;// Feld = Aktuelles Feld
-            default: setFill(Paint.valueOf("#ffffff")); break;// Feld = leeres Feld
+        switch (selectValue) {
+            case 1 -> setFill(Paint.valueOf("#000000"));// Feld = Mauer
+            case 2 -> setFill(Paint.valueOf("#006600"));// Feld = Startfeld
+            case 3 -> setFill(Paint.valueOf("#660000"));// Feld = Ziel
+            case 4 -> setFill(Paint.valueOf("#000066"));// Feld = Aktuelles Feld
+            default -> setFill(Paint.valueOf("#ffffff"));// Feld = leeres Feld
         }
     }
     public void changeSelectvalue(int s){

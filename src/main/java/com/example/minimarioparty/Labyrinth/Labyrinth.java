@@ -1,14 +1,11 @@
 package com.example.minimarioparty.Labyrinth;
 
 import com.example.minimarioparty.Minispiel;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
 public class Labyrinth extends Minispiel {
     LaberithField[][] feld = new LaberithField[21][21];
@@ -40,15 +37,15 @@ public class Labyrinth extends Minispiel {
 
         for(int YCounter = 0; YCounter<10; YCounter++){
             for(int XCounter = 0;XCounter<21; XCounter++){
-                feldHinzufügen(XCounter,YCounter,(int)(Math.random()*2));
+                feldHinzufuegen(XCounter,YCounter,(int)((Math.random()*3)%2));
             }
         }
         for(int XCounter = 0;XCounter<21; XCounter++){
-            feldHinzufügen(XCounter,10,1);
+            feldHinzufuegen(XCounter,10,1);
         }
         for(int YCounter = 11; YCounter<21; YCounter++) {
             for (int XCounter = 0; XCounter < 21; XCounter++) {
-                feldHinzufügen(XCounter,YCounter,(int)(Math.random()*2));
+                feldHinzufuegen(XCounter,YCounter,(int)((Math.random()*3)%2));
             }
         }
         startfeldSpieler = feld[20][0];
@@ -59,7 +56,7 @@ public class Labyrinth extends Minispiel {
         zielFeld.changeSelectvalue(3);
 
     }
-    private void feldHinzufügen(int x, int y, int value){
+    private void feldHinzufuegen(int x, int y, int value){
         feld[x][y] = new LaberithField(value,x*30,y*30);
         try{
             feld[x][y].setTop(feld[x][y-1]);
