@@ -2,6 +2,9 @@ package com.example.minimarioparty.BlackJack;
 
 import javafx.scene.image.Image;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Spielkarten {
 
     private Image bild;
@@ -22,8 +25,6 @@ public class Spielkarten {
 
 
 
-    Image zweiKreuzBild = new Image("zweiKreuz.png");
-    Spielkarten zweiKreuz = new Spielkarten(zweiKreuzBild, 2);
-    Image dreiKreuzBild = new Image("dreiKreuz.png");
-    Spielkarten dreiKreuz = new Spielkarten(dreiKreuzBild, 2);
+
+
 }

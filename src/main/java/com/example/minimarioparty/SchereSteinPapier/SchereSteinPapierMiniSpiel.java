@@ -16,7 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
+import javafx.util.Duration;
 
 
 import java.io.IOException;
@@ -37,7 +37,10 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
     private Image steinBild = new Image("Stein.jpg");
     private Image papierBild = new Image("Papier.jpg");
 
+    private Pane endPane = new Pane();
+
     private Label startText = new Label("Bitte wähle Schere, Stein oder Papier");
+    private Label WinLoseLabel;
 
     ArrayList <Image> computerAuswahlListe = new ArrayList<>(Arrays.asList(schereBild,steinBild, papierBild));
 
@@ -71,6 +74,7 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
                 "Du wählst nun ein Symbol aus und der Computer wird über ein Zufallssystem sein Symbol auswählen\n" +
                 "\n" +
                 "Jedes Symbol verliert oder gewinnt gegen jeweils ein anderes Symbol. Oft werden mehrere Runden hintereinander gespielt und der Spieler mit den meisten Siegen am Ende gewinnt.";
+
 
 
         Button b = new Button("Starte Game");
@@ -197,12 +201,26 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
                     startText.setLayoutX(257);
                     spielstandComputer += 1;
                     spielstandComputerLabel.setText(Integer.toString(spielstandComputer));
+                    if (spielstandComputer > 4){
+                        schere.setDisable(true);
+                        stein.setDisable(true);
+                        papier.setDisable(true);
+                        p.getChildren().remove(spielfeld);
+                        gewinnauswertung();
+                    }
 
                 } else {
                     startText.setText("Du hast gewonnen");
                     startText.setLayoutX(257);
                     spielstandSpieler +=1;
                     spielstandSpielerLabel.setText(Integer.toString(spielstandSpieler));
+                    if (spielstandSpieler > 4){
+                        schere.setDisable(true);
+                        stein.setDisable(true);
+                        papier.setDisable(true);
+                        p.getChildren().remove(spielfeld);
+                        gewinnauswertung();
+                    }
                 }
 
 
@@ -218,6 +236,13 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
                     startText.setLayoutX(257);
                     spielstandSpieler +=1;
                     spielstandSpielerLabel.setText(Integer.toString(spielstandSpieler));
+                    if (spielstandSpieler > 4){
+                        schere.setDisable(true);
+                        stein.setDisable(true);
+                        papier.setDisable(true);
+                        p.getChildren().remove(spielfeld);
+                        gewinnauswertung();
+                    }
                 } else if (zufallszahl == 1) {
                     startText.setText("Unentschieden");
                     startText.setLayoutX(257);
@@ -226,6 +251,13 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
                     startText.setLayoutX(257);
                     spielstandComputer += 1;
                     spielstandComputerLabel.setText(Integer.toString(spielstandComputer));
+                    if (spielstandComputer > 4){
+                        schere.setDisable(true);
+                        stein.setDisable(true);
+                        papier.setDisable(true);
+                        p.getChildren().remove(spielfeld);
+                        gewinnauswertung();
+                    }
 
                 }
             });
@@ -240,12 +272,26 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
                     startText.setLayoutX(257);
                     spielstandComputer +=1;
                     spielstandComputerLabel.setText(Integer.toString(spielstandComputer));
+                    if (spielstandComputer > 4){
+                        schere.setDisable(true);
+                        stein.setDisable(true);
+                        papier.setDisable(true);
+                        p.getChildren().remove(spielfeld);
+                        gewinnauswertung();
+                    }
 
                 } else if (zufallszahl == 1) {
                     startText.setText("Du hast gewonnen");
                     startText.setLayoutX(257);
                     spielstandSpieler += 1;
                     spielstandSpielerLabel.setText(Integer.toString(spielstandSpieler));
+                    if (spielstandSpieler > 4){
+                        schere.setDisable(true);
+                        stein.setDisable(true);
+                        papier.setDisable(true);
+                        p.getChildren().remove(spielfeld);
+                        gewinnauswertung();
+                    }
                 } else {
                     startText.setText("Unentschieden");
                     startText.setLayoutX(257);
@@ -258,23 +304,50 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
 
 
 
+
+
         } );
 
-
-
-
-
-
-
-
-
-
+        WinLoseLabel = new Label();
+        WinLoseLabel.setPrefSize(400,50);
+        WinLoseLabel.setFont(new Font(40));
+        WinLoseLabel.setLayoutY(400);
+        WinLoseLabel.setLayoutX(300);
+        WinLoseLabel.setAlignment(Pos.CENTER);
+        WinLoseLabel.setVisible(false);
+        p.getChildren().add(WinLoseLabel);
 
 
 
         super.start(stage);
 
 
+    }
+    private void gewinnauswertung() {
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+
+            minispielrueckgabewert.setAbbruch(false);
+
+            Platform.runLater(()->WinLoseLabel.setVisible(true));
+            if(spielstandSpieler > spielstandComputer){
+                minispielrueckgabewert.setWinner(spieler[0]);
+                Platform.runLater(()->WinLoseLabel.setText("Du hast gewonnen!!"));
+
+            }else {
+                minispielrueckgabewert.setWinner(spieler[1]);
+
+                Platform.runLater(()->WinLoseLabel.setText("Du hast leider verloren"));
+            }
+
+            PauseTransition pause2 = new PauseTransition(Duration.seconds(3));
+            pause2.setOnFinished(e -> stage.close());
+            pause2.play();
+
+
+        });
+
+        pause.play();
     }
 
 
