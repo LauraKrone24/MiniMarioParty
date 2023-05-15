@@ -1,6 +1,7 @@
 package com.example.minimarioparty;
 
 import com.example.minimarioparty.BallonPlatzen.BallonMiniSpiel;
+import com.example.minimarioparty.SchereSteinPapier.SchereSteinPapierMiniSpiel;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,7 +19,7 @@ public class MinispielAufrufTester extends Application {
         startButton.setPrefHeight(200);
         startButton.setPrefWidth(200);
         startButton.setOnAction(actionEvent -> {
-            Minispiel test = new BallonMiniSpiel(); // Hier Minispielklassennamen zum Testen einfügen
+            Minispiel test = new SchereSteinPapierMiniSpiel(); // Hier Minispielklassennamen zum Testen einfügen
             test.setLeicht(false);
             try{
                 test.start(new Stage());
