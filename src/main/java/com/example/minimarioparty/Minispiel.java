@@ -50,9 +50,9 @@ public  abstract class Minispiel extends Application {
         zuruckButton.prefWidth(100);
         zuruckButton.prefHeight(50);
 
-        MinispielSchwierigkeitLable.setFont(new Font("system",24));
-        MinispielSchwierigkeitLable.setLayoutX(500);
-        MinispielSchwierigkeitLable.setLayoutY(35);
+        MinispielSchwierigkeitLable.setFont(new Font("system",20));
+        MinispielSchwierigkeitLable.setLayoutX(450);
+        MinispielSchwierigkeitLable.setLayoutY(60);
         MinispielSchwierigkeitLable.prefWidth(50);
         MinispielSchwierigkeitLable.prefHeight(55);
         MinispielSchwierigkeitLable.setTextFill(Paint.valueOf("#ffffff"));
@@ -61,7 +61,7 @@ public  abstract class Minispiel extends Application {
         spielanleitungButton.setLayoutY(35);
 
         MinispielTitleLabel.setFont(new Font("system", 24));
-        MinispielTitleLabel.setLayoutX(350);
+        MinispielTitleLabel.setLayoutX(450);
         MinispielTitleLabel.setLayoutY(35);
         MinispielTitleLabel.prefWidth(150);
         MinispielTitleLabel.prefHeight(55);
