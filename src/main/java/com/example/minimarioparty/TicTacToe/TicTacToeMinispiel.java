@@ -13,7 +13,7 @@ public class TicTacToeMinispiel extends Minispiel {
     public void start(Stage stage) throws IOException {
 
         this.stage = stage;
-        spielanleitungText = "test";
+        spielanleitungText = "veränderung TicTacToe ist ein Spiel";
 
         super.start(stage);
     }
