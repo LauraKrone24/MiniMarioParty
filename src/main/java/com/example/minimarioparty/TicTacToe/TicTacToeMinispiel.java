@@ -34,7 +34,7 @@ public class TicTacToeMinispiel extends Minispiel {
     private boolean buttonBelegt = false;
     private boolean spielerDran = false;
     private int zug = 0;
-    private String gewonnen;
+    private String moglich;
     private ArrayList<Button> ButtonList = new ArrayList<>(Arrays.asList(button1,button2, button3, button4, button5,button6,button7,button8,button9));
     @Override
     public void start(Stage stage) throws IOException {
@@ -142,7 +142,7 @@ public class TicTacToeMinispiel extends Minispiel {
             Button neustart = new Button();
             neustart.setLayoutX(100);
             neustart.setLayoutY(500);
-            neustart.setPrefWidth(50);
+            neustart.setPrefWidth(100);
             neustart.setPrefHeight(50);
             neustart.setText("Neustart");
             neustart.setOnAction(actionEvent -> neuStart());
@@ -151,10 +151,6 @@ public class TicTacToeMinispiel extends Minispiel {
 
 
             p.getChildren().addAll(spielfeldPane, button1, button2, button3, button4, button5, button6, button7, button8, button9, neustart);
-
-
-
-
 
 
 
@@ -170,7 +166,7 @@ public class TicTacToeMinispiel extends Minispiel {
             spielerDran= false;
 
         }
-        else{
+        else{//das muss noch der computer werden
             bt.setText("O");
             bt.setTextFill(Paint.valueOf("#ed7b84"));
             spielerDran=true;
@@ -185,18 +181,30 @@ public class TicTacToeMinispiel extends Minispiel {
     private void istSpielEnde(){
         if (zug==9){
             System.out.println("Unentschieden");
-        } else if (zug<9){getErgebnis();
-
+        } else if (zug<9){
+            getErgebnis();
         }
     }
 
     private void getErgebnis(){
-        gewonnen= button1.getText() + button2.getText() + button3.getText();
-        if(gewonnen.equals("XXX")){
-            System.out.println("Spieler hat gewonnen");
-        } else if (gewonnen.equals("OOO")) {
-            System.out.println("Computer hat gewonnen");
+        for(int art= 1; 1<=8; art++) {
+            moglich = switch (art) {
+                case 1 -> button1.getText() + button2.getText() + button3.getText();
+                case 2 -> button4.getText() + button5.getText() + button6.getText();
+                case 3 -> button7.getText() + button8.getText() + button9.getText();
+                case 4 -> button1.getText() + button4.getText() + button7.getText();
+                case 5 -> button2.getText() + button5.getText() + button8.getText();
+                case 6 -> button3.getText() + button6.getText() + button9.getText();
+                case 7 -> button3.getText() + button5.getText() + button7.getText();
+                case 8 -> button1.getText() + button5.getText() + button9.getText();
+                default -> null;
+            };
+            if (moglich.equals("XXX")) {
+                System.out.println("Spieler hat gewonnen");
+            } else if (moglich.equals("OOO")) {
+                System.out.println("Computer hat gewonnen");
 
+            }
         }
     }
 
