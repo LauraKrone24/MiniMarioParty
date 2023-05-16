@@ -1,6 +1,7 @@
 package com.example.minimarioparty;
 
 import com.example.minimarioparty.BallonPlatzen.BallonMiniSpiel;
+import com.example.minimarioparty.Labyrinth.Labyrinth;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -191,9 +192,10 @@ public class Hauptgame extends Application {
     }
 
     private void addMinispiele() {
-        minispielListe.add(new BallonMiniSpiel());
-        minispielListe.add(new BallonMiniSpiel());
-        minispielListe.add(new BallonMiniSpiel());
+
+        minispielListe.add(new Labyrinth());
+        minispielListe.add(new Labyrinth());
+        minispielListe.add(new Labyrinth());
         minispielListe.add(new TestMiniSpiel());
     }
 
