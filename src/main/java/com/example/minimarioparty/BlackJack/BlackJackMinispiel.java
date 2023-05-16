@@ -142,7 +142,7 @@ public class BlackJackMinispiel  extends Minispiel {
         spielstand.setPrefWidth(200);
         spielstand.setPrefHeight(200);
         spielstand.setLayoutX(800);
-        spielstand.setStyle("-fx-background-color: #ffffff;");
+        spielstand.setStyle("-fx-background-color: #79cdcd;");
 
         Label spielstandLabel = new Label("Spielstand");
         spielstandLabel.setLayoutX(33);
@@ -207,6 +207,7 @@ public class BlackJackMinispiel  extends Minispiel {
             erstellteSpielerkarten.add(neueKarteerstellen);
 
             punktestand += kartenListe.get(zahl).getWert();
+            kartenListe.remove(kartenListe.get(zahl));
             punkteAnzahl.setText("Aktueller Punktestand: " + punktestand);
         });
 
@@ -223,7 +224,7 @@ public class BlackJackMinispiel  extends Minispiel {
 
                 }else {
                     karteZiehenComputer();
-                    System.out.println("TETSTTETST");
+
 
 
                     
@@ -248,7 +249,7 @@ public class BlackJackMinispiel  extends Minispiel {
 
 
 
-        } else if ((punktestand > 22 && cpunktestand < 22) || (punktestand < 22 && punktestand < cpunktestand)) {
+        } else if ((punktestand > 21 && cpunktestand < 22) || (punktestand < 22 && punktestand < cpunktestand)) {
             spielstandComputer += 1;
             spielstandComputerLabel.setText(Integer.toString(spielstandComputer));
             Platform.runLater(( )->mitte.setText("Du hast verloren"));
@@ -287,6 +288,11 @@ public class BlackJackMinispiel  extends Minispiel {
         });
         pause.play();
 
+        if (spielstandSpieler > 4 || spielstandComputer > 5){
+            System.out.println("Über 4");
+
+        }
+
 
     }
 
@@ -304,10 +310,11 @@ public class BlackJackMinispiel  extends Minispiel {
         spielfeldPane.getChildren().add(test1);
         test1.setImage(kartenListe.get(czahl1).getBild());
         cpunktestand += kartenListe.get(czahl1).getWert();
+        kartenListe.remove(kartenListe.get(czahl1));
         cpunkteAnzahl.setText("Computer: " + cpunktestand);
         x += 40;
         erstellteComputerkarten.add(test1);
-        System.out.println(cpunktestand);
+
 
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
         pause.setOnFinished(actionEvent -> {
