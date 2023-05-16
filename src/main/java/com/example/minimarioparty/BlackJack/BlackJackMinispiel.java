@@ -49,6 +49,8 @@ public class BlackJackMinispiel  extends Minispiel {
     Label mitte = new Label("Drücke Card für eine Karte");
     Label punkteAnzahl = new Label("Aktueller Punktestand: " + punktestand);
 
+    private int stoper = 0;
+
 
 
     Karteninitialisieren test = new Karteninitialisieren();
@@ -207,6 +209,7 @@ public class BlackJackMinispiel  extends Minispiel {
             neueKarteerstellen.setLayoutY(aktuellY);
             aktuellX += 40;
 
+
             spielfeldPane.getChildren().add(neueKarteerstellen);
             erstellteSpielerkarten.add(neueKarteerstellen);
 
@@ -214,8 +217,15 @@ public class BlackJackMinispiel  extends Minispiel {
             kartenListe.remove(kartenListe.get(zahl));
 
             punkteAnzahl.setText("Aktueller Punktestand: " + punktestand);
-            if (kartenListe.size() < 7){}
-            kartenListe = test.getKartenListe();
+            stoper += 1;
+            if (stoper == 10){
+                neueKarte.setDisable(true);
+            }
+            if (kartenListe.size() < 7) {
+                kartenListe = test.getKartenListe();
+                System.out.println("Karten wurden aufgefüllt 1");
+
+            }
         });
 
 
@@ -295,6 +305,7 @@ public class BlackJackMinispiel  extends Minispiel {
             erstellteComputerkarten.clear();
             aktuellX = 340;
             x = 340;
+            stoper = 0;
             Platform.runLater(() -> mitte.setText("Drücke Card für eine Karte"));
 
 
@@ -358,8 +369,10 @@ public class BlackJackMinispiel  extends Minispiel {
         cpunktestand += kartenListe.get(czahl1).getWert();
         kartenListe.remove(kartenListe.get(czahl1));
         cpunkteAnzahl.setText("Computer: " + cpunktestand);
-        if (kartenListe.size() < 7){}
-        kartenListe = test.getKartenListe();
+        if (kartenListe.size() < 7) {
+            kartenListe = test.getKartenListe();
+            System.out.println("Karten wurden aufgefülllt");
+        }
         x += 40;
         erstellteComputerkarten.add(test1);
 
