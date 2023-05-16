@@ -328,11 +328,13 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
         pause.setOnFinished(event -> {
 
             minispielrueckgabewert.setAbbruch(false);
+            minispielrueckgabewert.setWuerfel(new SchlechterWuerfel());
 
             Platform.runLater(()->WinLoseLabel.setVisible(true));
             if(spielstandSpieler > spielstandComputer){
                 minispielrueckgabewert.setWinner(spieler[0]);
                 Platform.runLater(()->WinLoseLabel.setText("Du hast gewonnen!!"));
+
 
             }else {
                 minispielrueckgabewert.setWinner(spieler[1]);
