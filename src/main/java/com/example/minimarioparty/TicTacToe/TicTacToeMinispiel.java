@@ -150,8 +150,6 @@ public class TicTacToeMinispiel extends Minispiel {
 
             werStartet();
 
-            computerSetzen();
-
 
 
 
@@ -198,7 +196,7 @@ public class TicTacToeMinispiel extends Minispiel {
     }
 
     private void computerSetzen(){
-        while(true){
+
         computerRandom = (int)(Math.random()*9 +1);
         Button bt = ButtonList.get(computerRandom - 1);
 
@@ -213,8 +211,7 @@ public class TicTacToeMinispiel extends Minispiel {
             zug++;
             System.out.println(zug);
             istSpielEnde();
-            break;
-        }
+
 
 
 
