@@ -212,7 +212,10 @@ public class BlackJackMinispiel  extends Minispiel {
 
             punktestand += kartenListe.get(zahl).getWert();
             kartenListe.remove(kartenListe.get(zahl));
+
             punkteAnzahl.setText("Aktueller Punktestand: " + punktestand);
+            if (kartenListe.size() < 7){}
+            kartenListe = test.getKartenListe();
         });
 
 
@@ -355,6 +358,8 @@ public class BlackJackMinispiel  extends Minispiel {
         cpunktestand += kartenListe.get(czahl1).getWert();
         kartenListe.remove(kartenListe.get(czahl1));
         cpunkteAnzahl.setText("Computer: " + cpunktestand);
+        if (kartenListe.size() < 7){}
+        kartenListe = test.getKartenListe();
         x += 40;
         erstellteComputerkarten.add(test1);
 
