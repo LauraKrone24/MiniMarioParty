@@ -2,9 +2,11 @@ package com.example.minimarioparty.BlackJack;
 
 
 import com.example.minimarioparty.Minispiel;
+import com.example.minimarioparty.SchlechterWuerfel;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,6 +30,7 @@ import java.util.TimerTask;
 
 
 public class BlackJackMinispiel  extends Minispiel {
+    private String a = "a";
 
     private Stage stage;
     Pane spielfeldPane = new Pane();
@@ -55,6 +58,7 @@ public class BlackJackMinispiel  extends Minispiel {
     List<ImageView> erstellteSpielerkarten = new ArrayList<>();
     Button neueKarte = new Button("Card");
     Button stop = new Button("Stop");
+    private Label WinLoseLabel;
 
 
 
@@ -238,6 +242,15 @@ public class BlackJackMinispiel  extends Minispiel {
 
 
         });
+
+        WinLoseLabel = new Label();
+        WinLoseLabel.setPrefSize(400,50);
+        WinLoseLabel.setFont(new Font(40));
+        WinLoseLabel.setLayoutY(400);
+        WinLoseLabel.setLayoutX(300);
+        WinLoseLabel.setAlignment(Pos.CENTER);
+        WinLoseLabel.setVisible(false);
+        p.getChildren().add(WinLoseLabel);
         super.start(stage);
     }
 
@@ -262,7 +275,7 @@ public class BlackJackMinispiel  extends Minispiel {
             Platform.runLater(( )->mitte.setText("Unentschieden"));
         }
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
         pause.setOnFinished(event ->{
             cpunktestand = 0;
             punktestand = 0;
@@ -288,12 +301,42 @@ public class BlackJackMinispiel  extends Minispiel {
         });
         pause.play();
 
-        if (spielstandSpieler > 4 || spielstandComputer > 5){
-            System.out.println("Über 4");
+        if (spielstandSpieler > 4 || spielstandComputer > 4){
+            p.getChildren().remove(spielfeldPane);
+            gewinnauswertung();
 
         }
 
 
+    }
+
+    private void gewinnauswertung() {
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+
+            minispielrueckgabewert.setAbbruch(false);
+            minispielrueckgabewert.setWuerfel(new SchlechterWuerfel());
+
+            Platform.runLater(()->WinLoseLabel.setVisible(true));
+            if(spielstandSpieler > spielstandComputer){
+                minispielrueckgabewert.setWinner(spieler[0]);
+                Platform.runLater(()->WinLoseLabel.setText("Du hast gewonnen!!"));
+
+
+            }else {
+                minispielrueckgabewert.setWinner(spieler[1]);
+
+                Platform.runLater(()->WinLoseLabel.setText("Du hast leider verloren"));
+            }
+
+            PauseTransition pause2 = new PauseTransition(Duration.seconds(3));
+            pause2.setOnFinished(e -> stage.close());
+            pause2.play();
+
+
+        });
+
+        pause.play();
     }
 
 
