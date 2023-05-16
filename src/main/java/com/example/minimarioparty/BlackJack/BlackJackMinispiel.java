@@ -2,6 +2,9 @@ package com.example.minimarioparty.BlackJack;
 
 
 import com.example.minimarioparty.Minispiel;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -14,10 +17,12 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.IOException;
 import java.security.PrivateKey;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Dictionary;
+import java.time.Duration;
+
+
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class BlackJackMinispiel  extends Minispiel {
@@ -27,6 +32,10 @@ public class BlackJackMinispiel  extends Minispiel {
 
     int punktestand = 0;
     int cpunktestand = 0;
+    int x = 380;
+    int y = 75;
+    private int spielstandSpieler = 0;
+    private int spielstandComputer = 0;
 
 
 
@@ -53,6 +62,7 @@ public class BlackJackMinispiel  extends Minispiel {
         spielfeldPane.setLayoutY(100);
         p.getChildren().add(spielfeldPane);
 
+
         //Hintergrund erstellen
         Image spielfeldBild = new Image("hintergrundblackjack.jpg");
         ImageView spielfeld =  new ImageView();
@@ -71,6 +81,8 @@ public class BlackJackMinispiel  extends Minispiel {
         stop.setLayoutY(576);
         stop.setPrefWidth(150);
         stop.setPrefHeight(50);
+
+
 
 
 
@@ -136,6 +148,60 @@ public class BlackJackMinispiel  extends Minispiel {
         cpunkteAnzahl.setFont(new Font("Arial", 30));
         cpunkteAnzahl.setTextFill(Color.WHITE);
 
+        Pane spielstand = new Pane();
+        spielstand.setPrefWidth(200);
+        spielstand.setPrefHeight(200);
+        spielstand.setLayoutX(800);
+        spielstand.setStyle("-fx-background-color: #ffffff;");
+
+        Label spielstandLabel = new Label("Spielstand");
+        spielstandLabel.setLayoutX(33);
+        spielstandLabel.setLayoutY(5);
+        spielstandLabel.setFont(new Font("Arial", 33));
+        spielstand.getChildren().add(spielstandLabel);
+
+
+        Label spieler =new Label("Spieler");
+        spieler.setLayoutX(18);
+        spieler.setLayoutY(45);
+        spieler.setFont(new Font("Arial", 21));
+        spielstand.getChildren().add(spieler);
+
+        Label spielstandSpielerLabel = new Label();
+        spielstandSpielerLabel.setLayoutX(33);
+        spielstandSpielerLabel.setLayoutY(85);
+        spielstandSpielerLabel.setFont(new Font("Arial", 33));
+        spielstand.getChildren().add(spielstandSpielerLabel);
+        spielstandSpielerLabel.setText(Integer.toString(spielstandSpieler));
+
+        Label computer =new Label("Computer");
+        computer.setLayoutX(100);
+        computer.setLayoutY(45);
+        computer.setFont(new Font("Arial", 21));
+        spielstand.getChildren().add(computer);
+
+        Label spielstandComputerLabel = new Label();
+        spielstandComputerLabel.setLayoutX(148);
+        spielstandComputerLabel.setLayoutY(85);
+        spielstandComputerLabel.setFont(new Font("Arial", 33));
+        spielstand.getChildren().add(spielstandComputerLabel);
+
+        spielstandComputerLabel.setText(Integer.toString(spielstandComputer));
+
+        spielfeldPane.getChildren().add(spielfeld);
+        spielfeldPane.getChildren().add(neueKarte);
+        spielfeldPane.getChildren().add(stop);
+        spielfeldPane.getChildren().add(karte1);
+        spielfeldPane.getChildren().add(karte2);
+        spielfeldPane.getChildren().add(karte3);
+        spielfeldPane.getChildren().add(karte4);
+        spielfeldPane.getChildren().add(karte5);
+        spielfeldPane.getChildren().add(ckarte1);
+        spielfeldPane.getChildren().add(punkteAnzahl);
+        spielfeldPane.getChildren().add(cpunkteAnzahl);
+        spielfeldPane.getChildren().add(mitte);
+        spielfeldPane.getChildren().add(spielstand);
+
 
 
         neueKarte.setOnAction(actionEvent -> {
@@ -190,9 +256,12 @@ public class BlackJackMinispiel  extends Minispiel {
                 ckarte1.setImage(kartenListe.get(czahl).getBild());
                 cpunktestand += kartenListe.get(czahl).getWert();
                 cpunkteAnzahl.setText("Computer: " + cpunktestand);
-                int x = 380;
-                int y = 75;
+
+
+                Timeline zeit = new Timeline();
+                Duration andauern = Duration.ofSeconds(1);
                 while (cpunktestand < 18){
+
                     int czahl1 = (int) (Math.random()*(kartenListe.size()));
                     ImageView test1 = new ImageView();
                     test1.setFitHeight(123);
@@ -203,23 +272,41 @@ public class BlackJackMinispiel  extends Minispiel {
                     test1.setImage(kartenListe.get(czahl1).getBild());
                     cpunktestand += kartenListe.get(czahl1).getWert();
                     cpunkteAnzahl.setText("Computer: " + cpunktestand);
-
                     x += 40;
+
+
+
+
+
                 }
-                if (punktestand > cpunktestand && punktestand <= 21){
+                if (punktestand < 22 && ((punktestand > cpunktestand) || (cpunktestand > 21))){
+                    spielstandSpieler +=1;
+                    spielstandSpielerLabel.setText(Integer.toString(spielstandSpieler));
+                    System.out.println(spielstandSpieler);
                     mitte.setText("Du hast gewonnen");
                     spielfeldPane.getChildren().add(mitte);
 
-                } else if (cpunktestand == punktestand) {
-                    mitte.setText("Unentschieden");
-                    spielfeldPane.getChildren().add(mitte);
-                } else if (cpunktestand <= 21 && punktestand > 21) {
+
+
+
+                } else if ((punktestand > 22 && cpunktestand < 22) || (punktestand < 22 && punktestand < cpunktestand)) {
+                    spielstandComputer += 1;
+                    spielstandComputerLabel.setText(Integer.toString(spielstandComputer));
+                    System.out.println(spielstandComputer);
                     mitte.setText("Du hast verloren");
                     spielfeldPane.getChildren().add(mitte);
-                } else if (cpunktestand > 21 && punktestand > 21) {
+
+
+
+
+
+                } else {
                     mitte.setText("Unentschieden");
                     spielfeldPane.getChildren().add(mitte);
                 }
+
+
+
 
 
             });
@@ -233,18 +320,17 @@ public class BlackJackMinispiel  extends Minispiel {
 
 
 
-        spielfeldPane.getChildren().add(spielfeld);
-        spielfeldPane.getChildren().add(neueKarte);
-        spielfeldPane.getChildren().add(stop);
-        spielfeldPane.getChildren().add(karte1);
-        spielfeldPane.getChildren().add(karte2);
-        spielfeldPane.getChildren().add(karte3);
-        spielfeldPane.getChildren().add(karte4);
-        spielfeldPane.getChildren().add(karte5);
-        spielfeldPane.getChildren().add(ckarte1);
-        spielfeldPane.getChildren().add(punkteAnzahl);
-        spielfeldPane.getChildren().add(cpunkteAnzahl);
-        spielfeldPane.getChildren().add(mitte);
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -259,6 +345,23 @@ public class BlackJackMinispiel  extends Minispiel {
 
 
         super.start(stage);
+    }
+
+    private void starteNeueRunde(Stage stage){
+        if (spielstandSpieler >4 || spielstandComputer > 4){
+
+            Button neueKarte = (Button) stage.getScene().getRoot().getChildrenUnmodifiable().get(0);
+            Button stop = (Button) stage.getScene().getRoot().getChildrenUnmodifiable().get(1);
+
+            neueKarte.setDisable(false);
+            stop.setDisable(false);
+
+
+
+        }else {
+            stage.close();
+        }
+
     }
 }
 
