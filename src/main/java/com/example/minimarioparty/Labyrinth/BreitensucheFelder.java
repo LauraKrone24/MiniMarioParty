@@ -12,6 +12,7 @@ public class BreitensucheFelder {
 	public static List<LaberithField> findePfad(LaberithField startKnoten,
 												LaberithField zielKnoten) {
 
+
 		List<LaberithField> ergebnisPfad = new ArrayList<>();
 		Queue<LaberithField> q = new LinkedList<>();
 		q.add(startKnoten);
@@ -19,7 +20,7 @@ public class BreitensucheFelder {
 		
 		while (!q.isEmpty() && ergebnisPfad.isEmpty()) {
 			LaberithField aktuellerKnoten = q.remove();
-			System.out.println(aktuellerKnoten.num+";"+zielKnoten.num);
+
 			if (aktuellerKnoten.num == zielKnoten.num) {
 
 				ergebnisPfad.addAll(aktuellerKnoten.getSuchPfad());

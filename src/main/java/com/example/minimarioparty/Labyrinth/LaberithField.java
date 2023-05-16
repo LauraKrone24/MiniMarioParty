@@ -35,6 +35,9 @@ public class LaberithField extends Rectangle {
         return suchPfad;
     }
 
+    public void setSuchPfad(List<LaberithField> suchPfad) {
+        this.suchPfad = suchPfad;
+    }
 
     private void setColor(){
         switch (selectValue) {
