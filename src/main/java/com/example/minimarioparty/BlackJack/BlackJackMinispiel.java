@@ -30,7 +30,7 @@ import java.util.TimerTask;
 
 
 public class BlackJackMinispiel  extends Minispiel {
-    private String a = "";
+    private String a = "a";
 
     private Stage stage;
     Pane spielfeldPane = new Pane();
