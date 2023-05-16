@@ -1,6 +1,7 @@
 package com.example.minimarioparty.TicTacToe;
 
 import com.example.minimarioparty.Minispiel;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,7 +54,8 @@ public class TicTacToeMinispiel extends Minispiel {
         p.getChildren().add(b);
         b.setOnAction(event -> {
             System.out.println("Game started");
-            Platform.runLater(() -> b.setVisible(false));
+
+            Platform.runLater(() -> {b.setVisible(false);
 
             spielfeldPane.setLayoutX(xpx);
             spielfeldPane.setLayoutY(200);
@@ -148,7 +151,7 @@ public class TicTacToeMinispiel extends Minispiel {
             neustart.setText("Neustart");
             neustart.setOnAction(actionEvent -> neuStart());
 
-            werStartet();
+
 
 
 
@@ -159,9 +162,16 @@ public class TicTacToeMinispiel extends Minispiel {
 
             p.getChildren().addAll(spielfeldPane, button1, button2, button3, button4, button5, button6, button7, button8, button9, neustart);
 
-
+            });
+            new Thread (() ->{
+                System.out.println("test");
+                werStartet();
+                System.out.println("hallo");
+                computerSetzen();
+            }).start();
 
         });
+
 
         super.start(stage);
     }
@@ -181,38 +191,48 @@ public class TicTacToeMinispiel extends Minispiel {
     private void zeichenSetzten(Button bt){
         if(spielerDran==true && bt.getText().isEmpty()){
 
-            bt.setText("X");
-            bt.setTextFill(Paint.valueOf("#7eb774"));
-            spielerDran= false;
-            System.out.println("Spieler hat gesetzt");
+                bt.setText("X");
+                bt.setTextFill(Paint.valueOf("#7eb774"));
+                spielerDran= false;
+                System.out.println("Spieler hat gesetzt");
 
 
-        bt.setFont(Font.font("Arial black", 20));
-        zug++;
-        System.out.println(zug);
-        istSpielEnde();
-        computerSetzen();
+                bt.setFont(Font.font("Arial black", 20));
+                zug++;
+                System.out.println(zug);
+                istSpielEnde();
+                computerSetzen();
+
+
+
     }
     }
 
     private void computerSetzen(){
-
+//while nur über random, gesetzte buttons in liste abspeichern zum überprüfen
         computerRandom = (int)(Math.random()*9 +1);
         Button bt = ButtonList.get(computerRandom - 1);
 
         if(spielerDran==false && bt.getText().isEmpty()){
-            System.out.println("Computer wählt " + computerRandom);
-            bt.setText("O");
-            bt.setTextFill(Paint.valueOf("#ed7b84"));
-            spielerDran=true;
-            System.out.println("Computer hat gesetzt");
+            Platform.runLater(() ->{
+                PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                pause.setOnFinished(actionEvent -> {
+                    System.out.println("Computer wählt " + computerRandom);
+                    bt.setText("O");
+                    bt.setTextFill(Paint.valueOf("#ed7b84"));
+                    spielerDran=true;
+                    System.out.println("Computer hat gesetzt");
 
-            bt.setFont(Font.font("Arial black", 20));
-            zug++;
-            System.out.println(zug);
-            istSpielEnde();
+                    bt.setFont(Font.font("Arial black", 20));
+                    zug++;
+                    System.out.println(zug);
+                    istSpielEnde();
+
+                });
+                pause.play();
 
 
+            });
 
 
         }
@@ -228,7 +248,8 @@ public class TicTacToeMinispiel extends Minispiel {
     }
 
     private void getErgebnis(){
-        for(int art= 1; 1<=8; art++) {
+
+        for(int art= 1; art<=8; art++) {
             moglich = switch (art) {
                 case 1 -> button1.getText() + button2.getText() + button3.getText();
                 case 2 -> button4.getText() + button5.getText() + button6.getText();
@@ -238,7 +259,7 @@ public class TicTacToeMinispiel extends Minispiel {
                 case 6 -> button3.getText() + button6.getText() + button9.getText();
                 case 7 -> button3.getText() + button5.getText() + button7.getText();
                 case 8 -> button1.getText() + button5.getText() + button9.getText();
-                default -> null;
+                default -> "";
             };
             if (moglich.equals("XXX")) {
                 ButtonList.forEach(ticButton ->{
@@ -261,6 +282,7 @@ public class TicTacToeMinispiel extends Minispiel {
 
             }
         }
+
     }
 
 
