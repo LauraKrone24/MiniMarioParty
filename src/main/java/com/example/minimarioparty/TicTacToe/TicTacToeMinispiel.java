@@ -264,10 +264,7 @@ public class TicTacToeMinispiel extends Minispiel {
     private void istSpielEnde(){
         if (zug>0 && zug<=9){
             getErgebnis();
-        } /*else if (zug==9){
-
-            System.out.println("Unentschieden");
-        }*/
+        }
     }
 
     private void getErgebnis(){
