@@ -42,6 +42,7 @@ public class TicTacToeMinispiel extends Minispiel {
     private int computerRandom;
 
     private boolean spielerDran;
+    private boolean unentschieden;
     private Label startSpieler = new Label();
     private int zug = 0;
     private String moglich;
@@ -153,8 +154,6 @@ public class TicTacToeMinispiel extends Minispiel {
 
 
 
-            System.out.println(ButtonList);
-
             Button neustart = new Button();
             neustart.setLayoutX(100);
             neustart.setLayoutY(500);
@@ -211,7 +210,6 @@ public class TicTacToeMinispiel extends Minispiel {
                 System.out.println("Spieler hat gesetzt");
                 belegteButtons.add(ButtonList.indexOf(bt));
 
-
                 bt.setFont(Font.font("Arial black", 20));
                 zug++;
                 System.out.println("Zug: " + zug);
@@ -264,11 +262,12 @@ public class TicTacToeMinispiel extends Minispiel {
     }
 
     private void istSpielEnde(){
-        if (zug==9){
-            System.out.println("Unentschieden");
-        } else if (zug<9){
+        if (zug>0 && zug<=9){
             getErgebnis();
-        }
+        } /*else if (zug==9){
+
+            System.out.println("Unentschieden");
+        }*/
     }
 
     private void getErgebnis(){
@@ -285,29 +284,37 @@ public class TicTacToeMinispiel extends Minispiel {
                 case 8 -> button1.getText() + button5.getText() + button9.getText();
                 default -> "";
             };
+
             if (moglich.equals("XXX")) {
                 ButtonList.forEach(ticButton ->{
-                    if (ticButton.getText().equals("")){
-                    ticButton.setOnAction(actionEvent -> {
-                        ticButton.setText("");
-                    });
-                }});
+                    ticButton.setDisable(true);
+                });
                 spielerDran=true;
+                unentschieden=false;
                 System.out.println("Spieler hat gewonnen");
-            } else if (moglich.equals("OOO")) {
-                ButtonList.forEach(ticButton ->{if (ticButton.getText().equals("")){
-                    ticButton.setOnAction(actionEvent -> {
-                        ticButton.setText("");
-                    });
-                }
+                break;
+            }
+            else if (moglich.equals("OOO")) {
+                ButtonList.forEach(ticButton ->{
+                    ticButton.setDisable(true);
 
                 });
                 spielerDran=true;
+                unentschieden=false;
 
                 System.out.println("Computer hat gewonnen");
+                break;
+
+            }else if(zug==9){
+                unentschieden=true;
 
             }
         }
+        if (unentschieden==true){
+            System.out.println("Unentschieden");
+            spielerDran=true;
+        }
+
 
     }
 
@@ -315,9 +322,11 @@ public class TicTacToeMinispiel extends Minispiel {
     private void neuStart(){
         ButtonList.forEach(ticButton -> {
             ticButton.setText("");
+            ticButton.setDisable(false);
 
         });
         zug= 0;
+        unentschieden=false;
         belegteButtons.clear();
         werStartet();
         computerSetzen();
