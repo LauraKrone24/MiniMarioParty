@@ -30,6 +30,9 @@ public class KniffelMinispiel extends Minispiel {
     private int countComputer = 0;
     private int rundenCounter = 0;
     private int wuerfelCounter = 0;
+    private int wuerfelZahl;
+    List<Integer> zahlen = new ArrayList<>();
+    private List<Integer> letzteZahlen = new ArrayList<>();
 
     Label punkteSpielerLabel = new Label("Punkte des Spielers: " + punkteSpieler);
 
@@ -226,121 +229,64 @@ public class KniffelMinispiel extends Minispiel {
         // An spielfeldPane übergeben
 
         spielfeldPane.getChildren().addAll(spielfeld, wuerfeln, beenden, wuerfelSpieler1, wuerfelSpieler2, wuerfelSpieler3, wuerfelSpieler4, wuerfelSpieler5, runde, counterWuerfel, punktSpieler, punkteComputer, counterSpieler, counterComputer);
-        List<Integer> zahlen = new ArrayList<>();
+        //List<Integer> zahlen = new ArrayList<>();
         wuerfeln.setOnAction(actionEvent -> {
-            zahlen.clear();
+            //zahlen.clear();
             wuerfelCounter++;
-            if (wuerfelCounter > 3){
-                wuerfelCounter = 1;
-                if (rundenCounter > 3) {
-                    return;
-                }
-            }
-            int zahl1 = (int)(Math.random()*(wuerfelListe.size()-1));
-            Image wuerfel1 = wuerfelListe.get(zahl1).getBild();
+
+            int zahl1 = (int)(Math.random()*6)+1;
+            Image wuerfel1 = wuerfelListe.get(zahl1 -1).getBild();
             wuerfelSpieler1.setImage(wuerfel1);
             wuerfelSpieler1.setVisible(true);
+            //System.out.println("Wuerfelliste: ");
+            //System.out.println(wuerfelListe.size());
             zahlen.add(zahl1);
 
-            int zahl2 = (int)(Math.random()*(wuerfelListe.size()-1));
-            Image wuerfel2 = wuerfelListe.get(zahl2).getBild();
+            int zahl2 = (int)(Math.random()*6)+1;
+            Image wuerfel2 = wuerfelListe.get(zahl2 -1).getBild();
             wuerfelSpieler2.setImage(wuerfel2);
             wuerfelSpieler2.setVisible(true);
             zahlen.add(zahl2);
 
-            int zahl3 = (int)(Math.random()*(wuerfelListe.size()-1));
-            Image wuerfel3 = wuerfelListe.get(zahl3).getBild();
+            int zahl3 = (int)(Math.random()*6)+1;
+            Image wuerfel3 = wuerfelListe.get(zahl3 -1).getBild();
             wuerfelSpieler3.setImage(wuerfel3);
             wuerfelSpieler3.setVisible(true);
             zahlen.add(zahl3);
 
-            int zahl4 = (int)(Math.random()*(wuerfelListe.size()-1));
-            Image wuerfel4 = wuerfelListe.get(zahl4).getBild();
+            int zahl4 = (int)(Math.random()*6)+1;
+            Image wuerfel4 = wuerfelListe.get(zahl4 -1).getBild();
             wuerfelSpieler4.setImage(wuerfel4);
             wuerfelSpieler4.setVisible(true);
             zahlen.add(zahl4);
 
-            int zahl5 = (int)(Math.random()*(wuerfelListe.size()-1));
-            Image wuerfel5 = wuerfelListe.get(zahl5).getBild();
+            int zahl5 = (int)(Math.random()*6)+1;
+            Image wuerfel5 = wuerfelListe.get(zahl5 -1).getBild();
             wuerfelSpieler5.setImage(wuerfel5);
             wuerfelSpieler5.setVisible(true);
             zahlen.add(zahl5);
 
-            wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
 
+            System.out.println(zahlen);
+            System.out.println("-------------------------------------");
+// Kommentar, Logik funktioniert, außer der Counter resettet nicht bei < 3
+            if (wuerfelCounter > 3){
+                wuerfelCounter = 1;
+                System.out.println("funktioniert");
+                if (rundenCounter > 3) {
+                    return;
+                }
+            } else if (wuerfelCounter == 3) {
+                //System.out.println("testtest");
+                autoZaehlen();
+
+            }
+            wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
         });
 
         beenden.setOnAction(ActiveEvent -> {
 
-            int punkte = 0;
-            int punkteMax = 0;
-            boolean klStrasse = false;
-            boolean grStrasse = false;
-
-            Set<Integer> individuelleZahlen = new HashSet<>(zahlen);
-            // Überprüfung auf Dreierfolge
-            boolean dreierfolge = false;
-            for (int i = 0; i <= 4; i++) {
-                if (Collections.frequency(zahlen, i) >= 1 && Collections.frequency(zahlen, i + 1) >= 1 && Collections.frequency(zahlen, i + 2) >= 1) {
-                    dreierfolge = true;
-                    break;
-                }
-            }
-
-            // Überprüfung auf Viererfolge
-            boolean viererfolge = false;
-            for (int i = 0; i <= 3; i++) {
-                if (Collections.frequency(zahlen, i) >= 1 && Collections.frequency(zahlen, i + 1) >= 1 && Collections.frequency(zahlen, i + 2) >= 1 && Collections.frequency(zahlen, i + 3) >= 1) {
-                    viererfolge = true;
-                    break;
-                }
-            }
-
-            // Punktevergabe
-            if (viererfolge) {
-                punkte += 50;
-            } else if (dreierfolge) {
-                punkte += 25;
-            } else {
-                // Überprüfung auf drei gleiche Zahlen
-                boolean zweiGleiche = false;
-                boolean dreiGleiche = false;
-                boolean vierGleiche = false;
-                boolean fuenfGleiche = false;
-
-                for (int zahl : zahlen) {
-                    int anzahl = Collections.frequency(zahlen, zahl);
-                    if (anzahl >= 5) {
-                        fuenfGleiche = true;
-                    } else if (anzahl == 4) {
-                        vierGleiche = true;
-                    } else if (anzahl == 3) {
-                        dreiGleiche = true;
-                    } else if (anzahl == 2) {
-                        zweiGleiche = true;
-                    }
-                }
-
-                if (fuenfGleiche) {
-                    punkte += 100;
-                } else if (zweiGleiche && dreiGleiche) {
-                    punkte += 15;
-                } else if (vierGleiche) {
-                    punkte += 20;
-                } else if (dreiGleiche) {
-                    punkte += 15;
-                } else if (zweiGleiche) {
-                    punkte += 10;
-                }
-            }
-
-
-            punkteSpieler += punkte;
-            zahlen.clear();
-            punktePruefung();
-
-
-            punkteSpielerLabel.setText("Punkte des Spielers: " + punkteSpieler);
+            autoZaehlen();
 
 
 
@@ -371,5 +317,94 @@ public class KniffelMinispiel extends Minispiel {
             wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
 
         }
+    }
+    public void autoZaehlen(){
+        if (zahlen.size() >= 5) {
+            int index = zahlen.size() - 5;
+
+            for (int i = index; i < zahlen.size(); i++) {
+                letzteZahlen.add(zahlen.get(i));
+            }
+        } zaehlen();
+        System.out.println("Letzte Zahlen");
+        System.out.println(letzteZahlen);
+        letzteZahlen.clear();
+    }
+
+    public void wuerfeln(){
+        wuerfelZahl = (int)(Math.random()*6)+1;
+
+    }
+    public void zaehlen(){
+
+        int punkte = 0;
+        boolean klStrasse = false;
+        boolean grStrasse = false;
+
+        Set<Integer> individuelleZahlen = new HashSet<>(letzteZahlen);
+        // Überprüfung auf Dreierfolge
+        boolean dreierfolge = false;
+        for (int i = 0; i <= 4; i++) {
+            if (Collections.frequency(letzteZahlen, i) >= 1 && Collections.frequency(letzteZahlen, i + 1) >= 1 && Collections.frequency(letzteZahlen, i + 2) >= 1) {
+                dreierfolge = true;
+                break;
+            }
+        }
+
+        // Überprüfung auf Viererfolge
+        boolean viererfolge = false;
+        for (int i = 0; i <= 3; i++) {
+            if (Collections.frequency(letzteZahlen, i) >= 1 && Collections.frequency(letzteZahlen, i + 1) >= 1 && Collections.frequency(letzteZahlen, i + 2) >= 1 && Collections.frequency(letzteZahlen, i + 3) >= 1) {
+                viererfolge = true;
+                break;
+            }
+        }
+
+        // Punktevergabe
+        if (viererfolge) {
+            punkte += 50;
+        } else if (dreierfolge) {
+            punkte += 25;
+        } else {
+            // Überprüfung auf drei gleiche Zahlen
+            boolean zweiGleiche = false;
+            boolean dreiGleiche = false;
+            boolean vierGleiche = false;
+            boolean fuenfGleiche = false;
+
+            for (int zahl : letzteZahlen) {
+                int anzahl = Collections.frequency(letzteZahlen, zahl);
+                if (anzahl >= 5) {
+                    fuenfGleiche = true;
+                } else if (anzahl == 4) {
+                    vierGleiche = true;
+                } else if (anzahl == 3) {
+                    dreiGleiche = true;
+                } else if (anzahl == 2) {
+                    zweiGleiche = true;
+                }
+            }
+
+            if (fuenfGleiche) {
+                punkte += 100;
+            } else if (zweiGleiche && dreiGleiche) {
+                punkte += 15;
+            } else if (vierGleiche) {
+                punkte += 20;
+            } else if (dreiGleiche) {
+                punkte += 15;
+            } else if (zweiGleiche) {
+                punkte += 10;
+            }
+        }
+
+
+        punkteSpieler += punkte;
+        zahlen.clear();
+        punktePruefung();
+
+
+        punkteSpielerLabel.setText("Punkte des Spielers: " + punkteSpieler);
+
     }
 }
