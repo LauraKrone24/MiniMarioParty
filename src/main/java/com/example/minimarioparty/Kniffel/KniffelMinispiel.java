@@ -31,6 +31,7 @@ public class KniffelMinispiel extends Minispiel {
     private int rundenCounter = 0;
     private int wuerfelCounter = 0;
     private int wuerfelZahl;
+    private boolean beendenGedrueckt = false;
     List<Integer> zahlen = new ArrayList<>();
     private List<Integer> letzteZahlen = new ArrayList<>();
 
@@ -276,9 +277,10 @@ public class KniffelMinispiel extends Minispiel {
                 if (rundenCounter > 3) {
                     return;
                 }
-            } else if (wuerfelCounter == 3) {
+            } else if (wuerfelCounter == 3 ) {
                 //System.out.println("testtest");
                 autoZaehlen();
+
 
             }
             wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
@@ -287,6 +289,7 @@ public class KniffelMinispiel extends Minispiel {
         beenden.setOnAction(ActiveEvent -> {
 
             autoZaehlen();
+            beendenGedrueckt = true;
 
 
 
@@ -318,6 +321,10 @@ public class KniffelMinispiel extends Minispiel {
 
         }
     }
+    private boolean isBeendenGedrueckt(){
+        return beendenGedrueckt;
+    }
+
     public void autoZaehlen(){
         if (zahlen.size() >= 5) {
             int index = zahlen.size() - 5;
@@ -343,27 +350,27 @@ public class KniffelMinispiel extends Minispiel {
 
         Set<Integer> individuelleZahlen = new HashSet<>(letzteZahlen);
         // Überprüfung auf Dreierfolge
-        boolean dreierfolge = false;
+
         for (int i = 0; i <= 4; i++) {
             if (Collections.frequency(letzteZahlen, i) >= 1 && Collections.frequency(letzteZahlen, i + 1) >= 1 && Collections.frequency(letzteZahlen, i + 2) >= 1) {
-                dreierfolge = true;
+                klStrasse = true;
                 break;
             }
         }
 
-        // Überprüfung auf Viererfolge
-        boolean viererfolge = false;
+        // Prüfung grosse Strasse
+
         for (int i = 0; i <= 3; i++) {
             if (Collections.frequency(letzteZahlen, i) >= 1 && Collections.frequency(letzteZahlen, i + 1) >= 1 && Collections.frequency(letzteZahlen, i + 2) >= 1 && Collections.frequency(letzteZahlen, i + 3) >= 1) {
-                viererfolge = true;
+                grStrasse = true;
                 break;
             }
         }
 
         // Punktevergabe
-        if (viererfolge) {
+        if (grStrasse) {
             punkte += 50;
-        } else if (dreierfolge) {
+        } else if (klStrasse) {
             punkte += 25;
         } else {
             // Überprüfung auf drei gleiche Zahlen
