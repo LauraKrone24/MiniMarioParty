@@ -258,6 +258,9 @@ public class KniffelMinispiel_TEST extends Minispiel {
             } else if (wuerfelCounter == 3 ) {
                 //System.out.println("testtest");
                 autoZaehlen();
+                zahlen.clear();
+                beendenGedrueckt = true;
+                spielerZugBeendet();
 
 
             }
@@ -288,6 +291,12 @@ public class KniffelMinispiel_TEST extends Minispiel {
     private void spielerZugBeendet(){
         wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
         wuerfelnComputer();
+    }
+
+    private void computerZugBeendet(){
+        wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
+        beendenGedrueckt = false;
+        return;
     }
 
 
@@ -330,7 +339,11 @@ public class KniffelMinispiel_TEST extends Minispiel {
         spielfeldPane.getChildren().add(wuerfelComputer5);
 
         System.out.println("geht in Computer");
-        zahlen.clear();
+
+        System.out.println("Letzte Zahlen Computer");
+
+
+
         wuerfelCounter = 0;
         wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
 
@@ -368,6 +381,10 @@ public class KniffelMinispiel_TEST extends Minispiel {
         wuerfelComputer5.setImage(wuerfel5);
         wuerfelComputer5.setVisible(true);
         zahlen.add(zahl5);
+
+        System.out.println(zahlen);
+        System.out.println("Computer -------------------------------------");
+
         wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
 
 
@@ -432,16 +449,38 @@ public class KniffelMinispiel_TEST extends Minispiel {
             }
         }
 
-        if (punkte >= 25) {
+        if (punkte >= 25 || wuerfelCounter > 3) {
             punkteComputer += punkte;
             zahlen.clear();
             punktePruefung();
+            wuerfelComputer1.setVisible(false);
+            wuerfelComputer2.setVisible(false);
+            wuerfelComputer3.setVisible(false);
+            wuerfelComputer4.setVisible(false);
+            wuerfelComputer5.setVisible(false);
 
 
             punkteComputerLabel.setText("Punkte des Computers: " + punkteComputer);
             beendenGedrueckt = false;
+            computerZugBeendet();
             return;
         }
+        else if (wuerfelCounter > 3){
+            wuerfelCounter = 1;
+            System.out.println("funktioniert");
+            if (rundenCounter > 3) {
+                return;
+            }
+        } else if (wuerfelCounter == 3 ) {
+            //System.out.println("testtest");
+            autoZaehlen();
+            zahlen.clear();
+            beendenGedrueckt = true;
+            computerZugBeendet();
+
+
+        }
+        wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
     }
 
 
