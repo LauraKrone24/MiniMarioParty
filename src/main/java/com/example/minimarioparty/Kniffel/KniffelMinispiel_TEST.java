@@ -201,7 +201,7 @@ public class KniffelMinispiel_TEST extends Minispiel {
 
         // An spielfeldPane übergeben
 
-        spielfeldPane.getChildren().addAll(spielfeld, wuerfeln, beenden, wuerfelSpieler1, wuerfelSpieler2, wuerfelSpieler3, wuerfelSpieler4, wuerfelSpieler5, wuerfelComputer1, wuerfelComputer2, wuerfelComputer3, wuerfelComputer4, wuerfelComputer5, counterWuerfel, punktSpieler, punkteComputer, counterSpieler, counterComputer);
+        spielfeldPane.getChildren().addAll(spielfeld, wuerfeln, beenden, wuerfelSpieler1, wuerfelSpieler2, wuerfelSpieler3, wuerfelSpieler4, wuerfelSpieler5, wuerfelComputer1, wuerfelComputer2, wuerfelComputer3, wuerfelComputer4, wuerfelComputer5, counterWuerfel, punktSpieler, punkteComputer, counterSpieler, counterComputer, runde);
         //List<Integer> zahlen = new ArrayList<>();
         wuerfeln.setOnAction(actionEvent -> {
             //zahlen.clear();
@@ -249,13 +249,16 @@ public class KniffelMinispiel_TEST extends Minispiel {
     public void punktePruefung(){
         if (punkteSpieler >= 100 && (punkteSpieler > punkteComputer)){
             punkteSpieler = 0;
+            punkteComputer = 0;
             countSpieler++;
+            punkteComputerLabel.setText("");
             countSpielerLabel.setText("Rundensiege Spieler: " + countSpieler);
             rundenCounter++;
             rundenCounterLabel.setText("Aktuelle Runde: " + Integer.toString(rundenCounter));
             wuerfelCounter = 0;
             wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
         }else if (punkteComputer >= 100 && (punkteComputer > punkteSpieler)){
+            punkteSpieler = 0;
             punkteComputer = 0;
             countComputer++;
             countComputerLabel.setText("Rundensiege Computer: " + countComputer);
@@ -316,12 +319,12 @@ public class KniffelMinispiel_TEST extends Minispiel {
         wuerfelSpieler5.setVisible(true);
         zahlen.add(zahl5);
 
-
+        System.out.println("Letzte Zahlen Spieler");
         System.out.println(zahlen);
-        System.out.println("-------------------------------------");
+        System.out.println("Spieler -------------------------------------");
 // Kommentar, Logik funktioniert, außer der Counter resettet nicht bei < 3
         if (wuerfelCounter > 3) {
-            wuerfelCounter = 1;
+            wuerfelCounter = 0;
             System.out.println("funktioniert");
             if (rundenCounter > 3) {
                 return;
@@ -354,7 +357,7 @@ public class KniffelMinispiel_TEST extends Minispiel {
 
         System.out.println("geht in Computer");
 
-        System.out.println("Letzte Zahlen Computer");
+
 
 
 
@@ -396,111 +399,29 @@ public class KniffelMinispiel_TEST extends Minispiel {
         wuerfelComputer5.setVisible(true);
         zahlen.add(zahl5);
 
+        System.out.println("Letzte Zahlen Computer");
         System.out.println(zahlen);
         System.out.println("Computer -------------------------------------");
 
-        wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
-
-
-        int punkte = 0;
-        boolean klStrasse = false;
-        boolean grStrasse = false;
-
-        Set<Integer> individuelleZahlen = new HashSet<>(letzteZahlen);
-        // Überprüfung auf Dreierfolge
-
-        for (int i = 0; i <= 4; i++) {
-            if (Collections.frequency(letzteZahlen, i) >= 1 && Collections.frequency(letzteZahlen, i + 1) >= 1 && Collections.frequency(letzteZahlen, i + 2) >= 1) {
-                klStrasse = true;
-                break;
-            }
-        }
-
-        // Prüfung grosse Strasse
-
-        for (int i = 0; i <= 3; i++) {
-            if (Collections.frequency(letzteZahlen, i) >= 1 && Collections.frequency(letzteZahlen, i + 1) >= 1 && Collections.frequency(letzteZahlen, i + 2) >= 1 && Collections.frequency(letzteZahlen, i + 3) >= 1) {
-                grStrasse = true;
-                break;
-            }
-        }
-
-        // Punktevergabe
-        if (grStrasse) {
-            punkte += 50;
-        } else if (klStrasse) {
-            punkte += 25;
-        } else {
-            // Überprüfung auf drei gleiche Zahlen
-            boolean zweiGleiche = false;
-            boolean dreiGleiche = false;
-            boolean vierGleiche = false;
-            boolean fuenfGleiche = false;
-
-            for (int zahl : letzteZahlen) {
-                int anzahl = Collections.frequency(letzteZahlen, zahl);
-                if (anzahl >= 5) {
-                    fuenfGleiche = true;
-                } else if (anzahl == 4) {
-                    vierGleiche = true;
-                } else if (anzahl == 3) {
-                    dreiGleiche = true;
-                } else if (anzahl == 2) {
-                    zweiGleiche = true;
-                }
-            }
-
-            if (fuenfGleiche) {
-                punkte += 100;
-            } else if (zweiGleiche && dreiGleiche) {
-                punkte += 15;
-            } else if (vierGleiche) {
-                punkte += 20;
-            } else if (dreiGleiche) {
-                punkte += 15;
-            } else if (zweiGleiche) {
-                punkte += 10;
-            }
-        }
-
-        if (punkte >= 25 || wuerfelCounter > 3) {
-            punkteComputer += punkte;
-            zahlen.clear();
-            punktePruefung();
-            wuerfelComputer1.setDisable(true);
-            wuerfelComputer2.setDisable(true);
-            wuerfelComputer3.setDisable(true);
-            wuerfelComputer4.setDisable(true);
-            wuerfelComputer5.setDisable(true);
-
-
-            punkteComputerLabel.setText("Punkte des Computers: " + punkteComputer);
-            beendenGedrueckt = false;
-            computerZugBeendet();
-            return;
-        }
-        else if (wuerfelCounter > 3){
-            wuerfelComputer1.setDisable(true);
-            wuerfelComputer2.setDisable(true);
-            wuerfelComputer3.setDisable(true);
-            wuerfelComputer4.setDisable(true);
-            wuerfelComputer5.setDisable(true);
-            zahlen.clear();
-            wuerfelCounter = 1;
+        if (wuerfelCounter > 3) {
+            wuerfelCounter = 0;
             System.out.println("funktioniert");
             if (rundenCounter > 3) {
                 return;
             }
-        } else if (wuerfelCounter == 3 ) {
+        } else if (wuerfelCounter == 3) {
             //System.out.println("testtest");
             autoZaehlen();
             zahlen.clear();
-            beendenGedrueckt = true;
+            beendenGedrueckt = false;
             computerZugBeendet();
 
 
         }
         wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
+
+
+
     }
 
 
@@ -689,13 +610,21 @@ public class KniffelMinispiel_TEST extends Minispiel {
             }
         }
 
+        if (beendenGedrueckt == false) {
+            punkteSpieler += punkte;
+            zahlen.clear();
+            punktePruefung();
 
-        punkteSpieler += punkte;
-        zahlen.clear();
-        punktePruefung();
 
-
-        punkteSpielerLabel.setText("Punkte des Spielers: " + punkteSpieler);
+            punkteSpielerLabel.setText("Punkte des Spielers: " + punkteSpieler);
+            punkteComputerLabel.setText("Punkte des Computers: " + punkteComputer);
+        } else{
+            punkteComputer += punkte;
+            zahlen.clear();
+            punktePruefung();
+            punkteSpielerLabel.setText("Punkte des Spielers: " + punkteSpieler);
+            punkteComputerLabel.setText("Punkte des Computers: " + punkteComputer);
+        }
 
     }
 }
