@@ -205,66 +205,12 @@ public class KniffelMinispiel_TEST extends Minispiel {
         //List<Integer> zahlen = new ArrayList<>();
         wuerfeln.setOnAction(actionEvent -> {
             //zahlen.clear();
+            if (beendenGedrueckt == false) {
+                wuerfelnSpieler();
 
-            if (wuerfelCounter == 3 || isBeendenGedrueckt()) {
-                spielerZugBeendet();
+            } else{
+                wuerfelnComputer();
             }
-
-            wuerfelCounter++;
-
-
-            int zahl1 = (int) (Math.random() * 6) + 1;
-            Image wuerfel1 = wuerfelListe.get(zahl1 - 1).getBild();
-            wuerfelSpieler1.setImage(wuerfel1);
-            wuerfelSpieler1.setVisible(true);
-            //System.out.println("Wuerfelliste: ");
-            //System.out.println(wuerfelListe.size());
-            zahlen.add(zahl1);
-
-            int zahl2 = (int) (Math.random() * 6) + 1;
-            Image wuerfel2 = wuerfelListe.get(zahl2 - 1).getBild();
-            wuerfelSpieler2.setImage(wuerfel2);
-            wuerfelSpieler2.setVisible(true);
-            zahlen.add(zahl2);
-
-            int zahl3 = (int) (Math.random() * 6) + 1;
-            Image wuerfel3 = wuerfelListe.get(zahl3 - 1).getBild();
-            wuerfelSpieler3.setImage(wuerfel3);
-            wuerfelSpieler3.setVisible(true);
-            zahlen.add(zahl3);
-
-            int zahl4 = (int) (Math.random() * 6) + 1;
-            Image wuerfel4 = wuerfelListe.get(zahl4 - 1).getBild();
-            wuerfelSpieler4.setImage(wuerfel4);
-            wuerfelSpieler4.setVisible(true);
-            zahlen.add(zahl4);
-
-            int zahl5 = (int) (Math.random() * 6) + 1;
-            Image wuerfel5 = wuerfelListe.get(zahl5 - 1).getBild();
-            wuerfelSpieler5.setImage(wuerfel5);
-            wuerfelSpieler5.setVisible(true);
-            zahlen.add(zahl5);
-
-
-            System.out.println(zahlen);
-            System.out.println("-------------------------------------");
-// Kommentar, Logik funktioniert, außer der Counter resettet nicht bei < 3
-            if (wuerfelCounter > 3){
-                wuerfelCounter = 1;
-                System.out.println("funktioniert");
-                if (rundenCounter > 3) {
-                    return;
-                }
-            } else if (wuerfelCounter == 3 ) {
-                //System.out.println("testtest");
-                autoZaehlen();
-                zahlen.clear();
-                beendenGedrueckt = true;
-                spielerZugBeendet();
-
-
-            }
-            wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
         });
 
         beenden.setOnAction(ActiveEvent -> {
@@ -296,7 +242,7 @@ public class KniffelMinispiel_TEST extends Minispiel {
     private void computerZugBeendet(){
         wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
         beendenGedrueckt = false;
-        return;
+        wuerfelnSpieler();
     }
 
 
@@ -324,7 +270,75 @@ public class KniffelMinispiel_TEST extends Minispiel {
         return beendenGedrueckt;
     }
 
-    private void wuerfelnComputer() {
+
+    private void wuerfelnSpieler(){
+
+        List<ImageView> wuerfelPlayer = initialisiereWuerfelPlayer();
+        ImageView wuerfelSpieler1 = wuerfelPlayer.get(0);
+        ImageView wuerfelSpieler2 = wuerfelPlayer.get(1);
+        ImageView wuerfelSpieler3 = wuerfelPlayer.get(2);
+        ImageView wuerfelSpieler4 = wuerfelPlayer.get(3);
+        ImageView wuerfelSpieler5 = wuerfelPlayer.get(4);
+        spielfeldPane.getChildren().addAll(wuerfelSpieler1, wuerfelSpieler2, wuerfelSpieler3, wuerfelSpieler4, wuerfelSpieler5);
+
+        wuerfelCounter++;
+
+
+        int zahl1 = (int) (Math.random() * 6) + 1;
+        Image wuerfel1 = wuerfelListe.get(zahl1 - 1).getBild();
+        wuerfelSpieler1.setImage(wuerfel1);
+        wuerfelSpieler1.setVisible(true);
+        //System.out.println("Wuerfelliste: ");
+        //System.out.println(wuerfelListe.size());
+        zahlen.add(zahl1);
+
+        int zahl2 = (int) (Math.random() * 6) + 1;
+        Image wuerfel2 = wuerfelListe.get(zahl2 - 1).getBild();
+        wuerfelSpieler2.setImage(wuerfel2);
+        wuerfelSpieler2.setVisible(true);
+        zahlen.add(zahl2);
+
+        int zahl3 = (int) (Math.random() * 6) + 1;
+        Image wuerfel3 = wuerfelListe.get(zahl3 - 1).getBild();
+        wuerfelSpieler3.setImage(wuerfel3);
+        wuerfelSpieler3.setVisible(true);
+        zahlen.add(zahl3);
+
+        int zahl4 = (int) (Math.random() * 6) + 1;
+        Image wuerfel4 = wuerfelListe.get(zahl4 - 1).getBild();
+        wuerfelSpieler4.setImage(wuerfel4);
+        wuerfelSpieler4.setVisible(true);
+        zahlen.add(zahl4);
+
+        int zahl5 = (int) (Math.random() * 6) + 1;
+        Image wuerfel5 = wuerfelListe.get(zahl5 - 1).getBild();
+        wuerfelSpieler5.setImage(wuerfel5);
+        wuerfelSpieler5.setVisible(true);
+        zahlen.add(zahl5);
+
+
+        System.out.println(zahlen);
+        System.out.println("-------------------------------------");
+// Kommentar, Logik funktioniert, außer der Counter resettet nicht bei < 3
+        if (wuerfelCounter > 3) {
+            wuerfelCounter = 1;
+            System.out.println("funktioniert");
+            if (rundenCounter > 3) {
+                return;
+            }
+        } else if (wuerfelCounter == 3) {
+            //System.out.println("testtest");
+            autoZaehlen();
+            zahlen.clear();
+            beendenGedrueckt = true;
+            spielerZugBeendet();
+
+
+        }
+        wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
+
+    }
+    private void wuerfelnComputer(){
 
         List<ImageView> wuerfelComputer = initialisiereWuerfelComputer();
         ImageView wuerfelComputer1 = wuerfelComputer.get(0);
@@ -344,7 +358,7 @@ public class KniffelMinispiel_TEST extends Minispiel {
 
 
 
-        wuerfelCounter = 0;
+        //wuerfelCounter = 0;
         wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
 
         wuerfelCounter++;
@@ -453,11 +467,11 @@ public class KniffelMinispiel_TEST extends Minispiel {
             punkteComputer += punkte;
             zahlen.clear();
             punktePruefung();
-            wuerfelComputer1.setVisible(false);
-            wuerfelComputer2.setVisible(false);
-            wuerfelComputer3.setVisible(false);
-            wuerfelComputer4.setVisible(false);
-            wuerfelComputer5.setVisible(false);
+            wuerfelComputer1.setDisable(true);
+            wuerfelComputer2.setDisable(true);
+            wuerfelComputer3.setDisable(true);
+            wuerfelComputer4.setDisable(true);
+            wuerfelComputer5.setDisable(true);
 
 
             punkteComputerLabel.setText("Punkte des Computers: " + punkteComputer);
@@ -466,6 +480,12 @@ public class KniffelMinispiel_TEST extends Minispiel {
             return;
         }
         else if (wuerfelCounter > 3){
+            wuerfelComputer1.setDisable(true);
+            wuerfelComputer2.setDisable(true);
+            wuerfelComputer3.setDisable(true);
+            wuerfelComputer4.setDisable(true);
+            wuerfelComputer5.setDisable(true);
+            zahlen.clear();
             wuerfelCounter = 1;
             System.out.println("funktioniert");
             if (rundenCounter > 3) {
