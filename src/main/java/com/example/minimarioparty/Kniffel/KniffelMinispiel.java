@@ -1,7 +1,5 @@
 package com.example.minimarioparty.Kniffel;
 
-
-
 import com.example.minimarioparty.GuterWuerfel;
 import com.example.minimarioparty.Minispiel;
 import com.example.minimarioparty.SchlechterWuerfel;
