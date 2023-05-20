@@ -4,6 +4,7 @@ import com.example.minimarioparty.Minispiel;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -50,6 +51,11 @@ public class Huerdenlauf extends Minispiel {
             pHurdles = new ArrayList<>();
 
             playerPane.getChildren().add(player);
+            Label playerCounterLabel = new Label("0"); // Initialwert des Counters
+            playerCounterLabel.setLayoutX(playerPane.getPrefWidth() / 2 - 10); // Position des Labels in der Mitte oben
+            playerCounterLabel.setLayoutY(10);
+
+            playerPane.getChildren().add(playerCounterLabel);
 
             p.getChildren().add(playerPane); // PlayerPane zur Haupt-Pane hinzufügen
             playerGame = new AnimationTimer() {
@@ -73,6 +79,11 @@ public class Huerdenlauf extends Minispiel {
             cHurdles  = new ArrayList<>();
 
             computerPane.getChildren().add(com);
+
+            Label comCounterLabel = new Label("0"); // Initialwert des Counters
+            comCounterLabel.setLayoutX(computerPane.getPrefWidth() / 2 - 10); // Position des Labels in der Mitte oben
+            comCounterLabel.setLayoutY(10);
+            computerPane.getChildren().add(comCounterLabel);
 
             p.getChildren().add(computerPane); // PlayerPane zur Haupt-Pane hinzufügen
 
