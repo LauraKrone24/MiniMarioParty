@@ -74,7 +74,7 @@ public class TicTacToeMinispiel extends Minispiel {
 
             startSpieler.setLayoutX(100);
             startSpieler.setLayoutY(300);
-            startSpieler.setFont(Font.font("Arial black", 16));
+            startSpieler.setFont(Font.font("Arial black", 20));
 
             ButtonList.forEach(ticButton -> {
                 ticButton.setPrefHeight(buttonHeightWidth);
@@ -191,12 +191,14 @@ public class TicTacToeMinispiel extends Minispiel {
         if(starter == 1){
             spielerDran=true;
             startSpieler.setText("Spieler beginnt");
+            startSpieler.setTextFill(Paint.valueOf("#000000"));
             startSpieler.setBackground(new Background(new BackgroundFill(Paint.valueOf("#7eb774"), CornerRadii.EMPTY, Insets.EMPTY)));
             System.out.println("Spieler startet");
         }
         else{
             spielerDran=false;
             startSpieler.setText("Computer beginnt");
+            startSpieler.setTextFill(Paint.valueOf("#000000"));
             startSpieler.setBackground(new Background(new BackgroundFill(Paint.valueOf("#ed7b84"), CornerRadii.EMPTY, Insets.EMPTY)));
             System.out.println("Computer startet");
         }
@@ -288,6 +290,9 @@ public class TicTacToeMinispiel extends Minispiel {
                 });
                 spielerDran=true;
                 unentschieden=false;
+                startSpieler.setText("Du hast gewonnen!");
+                startSpieler.setBackground(new Background(new BackgroundFill(Paint.valueOf("#121212"), CornerRadii.EMPTY, Insets.EMPTY)));
+                startSpieler.setTextFill(Paint.valueOf("#7eb774"));
                 System.out.println("Spieler hat gewonnen");
                 break;
             }
@@ -298,7 +303,9 @@ public class TicTacToeMinispiel extends Minispiel {
                 });
                 spielerDran=true;
                 unentschieden=false;
-
+                startSpieler.setText("Computer hat gewonnen");
+                startSpieler.setBackground(new Background(new BackgroundFill(Paint.valueOf("#121212"), CornerRadii.EMPTY, Insets.EMPTY)));
+                startSpieler.setTextFill(Paint.valueOf("#ed7b84"));
                 System.out.println("Computer hat gewonnen");
                 break;
 
