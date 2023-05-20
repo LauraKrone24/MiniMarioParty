@@ -26,7 +26,10 @@ public class Huerdenlauf extends Minispiel {
     private AnimationTimer playerGame;
     private AnimationTimer comGame;
     private boolean isJumping = false;
-    private int count;
+    private int playerCount;
+    private int comCount;
+    private Label playerCounterLabel;
+    private Label comCounterLabel;
     @Override
     public void start(Stage stage) throws IOException {
         this.stage = stage;
@@ -51,7 +54,8 @@ public class Huerdenlauf extends Minispiel {
             pHurdles = new ArrayList<>();
 
             playerPane.getChildren().add(player);
-            Label playerCounterLabel = new Label("0"); // Initialwert des Counters
+            playerCount = 0;
+            playerCounterLabel = new Label(Integer.toString(playerCount)); // Initialwert des Counters
             playerCounterLabel.setLayoutX(playerPane.getPrefWidth() / 2 - 10); // Position des Labels in der Mitte oben
             playerCounterLabel.setLayoutY(10);
 
@@ -79,8 +83,8 @@ public class Huerdenlauf extends Minispiel {
             cHurdles  = new ArrayList<>();
 
             computerPane.getChildren().add(com);
-
-            Label comCounterLabel = new Label("0"); // Initialwert des Counters
+            comCount = 0;
+            comCounterLabel = new Label(Integer.toString(comCount)); // Initialwert des Counters
             comCounterLabel.setLayoutX(computerPane.getPrefWidth() / 2 - 10); // Position des Labels in der Mitte oben
             comCounterLabel.setLayoutY(10);
             computerPane.getChildren().add(comCounterLabel);
@@ -125,8 +129,8 @@ public class Huerdenlauf extends Minispiel {
             pGame = false;
 
         moveHurdles(hurdles);
-        removePassedHurdles(pane,hurdles);
-        if (checkCollision(hurdles)) {
+        removePassedHurdles(pane,hurdles,pGame);
+        if (checkCollision(hurdles,pGame)) {
             stopGame(pGame);
         }
         Platform.runLater(() -> p.requestLayout());
@@ -134,38 +138,48 @@ public class Huerdenlauf extends Minispiel {
 
     public void moveHurdles(List<Hurdle> hurdles) {
         for (Hurdle hurdle : hurdles) {
-            hurdle.move(30); //
+            hurdle.move(25); // 25 schwer 30 einfach
         }
     }
 
-    public void removePassedHurdles(Pane pane, List<Hurdle> hurdles) {
-        count=0;
+    public void removePassedHurdles(Pane pane, List<Hurdle> hurdles, boolean pGame) {
+        int removedHurdleCount = 0; // Variable zum Zählen der entfernten Hürden
         Iterator<Hurdle> iterator = hurdles.iterator();
         while (iterator.hasNext()) {
             Hurdle hurdle = iterator.next();
-            if (hurdle.getX() + hurdle.getWidth() < 90) {
+            if (hurdle.getX() + hurdle.getWidth() < 90 && hurdle.getX() > -20) {
                 iterator.remove();
                 Platform.runLater(() -> pane.getChildren().remove(hurdle));
+                removedHurdleCount++; // Anzahl der entfernten Hürden erhöhen
             }
-            count++;
+        }
+
+        // Zähler separat aktualisieren, basierend auf der Anzahl der entfernten Hürden
+        if (pGame && removedHurdleCount  > 0) {
+            playerCount += removedHurdleCount;
+            playerCounterLabel.setText(Integer.toString(playerCount));
+        }
+        if (!pGame && removedHurdleCount > 0){
+            comCount += removedHurdleCount;
+            comCounterLabel.setText(Integer.toString(comCount));
         }
     }
 
-    public boolean checkCollision(List<Hurdle> hurdles) {
+    public boolean checkCollision(List<Hurdle> hurdles,boolean pGame) {
+        PlayerObj playerObj = pGame ? player : com;
         for (Hurdle hurdle : hurdles) {
-            if (player.getRectangle().intersects(hurdle.getX(),hurdle.getY(),hurdle.getWidth(),hurdle.getHeight())) {
+            if (playerObj.getRectangle().intersects(hurdle.getX(), hurdle.getY(), hurdle.getWidth(), hurdle.getHeight())) {
                 return true; // Kollision gefunden
             }
         }
         return false; // Keine Kollision gefunden
     }
 
-
     public void addHurdles(Pane pane, List<Hurdle> hurdles) {
         if (Math.random() < 0.3) {
             int hurdleWidth = 30;
             int hurdleHeight = 50;
-            int hurdleX = (int) pane.getWidth();
+            int hurdleX = (int) pane.getWidth() ;
             int hurdleY = (int) (pane.getHeight() - hurdleHeight - 50);
 
             int hurdleSpacing = (int) (Math.random() * 101) + 200;
@@ -174,13 +188,10 @@ public class Huerdenlauf extends Minispiel {
                 Hurdle newHurdle = new Hurdle(hurdleX, hurdleY, hurdleWidth, hurdleHeight);
                 hurdles.add(newHurdle);
 
-                // Hinzufügen zur JavaFX-Pane auf dem JavaFX Application Thread
                 Platform.runLater(() -> pane.getChildren().add(newHurdle));
             }
         }
     }
-
-
 
     public void jump(PlayerObj o) {
         if (!isJumping && o != null) {
