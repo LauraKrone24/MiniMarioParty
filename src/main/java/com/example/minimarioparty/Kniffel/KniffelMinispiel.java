@@ -233,7 +233,6 @@ public class KniffelMinispiel extends Minispiel {
 
 
         // An spielfeldPane übergeben
-
         spielfeldPane.getChildren().addAll(spielfeld, wuerfeln, beenden, wuerfelSpieler1, wuerfelSpieler2, wuerfelSpieler3, wuerfelSpieler4, wuerfelSpieler5, wuerfelComputer1, wuerfelComputer2, wuerfelComputer3, wuerfelComputer4, wuerfelComputer5, counterWuerfel, punktSpieler, punkteComputer, counterSpieler, counterComputer, runde, amZug);
 
         wuerfeln.setOnAction(actionEvent -> {
@@ -634,8 +633,8 @@ public class KniffelMinispiel extends Minispiel {
 
         // Prüfung auf kleine Strasse
 
-        for (int i = 0; i <= 4; i++) {
-            if (Collections.frequency(letzteZahlen, i) >= 1 && Collections.frequency(letzteZahlen, i + 1) >= 1 && Collections.frequency(letzteZahlen, i + 2) >= 1) {
+        for (int i = 0; i <= 3; i++) {
+            if (Collections.frequency(letzteZahlen, i) >= 1 && Collections.frequency(letzteZahlen, i + 1) >= 1 && Collections.frequency(letzteZahlen, i + 2) >= 1 && Collections.frequency(letzteZahlen, i + 3) >= 1) {
                 klStrasse = true;
                 break;
             }
@@ -643,8 +642,8 @@ public class KniffelMinispiel extends Minispiel {
 
         // Pruefung grosse Strasse
 
-        for (int i = 0; i <= 3; i++) {
-            if (Collections.frequency(letzteZahlen, i) >= 1 && Collections.frequency(letzteZahlen, i + 1) >= 1 && Collections.frequency(letzteZahlen, i + 2) >= 1 && Collections.frequency(letzteZahlen, i + 3) >= 1) {
+        for (int i = 0; i <= 2; i++) {
+            if (Collections.frequency(letzteZahlen, i) >= 1 && Collections.frequency(letzteZahlen, i + 1) >= 1 && Collections.frequency(letzteZahlen, i + 2) >= 1 && Collections.frequency(letzteZahlen, i + 3) >= 1 && Collections.frequency(letzteZahlen, i + 3) >= 1 && Collections.frequency(letzteZahlen, i + 4) >= 1) {
                 grStrasse = true;
                 break;
             }
@@ -685,6 +684,8 @@ public class KniffelMinispiel extends Minispiel {
                 punkte += 15;
             } else if (zwilling) {
                 punkte += 10;
+            } else {
+                punkte += 0;
             }
         }
 
