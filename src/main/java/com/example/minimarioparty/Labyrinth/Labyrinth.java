@@ -13,34 +13,26 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Labyrinth extends Minispiel {
-    LaberithField[][] feld = new LaberithField[21][21];
-
-    LaberithField aktuellesFeldComputer;
-    LaberithField zielFeld;
-
-    Label countDownWin;
-
-    Rectangle hideRect;
-
-    LaberithField aktuellesFeldSpieler;
-
-    List<LaberithField> spielerpfad;
-
-    List<LaberithField> computerpfad;
-    Boolean gewonnen = false;
+    private LabyrinthField[][] feld = new LabyrinthField[21][21];
+    private LabyrinthField aktuellesFeldComputer;
+    private LabyrinthField zielFeld;
+    private Label countDownWin;
+    private Rectangle hideRect;
+    private LabyrinthField aktuellesFeldSpieler;
+    private List<LabyrinthField> computerpfad;
+    private Boolean gewonnen = false;
     private int direction=2;
-    Stage stage;
+
     @Override
 
     public void start(Stage stage) throws IOException {
-        this.stage = stage;
+
         if(leicht){
             minispielrueckgabewert.setWuerfel(new SchlechterWuerfel());
             MinispielSchwierigkeitLable.setText("Leicht");
@@ -57,13 +49,13 @@ public class Labyrinth extends Minispiel {
         MinispielTitleLabel.setText("Labyrinth Minispiel");
 
         spielanleitungText = "Ziel des Spiels ist es schneller als der Computer durch das Laberinth zum roten Zielfeld in der Mitte zu gelangen. Steuere dafür über die Tasten a,w,s und d. ";
-
+        List<LabyrinthField> spielerpfad;
         do{
             createFeld();
-            spielerpfad =  BreitensucheFelder.findePfad(aktuellesFeldSpieler,zielFeld);
+            spielerpfad =  BreitensucheImLabyrinth.findWay(aktuellesFeldSpieler,zielFeld);
             zielFeld.setMarkiert(false);
             zielFeld.setSuchPfad(new ArrayList<>());
-            computerpfad = BreitensucheFelder.findePfad(aktuellesFeldComputer,zielFeld);
+            computerpfad = BreitensucheImLabyrinth.findWay(aktuellesFeldComputer,zielFeld);
 
         }while(spielerpfad.isEmpty()||computerpfad.isEmpty());
 
@@ -72,8 +64,8 @@ public class Labyrinth extends Minispiel {
 
 
 
-        for(LaberithField[] a: Arrays.stream(feld).toList()){
-            for(LaberithField b: a){
+        for(LabyrinthField[] a: Arrays.stream(feld).toList()){
+            for(LabyrinthField b: a){
                 if(b.getSelectValue()!=1){b.setMarkiert(false);}
                 gamePane.getChildren().add(b);
             }
@@ -112,10 +104,10 @@ public class Labyrinth extends Minispiel {
                 hideRect.setVisible(false);
                 p.setOnKeyPressed(e -> {
                 switch (e.getCode()){
-                    case A -> setAktuellesFeld(aktuellesFeldSpieler.getLeft());
-                    case W -> setAktuellesFeld(aktuellesFeldSpieler.getTop());
-                    case S -> setAktuellesFeld(aktuellesFeldSpieler.getBottom());
-                    case D -> setAktuellesFeld(aktuellesFeldSpieler.getRight());
+                    case A -> setAktuellesSpielerFeld(aktuellesFeldSpieler.getLeft());
+                    case W -> setAktuellesSpielerFeld(aktuellesFeldSpieler.getTop());
+                    case S -> setAktuellesSpielerFeld(aktuellesFeldSpieler.getBottom());
+                    case D -> setAktuellesSpielerFeld(aktuellesFeldSpieler.getRight());
 
                 }
 
@@ -133,31 +125,11 @@ public class Labyrinth extends Minispiel {
         pause.setOnFinished(event->{
 
 
-            if(((aktuellesFeldComputer.num!=zielFeld.num)&&(!gewonnen) &&(!computerpfad.isEmpty()))){
+            if(((aktuellesFeldComputer.getNum()!=zielFeld.getNum())&&(!gewonnen) &&(!computerpfad.isEmpty()))){
                 if(leicht){ // Computer nutzt Linke Hand Regel
-
-
-                    LaberithField choosenFeld;
-                    if(chooseField(direction+1)!=null &&!chooseField(direction+1).isMarkiert()){
-                        direction= direction+1;
-                        if(direction ==4)direction=0;
-                    }
-                    do{
-                        choosenFeld = chooseField(direction);
-                        if(chooseField(direction)==null||choosenFeld.isMarkiert()){
-                            direction--;
-                            if(direction ==-1)direction=3;
-                        }
-                    }while(choosenFeld==null||choosenFeld.isMarkiert());
-
-                    LaberithField finalChoosenFeld = choosenFeld;
-                    Platform.runLater(()->{
-                        aktuellesFeldComputer.changeSelectvalue(0);
-                        aktuellesFeldComputer = finalChoosenFeld;
-                        aktuellesFeldComputer.changeSelectvalue(2);
-                    });
-
+                    linkeHandAlgorithmusZug();
                 }else{ // Computer kennt den Weg durch vorherige Breitensuche
+
                     Platform.runLater(()->{
                         aktuellesFeldComputer.changeSelectvalue(0);
                         aktuellesFeldComputer = computerpfad.remove(0);
@@ -171,7 +143,7 @@ public class Labyrinth extends Minispiel {
                 }).start();
 
             }else{
-                if(aktuellesFeldComputer.num==zielFeld.num){
+                if(aktuellesFeldComputer.getNum()==zielFeld.getNum()){
                     win(false);
                 }
             }
@@ -180,8 +152,33 @@ public class Labyrinth extends Minispiel {
 
 
     }
-    public LaberithField chooseField(int d){
-        LaberithField choosenFeld;
+
+    private void linkeHandAlgorithmusZug(){
+
+        LabyrinthField choosenFeld;
+        if(chooseField(direction+1)!=null &&!chooseField(direction+1).isMarkiert()){
+            direction= direction+1;
+            if(direction ==4)direction=0;
+        }
+        do{
+            choosenFeld = chooseField(direction);
+            if(chooseField(direction)==null||choosenFeld.isMarkiert()){
+                direction--;
+                if(direction ==-1)direction=3;
+            }
+        }while(choosenFeld==null||choosenFeld.isMarkiert());
+
+        LabyrinthField finalChoosenFeld = choosenFeld;
+        Platform.runLater(()->{
+            aktuellesFeldComputer.changeSelectvalue(0);
+            aktuellesFeldComputer = finalChoosenFeld;
+            aktuellesFeldComputer.changeSelectvalue(2);
+        });
+
+    }
+
+    public LabyrinthField chooseField(int d){
+        LabyrinthField choosenFeld;
         choosenFeld = switch (d%4){
             case 1-> aktuellesFeldComputer.getRight();
             case 2-> aktuellesFeldComputer.getTop();
@@ -191,14 +188,14 @@ public class Labyrinth extends Minispiel {
         };
         return choosenFeld;
     }
-    public void setAktuellesFeld(LaberithField neuesFeld){
+    public void setAktuellesSpielerFeld(LabyrinthField neuesFeld){
         if(neuesFeld!=null){
             if(neuesFeld.getSelectValue()!=1){
                 Platform.runLater(()->{
                     aktuellesFeldSpieler.changeSelectvalue(0);
                     aktuellesFeldSpieler = neuesFeld;
                     aktuellesFeldSpieler.changeSelectvalue(2);
-                    if(aktuellesFeldSpieler.num==zielFeld.num){
+                    if(aktuellesFeldSpieler.getNum()==zielFeld.getNum()){
                         win(true);
                         gewonnen = true;
 
@@ -207,9 +204,6 @@ public class Labyrinth extends Minispiel {
 
             }
         }
-
-
-
 
     }
     public void win(Boolean win){
@@ -239,7 +233,7 @@ public class Labyrinth extends Minispiel {
 
 
     private void createFeld(){
-        feld = new LaberithField[21][21];
+        feld = new LabyrinthField[21][21];
 
         for(int YCounter = 0; YCounter<10; YCounter++){
             for(int XCounter = 0;XCounter<21; XCounter++){
@@ -275,7 +269,7 @@ public class Labyrinth extends Minispiel {
     }
     private void feldHinzufuegen(int x, int y, int value){
 
-        feld[x][y] = new LaberithField(value,x*30,y*30);
+        feld[x][y] = new LabyrinthField(value,x*30,y*30);
         try{
             feld[x][y].setTop(feld[x][y-1]);
         }catch (Exception e){/*Feld existiert nicht*/}

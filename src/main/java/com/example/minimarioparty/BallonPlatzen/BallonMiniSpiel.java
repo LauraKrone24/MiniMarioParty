@@ -37,13 +37,12 @@ public class BallonMiniSpiel extends Minispiel {
 
     private int ballonarten ;
     private int faktor;
-    private Stage stage;
+
 
 
     @Override
     public void start(Stage stage) throws IOException {
 
-        this.stage = stage;
         spielanleitungText = "Ziel dieses Spiels ist es in 60 Sekunden mehr als die angegebene Punktzahl durch Klicken auf die Ballons zu erreichen\nBallons geben mehr Punkte je kleiner sie sind und goldene Ballons geben Extrapunkte\n";
         MinispielTitleLabel.setText("Ballonplatzen");
 
