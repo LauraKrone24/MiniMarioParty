@@ -28,8 +28,8 @@ import java.util.List;
 public class Hauptgame extends Application {
     private final static Spieler[] spieler = new Spieler[2];
     public static Boolean finished = true;
-    private static Spieler aktuellerSpieler;
-    private static Spieler naesterSpieler;
+    private static int aktuellerSpieler;
+
     private static Ellipse nichtAktuellerSpielerEllipse;
     private static Ellipse aktuellerSpielerEllipse;
     private static ImageView wurfel2ImageView;
@@ -169,10 +169,9 @@ public class Hauptgame extends Application {
         td.showAndWait();
         String spielername = td.getEditor().getText();
 
-        aktuellerSpieler = new Spieler(spielername,false,SPIELER1FARBE);
-        naesterSpieler = new Spieler("Computer",true,SPIELER2FARBE);
-        spieler[0]  = aktuellerSpieler;
-        spieler[1]  = naesterSpieler;
+
+        spieler[0]  = new Spieler(spielername,false,SPIELER1FARBE);
+        spieler[1]  = new Spieler("Computer",true,SPIELER2FARBE);;
         setFelder();
 
         addMinispiele();
@@ -183,7 +182,7 @@ public class Hauptgame extends Application {
 
         stage.show();
 
-        if(aktuellerSpieler.isComputer())zug();
+        if(aktuellerSpieler==1)zug();
 
 
 
@@ -347,9 +346,7 @@ public class Hauptgame extends Application {
     }
 
     public static void changeSpieler(){
-        Spieler p = naesterSpieler;
-        naesterSpieler = aktuellerSpieler;
-        aktuellerSpieler = p;
+        aktuellerSpieler = (aktuellerSpieler-1)*(aktuellerSpieler-1);
     }
 
     public static void nextSpieler(){
@@ -361,7 +358,7 @@ public class Hauptgame extends Application {
         PauseTransition pause2 = new PauseTransition(Duration.seconds(2));
         pause2.setOnFinished(event -> {
 
-            if(aktuellerSpieler.isComputer()){
+            if(aktuellerSpieler==1){
                 zug();
             }else{
                 wuefelbutton.setVisible(true);
@@ -377,24 +374,24 @@ public class Hauptgame extends Application {
     public static void zug(){
         wuefelbutton.setVisible(false);
 
-        wuerfelSUMLable.setText(String.valueOf(aktuellerSpieler.bewegeSpieler()));
+        wuerfelSUMLable.setText(String.valueOf(spieler[aktuellerSpieler].bewegeSpieler()));
 
-        if(aktuellerSpieler.isComputer()){
-            figurComputer.setLayoutX(aktuellerSpieler.getPosition().getX()+50);
-            figurComputer.setLayoutY(aktuellerSpieler.getPosition().getY()+50);
+        if(aktuellerSpieler==1){
+            figurComputer.setLayoutX(spieler[aktuellerSpieler].getPosition().getX()+50);
+            figurComputer.setLayoutY(spieler[aktuellerSpieler].getPosition().getY()+50);
 
         }else{
-            figurSpieler.setLayoutX(aktuellerSpieler.getPosition().getX()+25);
-            figurSpieler.setLayoutY(aktuellerSpieler.getPosition().getY()+25);
+            figurSpieler.setLayoutX(spieler[aktuellerSpieler].getPosition().getX()+25);
+            figurSpieler.setLayoutY(spieler[aktuellerSpieler].getPosition().getY()+25);
 
         }
 
-        if(aktuellerSpieler.getPosition() instanceof Aktionsfeld){
+        if(spieler[aktuellerSpieler].getPosition() instanceof Aktionsfeld){
             finished = false;
 
             System.out.println("start"+System.currentTimeMillis());
 
-                ((Aktionsfeld) aktuellerSpieler.getPosition()).starteMinispiel();
+                ((Aktionsfeld) spieler[aktuellerSpieler].getPosition()).starteMinispiel();
 
 
         }
@@ -412,15 +409,16 @@ public class Hauptgame extends Application {
         wuerfelSUMLable.setText("");
         wurfel2ImageView.setVisible(false);
 
-        if(aktuellerSpieler.getWuerfelList().size()>1){
+        if(spieler[aktuellerSpieler].getWuerfelList().size()>1){
             wurfel2ImageView.setVisible(true);
-            wurfel2ImageView.setImage(aktuellerSpieler.getWuerfelList().get(1).getBild());
+            wurfel2ImageView.setImage(spieler[aktuellerSpieler].getWuerfelList().get(1).getBild());
         }
 
-        aktuellerSpielerEllipse.setFill(aktuellerSpieler.getFarbe());
-        aktuellerSpielerLable.setText(aktuellerSpieler.getName());
-        nichtAktuellerSpielerEllipse.setFill(naesterSpieler.getFarbe());
-        nichtAktuellerSpielerLable.setText(naesterSpieler.getName());
+        aktuellerSpielerEllipse.setFill(spieler[aktuellerSpieler].getFarbe());
+        aktuellerSpielerLable.setText(spieler[aktuellerSpieler].getName());
+        int naesterSpieler = (aktuellerSpieler-1)*(aktuellerSpieler-1);
+        nichtAktuellerSpielerEllipse.setFill(spieler[naesterSpieler].getFarbe());
+        nichtAktuellerSpielerLable.setText(spieler[naesterSpieler].getName());
 
 
     }

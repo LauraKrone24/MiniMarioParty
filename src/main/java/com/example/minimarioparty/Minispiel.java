@@ -23,7 +23,7 @@ public  abstract class Minispiel extends Application {
     protected Pane p = new Pane();
 
     protected  Spieler[] spieler = new Spieler[2];
-    protected javafx.scene.shape.Rectangle menuRectangle = new Rectangle();
+    protected Rectangle menuRectangle = new Rectangle();
 
     protected Label MinispielSchwierigkeitLable  = new Label("Schwierigkeit");
     protected Label MinispielTitleLabel = new Label("Minispieltitel");
