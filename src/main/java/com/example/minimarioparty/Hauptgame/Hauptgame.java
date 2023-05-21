@@ -1,12 +1,16 @@
 package com.example.minimarioparty.Hauptgame;
 
+import com.example.minimarioparty.BallonPlatzen.BallonMiniSpiel;
+import com.example.minimarioparty.BlackJack.BlackJackMinispiel;
 import com.example.minimarioparty.Labyrinth.Labyrinth;
 import com.example.minimarioparty.Minispiel;
-import com.example.minimarioparty.TestMiniSpiel;
+import com.example.minimarioparty.SchereSteinPapier.SchereSteinPapierMiniSpiel;
+import com.example.minimarioparty.TicTacToe.TicTacToeMinispiel;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
@@ -29,6 +33,7 @@ public class Hauptgame extends Application {
     private final static Spieler[] spieler = new Spieler[2];
     public static Boolean finished = true;
     private static int aktuellerSpieler;
+    private static Stage stage;
 
     private static Ellipse nichtAktuellerSpielerEllipse;
     private static Ellipse aktuellerSpielerEllipse;
@@ -48,6 +53,7 @@ public class Hauptgame extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        this.stage = stage;
         final String SPIELER1FARBE = "#7eb774";
         final String SPIELER2FARBE = "ed7b84";
 
@@ -171,7 +177,7 @@ public class Hauptgame extends Application {
 
 
         spieler[0]  = new Spieler(spielername,false,SPIELER1FARBE);
-        spieler[1]  = new Spieler("Computer",true,SPIELER2FARBE);;
+        spieler[1]  = new Spieler("Computer",true,SPIELER2FARBE);
         setFelder();
 
         addMinispiele();
@@ -194,7 +200,18 @@ public class Hauptgame extends Application {
         minispielListe.add(new Labyrinth());
         minispielListe.add(new Labyrinth());
         minispielListe.add(new Labyrinth());
-        minispielListe.add(new TestMiniSpiel());
+        minispielListe.add(new BallonMiniSpiel());
+        minispielListe.add(new BallonMiniSpiel());
+        minispielListe.add(new BallonMiniSpiel());
+        minispielListe.add(new BlackJackMinispiel());
+        minispielListe.add(new BlackJackMinispiel());
+        minispielListe.add(new BlackJackMinispiel());
+        minispielListe.add(new TicTacToeMinispiel());
+        minispielListe.add(new TicTacToeMinispiel());
+        minispielListe.add(new TicTacToeMinispiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
     }
 
     public void setFelder(){
@@ -373,33 +390,61 @@ public class Hauptgame extends Application {
 
     public static void zug(){
         wuefelbutton.setVisible(false);
+        int wurfelsumme = spieler[aktuellerSpieler].bewegeSpieler();
+        if(wurfelsumme!= 0){
+            wuerfelSUMLable.setText(String.valueOf(wurfelsumme));
 
-        wuerfelSUMLable.setText(String.valueOf(spieler[aktuellerSpieler].bewegeSpieler()));
+            if(aktuellerSpieler==1){
+                figurComputer.setLayoutX(spieler[aktuellerSpieler].getPosition().getX()+50);
+                figurComputer.setLayoutY(spieler[aktuellerSpieler].getPosition().getY()+50);
 
-        if(aktuellerSpieler==1){
-            figurComputer.setLayoutX(spieler[aktuellerSpieler].getPosition().getX()+50);
-            figurComputer.setLayoutY(spieler[aktuellerSpieler].getPosition().getY()+50);
+            }else{
+                figurSpieler.setLayoutX(spieler[aktuellerSpieler].getPosition().getX()+25);
+                figurSpieler.setLayoutY(spieler[aktuellerSpieler].getPosition().getY()+25);
 
-        }else{
-            figurSpieler.setLayoutX(spieler[aktuellerSpieler].getPosition().getX()+25);
-            figurSpieler.setLayoutY(spieler[aktuellerSpieler].getPosition().getY()+25);
+            }
 
-        }
+            if(spieler[aktuellerSpieler].getPosition() instanceof Aktionsfeld){
+                finished = false;
 
-        if(spieler[aktuellerSpieler].getPosition() instanceof Aktionsfeld){
-            finished = false;
-
-            System.out.println("start"+System.currentTimeMillis());
+                System.out.println("start"+System.currentTimeMillis());
 
                 ((Aktionsfeld) spieler[aktuellerSpieler].getPosition()).starteMinispiel();
 
 
+            }
+
+            if(finished){
+                nextSpieler();
+            }
+        }else{
+            gewinner(spieler[aktuellerSpieler]);
         }
 
-        if(finished){
-            nextSpieler();
+
+
+
+    }
+    public static void gewinner(Spieler gewinner){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Spiel beendet");
+
+        alert.setHeaderText("Spiel beendet");
+
+        if(gewinner.isComputer()){
+            alert.setContentText("Du hast leider verloren. Der Computer war wohl schneller als du!");
+
+            alert.setHeaderText("Verloren");
+        }
+        else {
+            alert.setContentText("Herzlichen Glückwunsch, " + gewinner.getName() + "! Der Computer konnte kaum mit dir mithalten");
+            alert.setHeaderText("Gewonnen");
         }
 
+        alert.show();
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+        pause.setOnFinished(event ->  stage.close());
+        pause.play();
 
     }
 
