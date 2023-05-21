@@ -1,7 +1,8 @@
-package com.example.minimarioparty;
+package com.example.minimarioparty.Hauptgame;
 
-import com.example.minimarioparty.BallonPlatzen.BallonMiniSpiel;
 import com.example.minimarioparty.Labyrinth.Labyrinth;
+import com.example.minimarioparty.Minispiel;
+import com.example.minimarioparty.TestMiniSpiel;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -15,7 +16,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -32,7 +32,7 @@ public class Hauptgame extends Application {
     private static Spieler naesterSpieler;
     private static Ellipse nichtAktuellerSpielerEllipse;
     private static Ellipse aktuellerSpielerEllipse;
-    private static Rectangle wurfel2Rect;
+    private static ImageView wurfel2ImageView;
     protected static Feld[] felder = new Feld[100];
     private static Label aktuellerSpielerLable;
     private static Label nichtAktuellerSpielerLable;
@@ -93,19 +93,17 @@ public class Hauptgame extends Application {
         wuerfelLable.setFont(new Font("System",24));
         wuerfelLable.setAlignment(Pos.CENTER);
 
-        Rectangle wurfel1Rect = new Rectangle(50, 50);
-        wurfel1Rect.setLayoutY(500);
-        wurfel1Rect.setLayoutX(820);
-        wurfel1Rect.setFill(Paint.valueOf("#8361ff"));
-        wurfel1Rect.setArcHeight(5);
-        wurfel1Rect.setArcWidth(5);
+        ImageView wurfel1ImageView = new ImageView(new Image("NormalerWurfelBild.JPG"));
+        wurfel1ImageView.setFitWidth(50);
+        wurfel1ImageView.setFitHeight(50);
+        wurfel1ImageView.setLayoutY(500);
+        wurfel1ImageView.setLayoutX(820);
 
-        wurfel2Rect = new Rectangle(50,50);
-        wurfel2Rect.setLayoutY(500);
-        wurfel2Rect.setLayoutX(930);
-        wurfel2Rect.setFill(Paint.valueOf("#ffffff"));
-        wurfel2Rect.setArcHeight(5);
-        wurfel2Rect.setArcWidth(5);
+        wurfel2ImageView = new ImageView();
+        wurfel2ImageView.setLayoutY(500);
+        wurfel2ImageView.setLayoutX(930);
+        wurfel2ImageView.setFitWidth(50);
+        wurfel2ImageView.setFitHeight(50);
 
         wuerfel1Lable = new Label("");
         wuerfel1Lable.setPrefWidth(50);
@@ -138,7 +136,7 @@ public class Hauptgame extends Application {
         wuefelbutton.setLayoutX(810);
         wuefelbutton.setOnAction(event-> zug());
 
-        p.getChildren().addAll(wurfel1Rect,wurfel2Rect,wuerfelLable,wuerfel1Lable,wuerfel2Lable,wuefelbutton,wuerfelSUMLable);
+        p.getChildren().addAll(wurfel1ImageView, wurfel2ImageView,wuerfelLable,wuerfel1Lable,wuerfel2Lable,wuefelbutton,wuerfelSUMLable);
 
         Image hintergrundimage = new Image("Spielbrett.jpg"); //Hier wenn vorhanden Bild einfügen
         ImageView spielfeldhintergrund = new ImageView();
@@ -411,11 +409,11 @@ public class Hauptgame extends Application {
         wuerfel1Lable.setText("");
         wuerfel2Lable.setText("");
         wuerfelSUMLable.setText("");
-        wurfel2Rect.setVisible(false);
+        wurfel2ImageView.setVisible(false);
 
         if(aktuellerSpieler.getWuerfelList().size()>1){
-            wurfel2Rect.setVisible(true);
-            wurfel2Rect.setFill(Paint.valueOf(aktuellerSpieler.getWuerfelList().get(1).color));
+            wurfel2ImageView.setVisible(true);
+            wurfel2ImageView.setImage(aktuellerSpieler.getWuerfelList().get(1).getBild());
         }
 
         aktuellerSpielerEllipse.setFill(Paint.valueOf(aktuellerSpieler.getFarbe()));

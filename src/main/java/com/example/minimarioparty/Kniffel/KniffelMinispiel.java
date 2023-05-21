@@ -1,8 +1,8 @@
 package com.example.minimarioparty.Kniffel;
 
-import com.example.minimarioparty.GuterWuerfel;
+import com.example.minimarioparty.Hauptgame.GuterWuerfel;
 import com.example.minimarioparty.Minispiel;
-import com.example.minimarioparty.SchlechterWuerfel;
+import com.example.minimarioparty.Hauptgame.SchlechterWuerfel;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Pos;

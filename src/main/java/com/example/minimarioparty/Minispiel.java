@@ -1,5 +1,7 @@
 package com.example.minimarioparty;
 
+import com.example.minimarioparty.Hauptgame.Hauptgame;
+import com.example.minimarioparty.Hauptgame.Spieler;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;

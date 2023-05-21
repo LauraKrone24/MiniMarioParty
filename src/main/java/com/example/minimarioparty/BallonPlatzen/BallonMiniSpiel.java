@@ -1,8 +1,8 @@
 package com.example.minimarioparty.BallonPlatzen;
 
-import com.example.minimarioparty.GuterWuerfel;
+import com.example.minimarioparty.Hauptgame.GuterWuerfel;
 import com.example.minimarioparty.Minispiel;
-import com.example.minimarioparty.SchlechterWuerfel;
+import com.example.minimarioparty.Hauptgame.SchlechterWuerfel;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -131,12 +131,13 @@ public class BallonMiniSpiel extends Minispiel {
 
         });
         if(!leicht){
-            new Thread(()->b.move()).start();
+            new Thread(b::move).start();
         }
 
         new Thread(()->{
             b.grow(faktor);
-            PauseTransition pause = new PauseTransition(Duration.seconds(1/faktor));
+            b.setOnPane(false);
+            PauseTransition pause = new PauseTransition(Duration.seconds((double)1/faktor));
             pause.setOnFinished(event -> Platform.runLater(()->innerPane.getChildren().remove(b)));
             pause.play();
         }).start();
