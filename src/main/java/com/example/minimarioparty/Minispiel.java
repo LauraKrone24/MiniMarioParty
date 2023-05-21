@@ -1,5 +1,7 @@
 package com.example.minimarioparty;
 
+import com.example.minimarioparty.Hauptgame.Hauptgame;
+import com.example.minimarioparty.Hauptgame.Spieler;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -21,7 +23,7 @@ public  abstract class Minispiel extends Application {
     protected Pane p = new Pane();
 
     protected  Spieler[] spieler = new Spieler[2];
-    protected javafx.scene.shape.Rectangle menuRectangle = new Rectangle();
+    protected Rectangle menuRectangle = new Rectangle();
 
     protected Label MinispielSchwierigkeitLable  = new Label("Schwierigkeit");
     protected Label MinispielTitleLabel = new Label("Minispieltitel");
@@ -30,6 +32,8 @@ public  abstract class Minispiel extends Application {
     protected String hauptfarbe = "#8361FF";
 
     protected String spielanleitungText = "";
+
+    private static boolean pauseGame= false;
 
 
 
@@ -53,7 +57,7 @@ public  abstract class Minispiel extends Application {
         MinispielSchwierigkeitLable.setFont(new Font("system",20));
         MinispielSchwierigkeitLable.setLayoutX(450);
         MinispielSchwierigkeitLable.setLayoutY(60);
-        MinispielSchwierigkeitLable.prefWidth(50);
+        MinispielSchwierigkeitLable.prefWidth(150);
         MinispielSchwierigkeitLable.prefHeight(55);
         MinispielSchwierigkeitLable.setTextFill(Paint.valueOf("#ffffff"));
 
@@ -81,11 +85,13 @@ public  abstract class Minispiel extends Application {
         });
 
         spielanleitungButton.setOnAction(actionEvent -> {
+            pauseGame = true;
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Spielanleitung");
             alert.setHeaderText("Spielanleitung");
             alert.setContentText(spielanleitungText);
             alert.showAndWait();
+            pauseGame = false;
 
         });
 
@@ -108,5 +114,9 @@ public  abstract class Minispiel extends Application {
 
     public Minispielrueckgabewert getMinispielrueckgabewert() {
         return minispielrueckgabewert;
+    }
+
+    public static boolean isPauseGame() {
+        return pauseGame;
     }
 }

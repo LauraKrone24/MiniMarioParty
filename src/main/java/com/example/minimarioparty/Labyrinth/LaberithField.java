@@ -19,8 +19,8 @@ public class LaberithField extends Rectangle {
     public int num;
 
     private LaberithField right;
-    private HashSet<LaberithField> nachbarn = new HashSet<>();
-    private List<LaberithField> suchPfad = new ArrayList<LaberithField>();
+    private final HashSet<LaberithField> nachbarn = new HashSet<>();
+    private List<LaberithField> suchPfad = new ArrayList<>();
     public LaberithField(int selectvalue,double x,  double y){
         super(30,30);
         number++;

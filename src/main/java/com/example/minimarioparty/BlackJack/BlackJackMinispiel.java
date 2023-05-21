@@ -2,12 +2,10 @@ package com.example.minimarioparty.BlackJack;
 
 
 import com.example.minimarioparty.Minispiel;
-import com.example.minimarioparty.SchlechterWuerfel;
+import com.example.minimarioparty.Hauptgame.SchlechterWuerfel;
 import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -17,16 +15,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
-import java.security.PrivateKey;
+
 import javafx.util.Duration;
 
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class BlackJackMinispiel  extends Minispiel {

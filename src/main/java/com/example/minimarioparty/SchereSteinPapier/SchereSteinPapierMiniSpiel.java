@@ -1,16 +1,12 @@
 package com.example.minimarioparty.SchereSteinPapier;
 
-import com.example.minimarioparty.GuterWuerfel;
 import com.example.minimarioparty.Minispiel;
-import com.example.minimarioparty.SchlechterWuerfel;
+import com.example.minimarioparty.Hauptgame.SchlechterWuerfel;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -20,10 +16,8 @@ import javafx.util.Duration;
 
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class SchereSteinPapierMiniSpiel extends Minispiel {
 
