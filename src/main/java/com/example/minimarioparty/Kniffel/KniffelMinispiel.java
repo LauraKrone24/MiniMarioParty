@@ -38,6 +38,7 @@ public class KniffelMinispiel extends Minispiel {
     private boolean hatSpielerGespielt;
     private boolean wurdenPunkteGezaehlt;
     int punkte = 0;
+    int schwierigkeitsLevel = 0;
 
     List<Integer> zahlen = new ArrayList<>();
     private List<Integer> letzteZahlen = new ArrayList<>();
@@ -50,12 +51,14 @@ public class KniffelMinispiel extends Minispiel {
     Label countComputerLabel = new Label("Rundensiege Computer: " + countComputer);
     Label rundenCounterLabel = new Label("Gespielte Runden: " + rundenCounter);
     Label wuerfelCounterLabel = new Label(wuerfelCounter + " Mal gewuerfelt");
-    Label amZugLabel = new Label();
+    Label amZugLabel = new Label("Spieler ist am Zug");
     private Label winLoseLabel;
 
     Wuerfelinitialisieren test = new Wuerfelinitialisieren();
+    WuerfelinitialisierenComputer computer = new WuerfelinitialisierenComputer();
 
     List<Wuerfel> wuerfelListe = test.getWuerfelListe();
+    List<Wuerfel> wuerfelListeComputer = computer.getWuerfelListeComputer();
 
     Button wuerfeln = new Button("wuerfeln");
     Button beenden = new Button("Punkte zaehlen");
@@ -68,12 +71,15 @@ public class KniffelMinispiel extends Minispiel {
         if(leicht){
             minispielrueckgabewert.setWuerfel(new SchlechterWuerfel());
             MinispielSchwierigkeitLable.setText("leicht");
+            schwierigkeitsLevel = 15;
         }else {
             minispielrueckgabewert.setWuerfel(new GuterWuerfel());
             MinispielSchwierigkeitLable.setText("schwer");
+            schwierigkeitsLevel = 25;
         }
 
-        spielanleitungText = "Ziel des Spiels ist es als erstes drei Runden zu gewinnen. \nEine Runde gilt als gewonnen, sobald 100 oder mehr Punkte erzielt wurden. \nDer Spieler kann bis zum zweiten Wuerfeln die Punkte manuell zaehlen. \nPro Zug kann bis zu drei Mal gewuerfelt werden, dann werden die Punkte des letzten Wuerfelns automatisch gezaehlt.\nEs wird abwechselnd gewuerfelt - der Spieler beginnt.";
+
+        spielanleitungText = "Ziel des Spiels ist es, als erstes drei Runden zu gewinnen. \nEine Runde gilt als gewonnen, sobald 100 oder mehr Punkte erzielt wurden. \nDer Spieler kann bis zum zweiten Wuerfeln die Punkte manuell zaehlen. \nPro Zug kann bis zu drei Mal gewuerfelt werden, dann werden die Punkte des letzten Wuerfelns automatisch gezaehlt.\nEs wird abwechselnd gewuerfelt - der Spieler beginnt.\nDer Spieler hat weiße Wuerfel und der Computer rote Wuerfel.";
         MinispielTitleLabel.setText("Kniffel");
 
 
@@ -146,6 +152,13 @@ public class KniffelMinispiel extends Minispiel {
         wuerfelCounterLabel.setPrefWidth(100);
         wuerfelCounterLabel.setPrefHeight(100);
         wuerfelCounterLabel.setTextFill(Color.WHITE);
+
+
+        amZugLabel.setLayoutX(25);
+        amZugLabel.setLayoutY(0);
+        amZugLabel.setPrefWidth(150);
+        amZugLabel.setPrefHeight(50);
+        amZugLabel.setTextFill(Color.WHITE);
 
 
         Pane runde = new Pane();
@@ -223,7 +236,7 @@ public class KniffelMinispiel extends Minispiel {
         // An spielfeldPane übergeben
 
         spielfeldPane.getChildren().addAll(spielfeld, wuerfeln, beenden, wuerfelSpieler1, wuerfelSpieler2, wuerfelSpieler3, wuerfelSpieler4, wuerfelSpieler5, wuerfelComputer1, wuerfelComputer2, wuerfelComputer3, wuerfelComputer4, wuerfelComputer5, counterWuerfel, punktSpieler, punkteComputer, counterSpieler, counterComputer, runde, amZug);
-        //List<Integer> zahlen = new ArrayList<>();
+
         wuerfeln.setOnAction(actionEvent -> {
             wuerfelnSpieler();
         });
@@ -368,76 +381,100 @@ public class KniffelMinispiel extends Minispiel {
 
         if (istComputerDran == true) {
             hatSpielerGespielt = false;
-            while (istComputerDran == true){
 
-                List<ImageView> wuerfelComputer = initialisiereWuerfelComputer();
-                ImageView wuerfelComputer1 = wuerfelComputer.get(0);
-                ImageView wuerfelComputer2 = wuerfelComputer.get(1);
-                ImageView wuerfelComputer3 = wuerfelComputer.get(2);
-                ImageView wuerfelComputer4 = wuerfelComputer.get(3);
-                ImageView wuerfelComputer5 = wuerfelComputer.get(4);
-                spielfeldPane.getChildren().add(wuerfelComputer1);
-                spielfeldPane.getChildren().add(wuerfelComputer2);
-                spielfeldPane.getChildren().add(wuerfelComputer3);
-                spielfeldPane.getChildren().add(wuerfelComputer4);
-                spielfeldPane.getChildren().add(wuerfelComputer5);
 
+            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            pause.setOnFinished(event -> {
+                wuerfelVorgangComputer();
                 wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
-
-                wuerfelCounter++;
-
-                int zahl1 = (int) (Math.random() * 6) + 1;
-                Image wuerfel1 = wuerfelListe.get(zahl1 - 1).getBild();
-                wuerfelComputer1.setImage(wuerfel1);
-                wuerfelComputer1.setVisible(true);
-                zahlen.add(zahl1);
-
-                int zahl2 = (int) (Math.random() * 6) + 1;
-                Image wuerfel2 = wuerfelListe.get(zahl2 - 1).getBild();
-                wuerfelComputer2.setImage(wuerfel2);
-                wuerfelComputer2.setVisible(true);
-                zahlen.add(zahl2);
-
-                int zahl3 = (int) (Math.random() * 6) + 1;
-                Image wuerfel3 = wuerfelListe.get(zahl3 - 1).getBild();
-                wuerfelComputer3.setImage(wuerfel3);
-                wuerfelComputer3.setVisible(true);
-                zahlen.add(zahl3);
-
-                int zahl4 = (int) (Math.random() * 6) + 1;
-                Image wuerfel4 = wuerfelListe.get(zahl4 - 1).getBild();
-                wuerfelComputer4.setImage(wuerfel4);
-                wuerfelComputer4.setVisible(true);
-                zahlen.add(zahl4);
-
-                int zahl5 = (int) (Math.random() * 6) + 1;
-                Image wuerfel5 = wuerfelListe.get(zahl5 - 1).getBild();
-                wuerfelComputer5.setImage(wuerfel5);
-                wuerfelComputer5.setVisible(true);
-                zahlen.add(zahl5);
-
-                System.out.println("Letzte Zahlen Computer");
-                System.out.println(zahlen);
-                System.out.println("Computer -------------------------------------");
-                beenden.setVisible(false);
-                amZugLabel.setLayoutX(25);
-                amZugLabel.setLayoutY(0);
-                amZugLabel.setPrefWidth(150);
-                amZugLabel.setPrefHeight(50);
-                amZugLabel.setTextFill(Color.WHITE);
-                amZugLabel.setText("Computer ist am Zug");
-
-                zaehlenComputer();
-                if (punkte >= 25) {
-                    break;
-                }
                 punkte = 0;
-            }
-            wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
-            punkte = 0;
+            });
+            pause.play();
         }
         istComputerDran = false;
     }
+
+    public void wuerfelVorgangComputer(){
+            istComputerDran = true;
+            boolean punkteErreicht;
+
+
+            List<ImageView> wuerfelComputer = initialisiereWuerfelComputer();
+            ImageView wuerfelComputer1 = wuerfelComputer.get(0);
+            ImageView wuerfelComputer2 = wuerfelComputer.get(1);
+            ImageView wuerfelComputer3 = wuerfelComputer.get(2);
+            ImageView wuerfelComputer4 = wuerfelComputer.get(3);
+            ImageView wuerfelComputer5 = wuerfelComputer.get(4);
+            spielfeldPane.getChildren().add(wuerfelComputer1);
+            spielfeldPane.getChildren().add(wuerfelComputer2);
+            spielfeldPane.getChildren().add(wuerfelComputer3);
+            spielfeldPane.getChildren().add(wuerfelComputer4);
+            spielfeldPane.getChildren().add(wuerfelComputer5);
+            wuerfelCounter++;
+            wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
+
+
+
+            int zahl1 = (int) (Math.random() * 6) + 1;
+            Image wuerfel1 = wuerfelListeComputer.get(zahl1 - 1).getBild();
+            wuerfelComputer1.setImage(wuerfel1);
+            wuerfelComputer1.setVisible(true);
+            zahlen.add(zahl1);
+
+            int zahl2 = (int) (Math.random() * 6) + 1;
+            Image wuerfel2 = wuerfelListeComputer.get(zahl2 - 1).getBild();
+            wuerfelComputer2.setImage(wuerfel2);
+            wuerfelComputer2.setVisible(true);
+            zahlen.add(zahl2);
+
+            int zahl3 = (int) (Math.random() * 6) + 1;
+            Image wuerfel3 = wuerfelListeComputer.get(zahl3 - 1).getBild();
+            wuerfelComputer3.setImage(wuerfel3);
+            wuerfelComputer3.setVisible(true);
+            zahlen.add(zahl3);
+
+            int zahl4 = (int) (Math.random() * 6) + 1;
+            Image wuerfel4 = wuerfelListeComputer.get(zahl4 - 1).getBild();
+            wuerfelComputer4.setImage(wuerfel4);
+            wuerfelComputer4.setVisible(true);
+            zahlen.add(zahl4);
+
+            int zahl5 = (int) (Math.random() * 6) + 1;
+            Image wuerfel5 = wuerfelListeComputer.get(zahl5 - 1).getBild();
+            wuerfelComputer5.setImage(wuerfel5);
+            wuerfelComputer5.setVisible(true);
+            zahlen.add(zahl5);
+
+            System.out.println("Letzte Zahlen Computer");
+            System.out.println(zahlen);
+            System.out.println("Computer -------------------------------------");
+            beenden.setVisible(false);
+            wuerfeln.setVisible(false);
+            amZugLabel.setLayoutX(25);
+            amZugLabel.setLayoutY(0);
+            amZugLabel.setPrefWidth(150);
+            amZugLabel.setPrefHeight(50);
+            amZugLabel.setTextFill(Color.WHITE);
+            amZugLabel.setText("Computer ist am Zug");
+            zaehlenComputer();
+            final boolean istComputerDranFinal = istComputerDran;
+            if (punkte >= schwierigkeitsLevel) {
+                punkteErreicht = true;
+            } else {
+                punkteErreicht = false;
+            }
+        punkte = 0;
+            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            pause.setOnFinished(event -> {
+
+                if (!punkteErreicht && istComputerDranFinal){
+                    wuerfelVorgangComputer();
+                }
+
+            });
+            pause.play();
+    }
+
     private List<ImageView> initialisiereWuerfelComputer() {
 
         List<ImageView> imageViewListe = new ArrayList<>();
@@ -580,7 +617,7 @@ public class KniffelMinispiel extends Minispiel {
     public void zaehlenComputer() {
         if (wuerfelCounter <= 2) {
             autoZaehlen();
-            if (punkte >= 25) {
+            if (punkte >= schwierigkeitsLevel) {
                 punkteComputer = punkteComputer + punkte;
                 //System.out.println("Test " + punkteComputer);
                 punkteComputerLabel.setText("Punkte des Computers: " + punkteComputer);
@@ -601,7 +638,7 @@ public class KniffelMinispiel extends Minispiel {
         boolean klStrasse = false;
         boolean grStrasse = false;
 
-        Set<Integer> individuelleZahlen = new HashSet<>(letzteZahlen);
+
 
         // Überprüfung auf kleine Strasse
 
@@ -682,7 +719,9 @@ public class KniffelMinispiel extends Minispiel {
             punktePruefung();
             punkteComputerLabel.setText("Punkte des Computers: " + punkteComputer);
             wurdenPunkteGezaehlt = true;
-        } else if (istComputerDran == true && punkte >= 25 || wuerfelCounter == 3) {
+            wuerfeln.setVisible(true);
+            amZugLabel.setText("Spieler ist am Zug");
+        } else if (istComputerDran == true && punkte >= schwierigkeitsLevel || wuerfelCounter == 3) {
             wurdenPunkteGezaehlt = true;
             punkteComputer += punkte;
             istComputerDran = false;
@@ -695,6 +734,8 @@ public class KniffelMinispiel extends Minispiel {
             punktePruefung();
             punkteComputerLabel.setText("Punkte des Computers: " + punkteComputer);
             wurdenPunkteGezaehlt = true;
+            wuerfeln.setVisible(true);
+            amZugLabel.setText("Spieler ist am Zug");
         }
     }
 }
