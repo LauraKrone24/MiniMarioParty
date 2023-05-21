@@ -68,12 +68,13 @@ public class Hauptgame extends Application {
         spielerreihenfolge.setFont(new Font("System",20));
         p.getChildren().add(spielerreihenfolge);
 
-        aktuellerSpielerEllipse = new Ellipse(10,15); //hier Farbe anpassen
+        aktuellerSpielerEllipse = new Ellipse(10,15);
 
-        nichtAktuellerSpielerEllipse = new Ellipse(10,15);// hier Farbe anpassen
+        nichtAktuellerSpielerEllipse = new Ellipse(10,15);
 
-         aktuellerSpielerLable = new Label("",aktuellerSpielerEllipse);
-         nichtAktuellerSpielerLable = new Label("",nichtAktuellerSpielerEllipse);
+        aktuellerSpielerLable = new Label("",aktuellerSpielerEllipse);
+        nichtAktuellerSpielerLable = new Label("",nichtAktuellerSpielerEllipse);
+
 
 
 

@@ -8,7 +8,11 @@ import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.CubicCurve;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -19,7 +23,7 @@ import java.text.DecimalFormat;
 public class BallonMiniSpiel extends Minispiel {
     private final Pane innerPane = new Pane();
 
-    private final int MINPUNKTE = 8000;
+    private final int MINPUNKTE = 10000;
     private final int DAUER = 60;
 
     private Label ZeitLabel;
@@ -56,6 +60,11 @@ public class BallonMiniSpiel extends Minispiel {
             spielanleitungText+= "Schwarze Ballons geben Punktabzug!";
             MinispielSchwierigkeitLable.setText("Schwer");
         }
+        ImageView hintergrund = new ImageView(new Image("himmelbild.jpg"));
+        hintergrund.setFitHeight(600);
+        hintergrund.setFitWidth(900);
+        hintergrund.setLayoutX(50);
+        hintergrund.setLayoutY(150);
 
         Button b  = new Button("Start Game");
         b.setPrefSize(100,100);
@@ -65,15 +74,14 @@ public class BallonMiniSpiel extends Minispiel {
             System.out.println("Button pressed ");
             b.setVisible(false);
             spielanleitungButton.setVisible(false);
-
-            DecimalFormat df = new DecimalFormat("0.0");
+            DecimalFormat df = new DecimalFormat("0");
             long Startzeit = System.currentTimeMillis();
             Endzeit= Startzeit + DAUER*1000;
             new Thread(()->{
                 try{
                     while(Endzeit>=System.currentTimeMillis()){
 
-                        Platform.runLater(()->ZeitLabel.setText(df.format((Endzeit-System.currentTimeMillis())/1000)));
+                        Platform.runLater(()->ZeitLabel.setText(df.format((Endzeit-System.currentTimeMillis())/1000)+" Sekunden"));
                         Thread.sleep(100);
 
                     }
@@ -85,21 +93,23 @@ public class BallonMiniSpiel extends Minispiel {
 
         });
 
-        innerPane.setPrefSize(600,700);
+        innerPane.setPrefSize(900,600);
         innerPane.setLayoutX(50);
         innerPane.setLayoutY(150);
 
-        ZeitLabel = new Label(DAUER+".0");
-        ZeitLabel.setPrefSize(100,100);
+        ZeitLabel = new Label(DAUER+" Sekunden");
+        ZeitLabel.setPrefSize(200,100);
         ZeitLabel.setLayoutY(75);
-        ZeitLabel.setLayoutX(450);
+        ZeitLabel.setLayoutX(400);
+        ZeitLabel.setFont(new Font(22));
         ZeitLabel.setAlignment(Pos.CENTER);
 
         PunkteLabel = new Label("/"+MINPUNKTE);
-        PunkteLabel.setPrefSize(100,100);
+        PunkteLabel.setPrefSize(200,100);
         PunkteLabel.setLayoutY(75);
-        PunkteLabel.setLayoutX(900);
-        PunkteLabel.setAlignment(Pos.CENTER);
+        PunkteLabel.setLayoutX(750);
+        PunkteLabel.setFont(new Font(24));
+        PunkteLabel.setAlignment(Pos.CENTER_RIGHT);
 
         WinLoseLabel = new Label();
         WinLoseLabel.setPrefSize(400,50);
@@ -109,33 +119,45 @@ public class BallonMiniSpiel extends Minispiel {
         WinLoseLabel.setAlignment(Pos.CENTER);
         WinLoseLabel.setVisible(false);
 
-        p.getChildren().addAll(innerPane,b,ZeitLabel, PunkteLabel,WinLoseLabel);
+        p.getChildren().addAll(hintergrund,innerPane,b,ZeitLabel, PunkteLabel,WinLoseLabel);
 
         super.start(stage);
     }
     private void ballonErzeugen(){
 
-        int x = (int) (Math.random()*500+50);
-        int y = (int) (Math.random()*550+50);
+        int x = (int) (Math.random()*800+50);
+        int y = (int) (Math.random()*500+50);
 
+        CubicCurve line = new CubicCurve();
+        line.setStroke(Color.BLACK);
+        line.setStrokeWidth(0.25);
+        line.setStartX(x);
+        line.setStartY(y+2.5);
+        line.setControlX1(x-5);
+        line.setControlY1(y+7);
+        line.setControlX2(x+5);
+        line.setControlY2(y+14);
+        line.setEndX(x);
+        line.setEndY(y+20);
 
         Ballon b;
+
         float ballonart = (float)  Math.random()*ballonarten;
 
         if(ballonart>2){
-            b = new BlackBallon(x,y);
+            b = new BlackBallon(x,y,line);
         } else if (ballonart>1.85) {
-            b = new GoldBallon(x,y);
+            b = new GoldBallon(x,y,line);
         }else{
-            b = new NormalerBallon(x,y);
+            b = new NormalerBallon(x,y,line);
         }
 
 
-        innerPane.getChildren().add(b);
+        innerPane.getChildren().addAll(line,b);
         b.setOnMouseClicked(e->{
                 punkte = punkte + (int) b.getPunkte();
                 Platform.runLater(()-> PunkteLabel.setText(punkte+"/"+MINPUNKTE));
-                Platform.runLater(()->innerPane.getChildren().remove(b));
+                Platform.runLater(()->innerPane.getChildren().removeAll(b,line));
 
         });
         if(!leicht){
@@ -146,7 +168,7 @@ public class BallonMiniSpiel extends Minispiel {
             b.grow(faktor);
             b.setOnPane(false);
             PauseTransition pause = new PauseTransition(Duration.seconds((double)1/faktor));
-            pause.setOnFinished(event -> Platform.runLater(()->innerPane.getChildren().remove(b)));
+            pause.setOnFinished(event -> Platform.runLater(()->innerPane.getChildren().removeAll(b,line)));
             pause.play();
         }).start();
 
