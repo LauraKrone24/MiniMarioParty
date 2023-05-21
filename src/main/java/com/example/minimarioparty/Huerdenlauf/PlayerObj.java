@@ -26,7 +26,7 @@ public class PlayerObj extends Pane {
             isJumping = true;
 
             new Thread(() -> {
-                for (int i = 0; i < 30; i++) {
+                for (int i = 0; i < 31; i++) {
                     Platform.runLater(() -> moveUp(6));
                     try {
                         Thread.sleep(10);
@@ -35,7 +35,7 @@ public class PlayerObj extends Pane {
                     }
                 }
 
-                for (int i = 0; i < 30; i++) {
+                for (int i = 0; i < 31; i++) {
                     Platform.runLater(() -> moveDown(6));
                     try {
                         Thread.sleep(10);
