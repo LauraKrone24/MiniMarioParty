@@ -1,5 +1,8 @@
 package com.example.minimarioparty;
 
+import com.example.minimarioparty.Hauptgame.Spieler;
+import com.example.minimarioparty.Hauptgame.Wuerfel;
+
 public class Minispielrueckgabewert {
     private Spieler winner;
     private Wuerfel wuerfel;

@@ -1,4 +1,4 @@
-package com.example.minimarioparty;
+package com.example.minimarioparty.Hauptgame;
 
 import java.util.ArrayList;
 import java.util.List;

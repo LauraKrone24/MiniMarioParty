@@ -1,5 +1,7 @@
-package com.example.minimarioparty;
+package com.example.minimarioparty.Hauptgame;
 
+import com.example.minimarioparty.Minispiel;
+import com.example.minimarioparty.Minispielrueckgabewert;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -8,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.util.Optional;
 
-public class Aktionsfeld extends Feld{
+public class Aktionsfeld extends Feld {
 
     public Aktionsfeld(int number, int x, int y) {
         super(number, x, y);

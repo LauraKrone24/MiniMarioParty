@@ -1,8 +1,8 @@
 package com.example.minimarioparty.Labyrinth;
 
-import com.example.minimarioparty.GuterWuerfel;
+import com.example.minimarioparty.Hauptgame.GuterWuerfel;
 import com.example.minimarioparty.Minispiel;
-import com.example.minimarioparty.SchlechterWuerfel;
+import com.example.minimarioparty.Hauptgame.SchlechterWuerfel;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -97,11 +97,11 @@ public class Labyrinth extends Minispiel {
             for(int i = 3;i>0;i--){
                 int finalI = i;
                 Platform.runLater(()->countDownWin.setText(String.valueOf(finalI)));
-                try{Thread.sleep(1000);}catch(Exception e){}
+                try{Thread.sleep(1000);}catch(Exception e){System.out.println("Sleep wurde unterbrochen");}
             }
-            try{Thread.sleep(1000);}catch(Exception e){}
+            try{Thread.sleep(1000);}catch(Exception e){System.out.println("Sleep wurde unterbrochen");}
             Platform.runLater(()->countDownWin.setText("Start"));
-            try{Thread.sleep(500);}catch(Exception e){}
+            try{Thread.sleep(500);}catch(Exception e){System.out.println("Sleep wurde unterbrochen");}
             Platform.runLater(()->{
                 countDownWin.setVisible(false);
                 hideRect.setVisible(false);

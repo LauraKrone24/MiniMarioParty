@@ -1,17 +1,22 @@
 package com.example.minimarioparty.BallonPlatzen;
 
-import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-import javafx.util.Duration;
 
 public abstract class Ballon extends Circle {
-    int worth;
+     int worth;
+
+    public void setOnPane(boolean onPane) {
+        this.onPane = onPane;
+    }
+
+    private boolean onPane = true;
 
     public  Ballon(double x, double y, Paint c){
         super(x,y,5,c);
+
         setStroke(Color.BLACK);
     }
 
@@ -30,9 +35,31 @@ public abstract class Ballon extends Circle {
 
     }
 
+    public void move () {
+        final int direktionX = (int) (Math.random()*3)-1;
+        final int direktionY = (int) (Math.random()*3)-1;
+
+        while (onPane){
+
+            final int finalx = (int) (Math.random()*10*direktionX);
+            final int finaly = (int) (Math.random()*10*direktionY);
+            Platform.runLater(() -> {
+                if(getCenterX()+finalx<=550 && getCenterX()+finalx>=50){
+                    setCenterX(getCenterX()+finalx);
+                }
+                if(getCenterY()+finaly<=600 && getCenterY()+finaly>=50){
+                    setCenterY(getCenterY()+finaly);
+                }
+
+            });
+
+            try {Thread.sleep(150);} catch (InterruptedException ex) {throw new RuntimeException(ex);}
+
+        }
+    }
+
     public double getPunkte(){
-        double punkte = worth*(105-getRadius());
-        return punkte;
+        return worth*(105-getRadius());
     }
 
 }

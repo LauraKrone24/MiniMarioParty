@@ -1,8 +1,4 @@
 package com.example.minimarioparty.Labyrinth;
-
-import javafx.application.Platform;
-import javafx.scene.paint.Paint;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
