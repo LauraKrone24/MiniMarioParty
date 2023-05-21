@@ -50,7 +50,7 @@ public class Aktionsfeld extends Feld {
                 m.setLeicht(false);
             }
             else{
-                try{throw new Exception("Minispiel Skipped");}catch (Exception e){e.printStackTrace();}
+                throw new Exception("Minispiel Skipped");
             }
 
             m.start(new Stage());
@@ -72,7 +72,7 @@ public class Aktionsfeld extends Feld {
 
         }catch (Exception e){
             e.printStackTrace();
-            System.out.println("Kein Minispiel gefunden");
+
         }
             Hauptgame.nextSpieler();
         });
