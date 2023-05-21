@@ -2,9 +2,11 @@ package com.example.minimarioparty.BlackJack;
 
 
 import com.example.minimarioparty.Minispiel;
+import com.example.minimarioparty.SchlechterWuerfel;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,6 +30,7 @@ import java.util.TimerTask;
 
 
 public class BlackJackMinispiel  extends Minispiel {
+    private String a = "a";
 
     private Stage stage;
     Pane spielfeldPane = new Pane();
@@ -46,6 +49,8 @@ public class BlackJackMinispiel  extends Minispiel {
     Label mitte = new Label("Drücke Card für eine Karte");
     Label punkteAnzahl = new Label("Aktueller Punktestand: " + punktestand);
 
+    private int stoper = 0;
+
 
 
     Karteninitialisieren test = new Karteninitialisieren();
@@ -55,6 +60,7 @@ public class BlackJackMinispiel  extends Minispiel {
     List<ImageView> erstellteSpielerkarten = new ArrayList<>();
     Button neueKarte = new Button("Card");
     Button stop = new Button("Stop");
+    private Label WinLoseLabel;
 
 
 
@@ -203,12 +209,23 @@ public class BlackJackMinispiel  extends Minispiel {
             neueKarteerstellen.setLayoutY(aktuellY);
             aktuellX += 40;
 
+
             spielfeldPane.getChildren().add(neueKarteerstellen);
             erstellteSpielerkarten.add(neueKarteerstellen);
 
             punktestand += kartenListe.get(zahl).getWert();
             kartenListe.remove(kartenListe.get(zahl));
+
             punkteAnzahl.setText("Aktueller Punktestand: " + punktestand);
+            stoper += 1;
+            if (stoper == 10){
+                neueKarte.setDisable(true);
+            }
+            if (kartenListe.size() < 7) {
+                kartenListe = test.getKartenListe();
+                System.out.println("Karten wurden aufgefüllt 1");
+
+            }
         });
 
 
@@ -238,6 +255,15 @@ public class BlackJackMinispiel  extends Minispiel {
 
 
         });
+
+        WinLoseLabel = new Label();
+        WinLoseLabel.setPrefSize(400,50);
+        WinLoseLabel.setFont(new Font(40));
+        WinLoseLabel.setLayoutY(400);
+        WinLoseLabel.setLayoutX(300);
+        WinLoseLabel.setAlignment(Pos.CENTER);
+        WinLoseLabel.setVisible(false);
+        p.getChildren().add(WinLoseLabel);
         super.start(stage);
     }
 
@@ -262,7 +288,7 @@ public class BlackJackMinispiel  extends Minispiel {
             Platform.runLater(( )->mitte.setText("Unentschieden"));
         }
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
         pause.setOnFinished(event ->{
             cpunktestand = 0;
             punktestand = 0;
@@ -279,6 +305,7 @@ public class BlackJackMinispiel  extends Minispiel {
             erstellteComputerkarten.clear();
             aktuellX = 340;
             x = 340;
+            stoper = 0;
             Platform.runLater(() -> mitte.setText("Drücke Card für eine Karte"));
 
 
@@ -288,12 +315,42 @@ public class BlackJackMinispiel  extends Minispiel {
         });
         pause.play();
 
-        if (spielstandSpieler > 4 || spielstandComputer > 5){
-            System.out.println("Über 4");
+        if (spielstandSpieler > 4 || spielstandComputer > 4){
+            p.getChildren().remove(spielfeldPane);
+            gewinnauswertung();
 
         }
 
 
+    }
+
+    private void gewinnauswertung() {
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+
+            minispielrueckgabewert.setAbbruch(false);
+            minispielrueckgabewert.setWuerfel(new SchlechterWuerfel());
+
+            Platform.runLater(()->WinLoseLabel.setVisible(true));
+            if(spielstandSpieler > spielstandComputer){
+                minispielrueckgabewert.setWinner(spieler[0]);
+                Platform.runLater(()->WinLoseLabel.setText("Du hast gewonnen!!"));
+
+
+            }else {
+                minispielrueckgabewert.setWinner(spieler[1]);
+
+                Platform.runLater(()->WinLoseLabel.setText("Du hast leider verloren"));
+            }
+
+            PauseTransition pause2 = new PauseTransition(Duration.seconds(3));
+            pause2.setOnFinished(e -> stage.close());
+            pause2.play();
+
+
+        });
+
+        pause.play();
     }
 
 
@@ -312,6 +369,10 @@ public class BlackJackMinispiel  extends Minispiel {
         cpunktestand += kartenListe.get(czahl1).getWert();
         kartenListe.remove(kartenListe.get(czahl1));
         cpunkteAnzahl.setText("Computer: " + cpunktestand);
+        if (kartenListe.size() < 7) {
+            kartenListe = test.getKartenListe();
+            System.out.println("Karten wurden aufgefülllt");
+        }
         x += 40;
         erstellteComputerkarten.add(test1);
 
