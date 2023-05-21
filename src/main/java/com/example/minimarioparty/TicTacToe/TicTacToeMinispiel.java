@@ -27,6 +27,7 @@ import java.util.List;
 
 public class TicTacToeMinispiel extends Minispiel {
 
+    //variablen initialisieren
     private Stage stage;
     private Pane spielfeldPane = new Pane();
     private Button button1 = new Button();
@@ -54,16 +55,23 @@ public class TicTacToeMinispiel extends Minispiel {
     private List<Integer> belegteButtons = new ArrayList<>();
     private ArrayList<Button> ButtonList = new ArrayList<>(Arrays.asList(button1,button2, button3, button4, button5,button6,button7,button8,button9));
 
-    //tictactoe schwer
+    //tictactoe schwer variablen
     private String spielerX = "X";
     private String computerO = "O";
     private String nichBelegt = "";
     int computerCalculated;
+
+
+
     @Override
     public void start(Stage stage) throws IOException {
-
+        //hintergrund erstellung
         this.stage = stage;
-        spielanleitungText = "TicTacToe wird auf einem 3x3 Spielfeld gespielt. \nJeder Spieler setzt nach einander ein Zeichen in ein \nfreies Feld. Wer als erster 3 Zeichen diagonal, \nin einer Spalte oder Zeile hat, hat gewonnen. \nEin Unentschieden ist auch möglich. ";
+        spielanleitungText = "TicTacToe wird auf einem 3x3 Spielfeld gespielt. " +
+                "\nJeder Spieler setzt nach einander ein Zeichen in ein " +
+                "\nfreies Feld. Wer als erster 3 Zeichen diagonal, " +
+                "\nin einer Spalte oder Zeile hat, hat gewonnen. " +
+                "\nEin Unentschieden ist auch möglich. ";
         MinispielTitleLabel.setText("TicTacToe");
         if(leicht==true){
             MinispielSchwierigkeitLable.setText("leicht");
@@ -134,7 +142,7 @@ public class TicTacToeMinispiel extends Minispiel {
             button9.setLayoutY(535);
 
 
-            //kann ich bestimmt noch vereinfachen
+            //spieler kann drücken
             button1.setOnAction(event1 -> {
                 zeichenSetzten(button1);
             });
@@ -172,7 +180,7 @@ public class TicTacToeMinispiel extends Minispiel {
             });
 
 
-
+            //wenn man es außerhalb des hauptgame spielen möchte, dann noch gewinnAuswertung methode auskommentieren
             Button neustart = new Button();
             neustart.setVisible(false);
             neustart.setLayoutX(100);
@@ -183,7 +191,7 @@ public class TicTacToeMinispiel extends Minispiel {
             neustart.setOnAction(actionEvent -> neuStart());
 
 
-
+            //für minispielrückgabewert in hauptspiel
             WinLoseLabel = new Label();
             WinLoseLabel.setPrefSize(400,50);
             WinLoseLabel.setFont(new Font("Arial black", 45));
@@ -239,6 +247,8 @@ public class TicTacToeMinispiel extends Minispiel {
         }
 
     }
+
+    //fuer Spieler
     private void zeichenSetzten(Button bt){
         if(spielerDran==true && bt.getText().isEmpty()){
 
@@ -263,6 +273,7 @@ public class TicTacToeMinispiel extends Minispiel {
     }
     }
 
+    //computer leicht
     private void computerSetzen(){
         if(spielerDran==false) {
             while (true) {
@@ -369,7 +380,9 @@ public class TicTacToeMinispiel extends Minispiel {
 
     }
 
-    //methoden fuer schweres tictactoe
+    /////////////////////////////////////
+    //methoden fuer schweres tictactoe//
+    /////////////////////////////////////
 
     private int werteFurComputer(){
 
@@ -507,8 +520,12 @@ public class TicTacToeMinispiel extends Minispiel {
 
     }
 
+    ///////////////////////////////////////
+    //ende methoden fuer tictactoe schwer//
+    ///////////////////////////////////////
 
-//fuer einzelspieler modus
+
+    //fuer einzelspieler modus
     private void neuStart(){
         ButtonList.forEach(ticButton -> {
             ticButton.setText("");
@@ -531,6 +548,7 @@ public class TicTacToeMinispiel extends Minispiel {
 
     }
 
+    //rueckgabe fuer hauptspiel
     private void gewinnAuswertung(){
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
         pause.setOnFinished(event -> {
