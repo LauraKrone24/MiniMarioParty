@@ -25,7 +25,6 @@ public class KniffelMinispiel extends Minispiel {
     private Stage stage;
     Pane spielfeldPane = new Pane();
 
-    int efefef;
     int punkteSpieler = 0;
     int punkteComputer = 0;
 
@@ -242,6 +241,7 @@ public class KniffelMinispiel extends Minispiel {
         });
 
         beenden.setOnAction(ActiveEvent -> {
+            wuerfeln.setVisible(false);
             if (istComputerDran == false) {
                 beenden.setVisible(true);
                 autoZaehlen();
