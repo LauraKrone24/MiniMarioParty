@@ -19,7 +19,7 @@ import java.text.DecimalFormat;
 public class BallonMiniSpiel extends Minispiel {
     private final Pane innerPane = new Pane();
 
-    private final int MINPUNKTE = 6000;
+    private final int MINPUNKTE = 8000;
     private final int DAUER = 60;
 
     private Label ZeitLabel;
@@ -40,15 +40,21 @@ public class BallonMiniSpiel extends Minispiel {
     public void start(Stage stage) throws IOException {
 
         this.stage = stage;
+        spielanleitungText = "Ziel dieses Spiels ist es in 60 Sekunden mehr als die angegebene Punktzahl durch Klicken auf die Ballons zu erreichen\nBallons geben mehr Punkte je kleiner sie sind und goldene Ballons geben Extrapunkte\n";
+        MinispielTitleLabel.setText("Ballonplatzen");
+
 
         if(leicht){
             ballonarten = 2;
             faktor =1;
             minispielrueckgabewert.setWuerfel(new SchlechterWuerfel());
+            MinispielSchwierigkeitLable.setText("Leicht");
         }else{
             ballonarten = 3;
             faktor = 2;
             minispielrueckgabewert.setWuerfel(new GuterWuerfel());
+            spielanleitungText+= "Schwarze Ballons geben Punktabzug!";
+            MinispielSchwierigkeitLable.setText("Schwer");
         }
 
         Button b  = new Button("Start Game");
@@ -57,7 +63,9 @@ public class BallonMiniSpiel extends Minispiel {
         b.setLayoutY(400);
         b.setOnAction(event->{
             System.out.println("Button pressed ");
-            Platform.runLater(()->b.setVisible(false));
+            b.setVisible(false);
+            spielanleitungButton.setVisible(false);
+
             DecimalFormat df = new DecimalFormat("0.0");
             long Startzeit = System.currentTimeMillis();
             Endzeit= Startzeit + DAUER*1000;
@@ -73,7 +81,7 @@ public class BallonMiniSpiel extends Minispiel {
                     System.out.println("InterruptedException");
                 }
             }).start();
-            BallonErzeugen();
+            ballonErzeugen();
 
         });
 
@@ -105,7 +113,7 @@ public class BallonMiniSpiel extends Minispiel {
 
         super.start(stage);
     }
-    private void BallonErzeugen(){
+    private void ballonErzeugen(){
 
         int x = (int) (Math.random()*500+50);
         int y = (int) (Math.random()*550+50);
@@ -146,7 +154,8 @@ public class BallonMiniSpiel extends Minispiel {
         pause.setOnFinished(event -> {
 
             if(Endzeit>=System.currentTimeMillis()){
-                BallonErzeugen();
+                ballonErzeugen();
+
             }
             else{
                 System.out.println("Zeit vorbei");
