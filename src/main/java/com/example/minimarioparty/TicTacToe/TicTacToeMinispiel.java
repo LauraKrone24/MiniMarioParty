@@ -234,7 +234,6 @@ public class TicTacToeMinispiel extends Minispiel {
                 spielerDran= false;
                 System.out.println("Spieler hat gesetzt");
                 belegteButtons.add(ButtonList.indexOf(bt));
-//button mit koordinaten an algo übergeben e.g. button1 ist [0][0]
                 bt.setFont(Font.font("Arial black", 24));
                 zug++;
                 System.out.println("Zug: " + zug);
@@ -453,8 +452,6 @@ public class TicTacToeMinispiel extends Minispiel {
                 }
                 ueberpruefeButton.setText(nichBelegt);
             }
-            //System.out.println("minwert von minKoordinate: " + minWert);
-
 
         }
 
