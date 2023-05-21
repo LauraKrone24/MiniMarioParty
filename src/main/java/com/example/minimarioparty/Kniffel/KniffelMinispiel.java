@@ -233,7 +233,6 @@ public class KniffelMinispiel extends Minispiel {
 
 
         // An spielfeldPane übergeben
-
         spielfeldPane.getChildren().addAll(spielfeld, wuerfeln, beenden, wuerfelSpieler1, wuerfelSpieler2, wuerfelSpieler3, wuerfelSpieler4, wuerfelSpieler5, wuerfelComputer1, wuerfelComputer2, wuerfelComputer3, wuerfelComputer4, wuerfelComputer5, counterWuerfel, punktSpieler, punkteComputer, counterSpieler, counterComputer, runde, amZug);
 
         wuerfeln.setOnAction(actionEvent -> {
