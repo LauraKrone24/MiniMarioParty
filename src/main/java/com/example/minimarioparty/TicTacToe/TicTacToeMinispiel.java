@@ -43,18 +43,31 @@ public class TicTacToeMinispiel extends Minispiel {
 
     private boolean spielerDran;
     private boolean unentschieden;
+    //private boolean leicht =false;
     private Label startSpieler = new Label();
     private int zug = 0;
     private String moglich;
     private List<Integer> belegteButtons = new ArrayList<>();
     private ArrayList<Button> ButtonList = new ArrayList<>(Arrays.asList(button1,button2, button3, button4, button5,button6,button7,button8,button9));
+
+    //tictactoe schwer
+    String spielerX = "X";
+    String computerO = "O";
+    String nichBelegt = "";
+    int computerCalculated;
     @Override
     public void start(Stage stage) throws IOException {
 
         this.stage = stage;
         spielanleitungText = "TicTacToe wird auf einem 3x3 Spielfeld gespielt. \nJeder Spieler setzt nach einander ein Zeichen in ein \nfreies Feld. Wer als erster 3 Zeichen diagonal, \nin einer Spalte oder Zeile hat, hat gewonnen. \nEin Unentschieden ist auch möglich. ";
         MinispielTitleLabel.setText("TicTacToe");
-        MinispielSchwierigkeitLable.setText("leicht");
+        if(leicht==true){
+            MinispielSchwierigkeitLable.setText("leicht");
+        }
+        else{
+            MinispielSchwierigkeitLable.setText("schwer");
+        }
+
 
         Button b = new Button("Start Game");
         b.setPrefSize(100, 100);
@@ -74,7 +87,7 @@ public class TicTacToeMinispiel extends Minispiel {
 
             startSpieler.setLayoutX(100);
             startSpieler.setLayoutY(300);
-            startSpieler.setFont(Font.font("Arial black", 20));
+            startSpieler.setFont(Font.font("system", 20));
 
             ButtonList.forEach(ticButton -> {
                 ticButton.setPrefHeight(buttonHeightWidth);
@@ -175,8 +188,17 @@ public class TicTacToeMinispiel extends Minispiel {
 
             });
             new Thread (() ->{
-                werStartet();
-                computerSetzen();
+                if(leicht==true){
+                    werStartet();
+                    computerSetzen();
+                }
+                else{
+                    spielerDran = true;
+                    startSpieler.setText("Spieler beginnt");
+                    startSpieler.setTextFill(Paint.valueOf("#000000"));
+                    startSpieler.setBackground(new Background(new BackgroundFill(Paint.valueOf("#7eb774"), CornerRadii.EMPTY, Insets.EMPTY)));
+                    System.out.println("Spieler startet");
+                }
             }).start();
 
         });
@@ -185,23 +207,24 @@ public class TicTacToeMinispiel extends Minispiel {
         super.start(stage);
     }
 
-    private void werStartet(){
+    private void werStartet() {
+
         int starter;
-        starter = (int)(Math.random()*2 +1);
-        if(starter == 1){
-            spielerDran=true;
+        starter = (int) (Math.random() * 2 + 1);
+        if (starter == 1) {
+            spielerDran = true;
             startSpieler.setText("Spieler beginnt");
             startSpieler.setTextFill(Paint.valueOf("#000000"));
             startSpieler.setBackground(new Background(new BackgroundFill(Paint.valueOf("#7eb774"), CornerRadii.EMPTY, Insets.EMPTY)));
             System.out.println("Spieler startet");
-        }
-        else{
-            spielerDran=false;
+        } else {
+            spielerDran = false;
             startSpieler.setText("Computer beginnt");
             startSpieler.setTextFill(Paint.valueOf("#000000"));
             startSpieler.setBackground(new Background(new BackgroundFill(Paint.valueOf("#ed7b84"), CornerRadii.EMPTY, Insets.EMPTY)));
             System.out.println("Computer startet");
         }
+
     }
     private void zeichenSetzten(Button bt){
         if(spielerDran==true && bt.getText().isEmpty()){
@@ -211,12 +234,17 @@ public class TicTacToeMinispiel extends Minispiel {
                 spielerDran= false;
                 System.out.println("Spieler hat gesetzt");
                 belegteButtons.add(ButtonList.indexOf(bt));
-
-                bt.setFont(Font.font("Arial black", 20));
+//button mit koordinaten an algo übergeben e.g. button1 ist [0][0]
+                bt.setFont(Font.font("Arial black", 24));
                 zug++;
                 System.out.println("Zug: " + zug);
                 istSpielEnde();
-                computerSetzen();
+                if(leicht == true) {
+                    computerSetzen();
+                }
+                else{
+                    computerSchwerIstDran();
+                }
 
 
 
@@ -247,7 +275,7 @@ public class TicTacToeMinispiel extends Minispiel {
                     System.out.println("Computer hat gesetzt");
                     belegteButtons.add(ButtonList.indexOf(bt));
 
-                    bt.setFont(Font.font("Arial black", 20));
+                    bt.setFont(Font.font("Arial black", 24));
                     zug++;
                     System.out.println("Zug: " + zug);
                     istSpielEnde();
@@ -315,12 +343,163 @@ public class TicTacToeMinispiel extends Minispiel {
             }
         }
         if (unentschieden==true){
+            startSpieler.setText("Unentschieden");
+            startSpieler.setBackground(new Background(new BackgroundFill(Paint.valueOf("#6e44ff"), CornerRadii.EMPTY, Insets.EMPTY)));
             System.out.println("Unentschieden");
             spielerDran=true;
         }
 
 
     }
+
+    //methoden fuer schweres tictactoe
+
+    private int werteFurComputer(){
+
+        String[] moglichkeit = {spielerX, computerO};
+        for (String element : moglichkeit) {
+
+            if (button1.getText() == element && button2.getText() == element && button3.getText() == element ||
+                    button4.getText() == element && button5.getText() == element && button6.getText() == element ||
+                    button7.getText() == element && button8.getText() == element && button9.getText() == element ||
+                    button1.getText() == element && button4.getText() == element && button7.getText() == element ||
+                    button2.getText() == element && button5.getText() == element && button8.getText() == element ||
+                    button3.getText() == element && button6.getText() == element && button9.getText() == element ||
+                    button1.getText() == element && button5.getText() == element && button9.getText() == element ||
+                    button3.getText() == element && button5.getText() == element && button7.getText() == element) {
+                if (element == spielerX) {
+                    return  2;
+                } else {
+                    return  0;
+                }
+            }
+        }
+
+
+
+        for(int bt = 0; bt< ButtonList.size(); bt++){
+            Button ticButton = ButtonList.get(bt);
+            if(ticButton.getText() == nichBelegt){
+                return -1;
+            }
+
+        }
+
+
+        return 1;
+    }
+    private int max(){
+        if (werteFurComputer() != -1 ){
+            return werteFurComputer();
+        }
+        int maxWert = -98767;
+        int wert;
+        for(int bt = 0; bt < ButtonList.size(); bt++){
+            Button ueberpruefeButton = ButtonList.get(bt);
+            if(ueberpruefeButton.getText() == nichBelegt){
+                ueberpruefeButton.setText(spielerX);
+                wert = min();
+                if(wert > maxWert){
+                    maxWert= wert;
+                }
+                ueberpruefeButton.setText(nichBelegt);
+            }
+
+
+        }
+
+        return maxWert;
+    }
+
+    private int min(){
+        if (werteFurComputer() != -1 ){
+            return werteFurComputer();
+        }
+        int minWert = 98767;
+        int wert;
+        for(int bt = 0; bt < ButtonList.size(); bt++){
+            Button ueberpruefeButton = ButtonList.get(bt);
+            if(ueberpruefeButton.getText() == nichBelegt){
+                ueberpruefeButton.setText(computerO);
+                wert = max();
+                if(wert < minWert){
+                    minWert= wert;
+                }
+                ueberpruefeButton.setText(nichBelegt);
+            }
+
+
+        }
+
+        return minWert;
+    }
+
+    private int minKoordinaten(){
+        if (werteFurComputer() != -1 ){
+            return werteFurComputer();
+        }
+        int minWert = 98767;
+        int wert;
+        for(int bt = 0; bt < ButtonList.size(); bt++){
+            Button ueberpruefeButton = ButtonList.get(bt);
+            if(ueberpruefeButton.getText() == nichBelegt){
+                ueberpruefeButton.setText(computerO);
+                wert = max();
+                if(wert < minWert){
+                    minWert= wert;
+                    //if(zug !=1) {
+                        computerCalculated = ButtonList.indexOf(ueberpruefeButton);
+                    //}
+                }
+                ueberpruefeButton.setText(nichBelegt);
+            }
+            //System.out.println("minwert von minKoordinate: " + minWert);
+
+
+        }
+
+        return minWert;
+    }
+
+    private void computerSchwerIstDran(){
+        /*if(zug==1){
+            minKoordinaten();
+            System.out.println("computerCalculated: " + computerCalculated);
+            computerCalculated=7;
+            min();
+        }*/
+        //else {
+            minKoordinaten();
+        //}
+
+        Button bt = ButtonList.get(computerCalculated);
+
+        if(spielerDran==false && bt.getText().isEmpty()){
+            Platform.runLater(() ->{
+                PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                pause.setOnFinished(actionEvent -> {
+                    System.out.println("Computer wählt Feld: " + (computerCalculated+ 1));
+                    bt.setText("O");
+                    bt.setTextFill(Paint.valueOf("#ed7b84"));
+                    spielerDran=true;
+                    System.out.println("Computer hat gesetzt");
+
+                    bt.setFont(Font.font("Arial black", 24));
+                    zug++;
+                    System.out.println("Zug: " + zug);
+                    istSpielEnde();
+
+                });
+                pause.play();
+
+
+            });
+
+
+        }
+
+    }
+
 
 
     private void neuStart(){
@@ -332,8 +511,17 @@ public class TicTacToeMinispiel extends Minispiel {
         zug= 0;
         unentschieden=false;
         belegteButtons.clear();
+        if(leicht==true){
         werStartet();
-        computerSetzen();
+        computerSetzen();}
+        else{
+            spielerDran = true;
+            startSpieler.setText("Spieler beginnt");
+            startSpieler.setTextFill(Paint.valueOf("#000000"));
+            startSpieler.setBackground(new Background(new BackgroundFill(Paint.valueOf("#7eb774"), CornerRadii.EMPTY, Insets.EMPTY)));
+            System.out.println("Spieler startet");
+        }
+
     }
 
     /*private void gewinnAuswertung(){
