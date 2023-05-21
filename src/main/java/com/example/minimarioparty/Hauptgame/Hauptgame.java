@@ -416,9 +416,9 @@ public class Hauptgame extends Application {
             wurfel2ImageView.setImage(aktuellerSpieler.getWuerfelList().get(1).getBild());
         }
 
-        aktuellerSpielerEllipse.setFill(Paint.valueOf(aktuellerSpieler.getFarbe()));
+        aktuellerSpielerEllipse.setFill(aktuellerSpieler.getFarbe());
         aktuellerSpielerLable.setText(aktuellerSpieler.getName());
-        nichtAktuellerSpielerEllipse.setFill(Paint.valueOf(naesterSpieler.getFarbe()));
+        nichtAktuellerSpielerEllipse.setFill(naesterSpieler.getFarbe());
         nichtAktuellerSpielerLable.setText(naesterSpieler.getName());
 
 

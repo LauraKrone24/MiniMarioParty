@@ -3,14 +3,17 @@ package com.example.minimarioparty;
 import com.example.minimarioparty.Hauptgame.Hauptgame;
 import com.example.minimarioparty.Hauptgame.Spieler;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -32,6 +35,8 @@ public  abstract class Minispiel extends Application {
     protected String hauptfarbe = "#8361FF";
 
     protected String spielanleitungText = "";
+
+    private static boolean pauseGame= false;
 
 
 
@@ -55,7 +60,7 @@ public  abstract class Minispiel extends Application {
         MinispielSchwierigkeitLable.setFont(new Font("system",20));
         MinispielSchwierigkeitLable.setLayoutX(450);
         MinispielSchwierigkeitLable.setLayoutY(60);
-        MinispielSchwierigkeitLable.prefWidth(50);
+        MinispielSchwierigkeitLable.prefWidth(150);
         MinispielSchwierigkeitLable.prefHeight(55);
         MinispielSchwierigkeitLable.setTextFill(Paint.valueOf("#ffffff"));
 
@@ -83,11 +88,13 @@ public  abstract class Minispiel extends Application {
         });
 
         spielanleitungButton.setOnAction(actionEvent -> {
+            pauseGame = true;
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Spielanleitung");
             alert.setHeaderText("Spielanleitung");
             alert.setContentText(spielanleitungText);
             alert.showAndWait();
+            pauseGame = false;
 
         });
 
@@ -110,5 +117,9 @@ public  abstract class Minispiel extends Application {
 
     public Minispielrueckgabewert getMinispielrueckgabewert() {
         return minispielrueckgabewert;
+    }
+
+    public static boolean isPauseGame() {
+        return pauseGame;
     }
 }
