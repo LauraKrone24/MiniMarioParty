@@ -130,6 +130,10 @@ public class BallonMiniSpiel extends Minispiel {
                 Platform.runLater(()->innerPane.getChildren().remove(b));
 
         });
+        if(!leicht){
+            new Thread(()->b.move()).start();
+        }
+
         new Thread(()->{
             b.grow(faktor);
             PauseTransition pause = new PauseTransition(Duration.seconds(1/faktor));
