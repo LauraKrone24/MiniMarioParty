@@ -1,5 +1,6 @@
 package com.example.minimarioparty;
 
+import com.example.minimarioparty.Hauptgame.GuterWuerfel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;

@@ -1,17 +1,20 @@
-package com.example.minimarioparty;
+package com.example.minimarioparty.Hauptgame;
 
+
+import javafx.scene.image.Image;
 
 public abstract class Wuerfel {
     private final String name;
     int start;
     int end;
-    String color;
+    Image bild;
 
-    public Wuerfel(String name, int start, int end,String color){
+
+    public Wuerfel(String name, int start, int end,String bildString){
         this.name = name;
         this.start= start;
         this.end= end;
-        this.color = color;
+        this.bild = new Image(bildString);
 
     }
 
@@ -24,8 +27,8 @@ public abstract class Wuerfel {
 
     }
 
-    public String getColor() {
-        return color;
+    public Image getBild() {
+        return bild;
     }
 
     public String getName() {

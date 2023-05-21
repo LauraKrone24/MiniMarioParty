@@ -1,5 +1,7 @@
-package com.example.minimarioparty;
+package com.example.minimarioparty.Hauptgame;
 
+import com.example.minimarioparty.Minispiel;
+import com.example.minimarioparty.Minispielrueckgabewert;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -8,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.util.Optional;
 
-public class Aktionsfeld extends Feld{
+public class Aktionsfeld extends Feld {
 
     public Aktionsfeld(int number, int x, int y) {
         super(number, x, y);
@@ -48,7 +50,7 @@ public class Aktionsfeld extends Feld{
                 m.setLeicht(false);
             }
             else{
-                try{throw new Exception("Minispiel Skipped");}catch (Exception e){e.printStackTrace();}
+                throw new Exception("Minispiel Skipped");
             }
 
             m.start(new Stage());
@@ -70,7 +72,7 @@ public class Aktionsfeld extends Feld{
 
         }catch (Exception e){
             e.printStackTrace();
-            System.out.println("Kein Minispiel gefunden");
+
         }
             Hauptgame.nextSpieler();
         });

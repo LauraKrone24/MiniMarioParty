@@ -1,7 +1,6 @@
 package com.example.minimarioparty.Kniffel;
 
 import javafx.scene.image.Image;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +25,6 @@ public class Wuerfelinitialisieren {
 
     Image sechserWuerfelBild = new Image("Wuerfel6.png");
     Wuerfel sechserWuerfel = new Wuerfel(sechserWuerfelBild, 6);
-
-
 
 
 

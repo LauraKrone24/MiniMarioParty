@@ -1,4 +1,6 @@
-package com.example.minimarioparty;
+package com.example.minimarioparty.Hauptgame;
+
+import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +10,7 @@ public class Spieler {
     private final String name;
     private final boolean computer;
 
-    private final String farbe;
+    private final Paint farbe;
     private final List<Wuerfel> wuerfelList =  new ArrayList<>();
     private Feld position;
     //hier Grafik einfügen
@@ -16,7 +18,7 @@ public class Spieler {
     public Spieler(String name, boolean computer,String  farbe){
         this.name = name;
         this.computer = computer;
-        this.farbe = farbe;
+        this.farbe = Paint.valueOf(farbe) ;
         this.position = new Feld(1,25,700);//Hauptgame.felder.get(0)
         wuerfelList.add(new Normalerwuerfel());
 
@@ -28,23 +30,24 @@ public class Spieler {
     public String getName() {
         return name;
     }
-    public String getFarbe() {return farbe;}
+    public Paint getFarbe() {return farbe;}
 
     public List<Wuerfel> getWuerfelList() { return wuerfelList;}
     public Feld getPosition() {
         return position;
     }
 
-    public void fuegeWuerfelhinzu(Wuerfel wuerfel){
-        wuerfelList.add(wuerfel);
 
-    }
 
     public boolean isComputer() {
         return computer;
     }
 
     //Methoden
+    public void fuegeWuerfelhinzu(Wuerfel wuerfel){
+        wuerfelList.add(wuerfel);
+
+    }
     public int wuerfeln(){
         int ergebnis = 0;
         for (Wuerfel w : wuerfelList){
@@ -66,7 +69,7 @@ public class Spieler {
 
         }else {
             this.position = Hauptgame.felder[99];
-            System.out.println("Du hast gewonnen");
+            wuerfeln = 0;
         }
 
         return wuerfeln;

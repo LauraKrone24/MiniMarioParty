@@ -1,4 +1,4 @@
-package com.example.minimarioparty;
+package com.example.minimarioparty.Hauptgame;
 
 public class Feld {
     private final int number;

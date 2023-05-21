@@ -1,11 +1,16 @@
-package com.example.minimarioparty;
+package com.example.minimarioparty.Hauptgame;
 
 import com.example.minimarioparty.BallonPlatzen.BallonMiniSpiel;
+import com.example.minimarioparty.BlackJack.BlackJackMinispiel;
 import com.example.minimarioparty.Labyrinth.Labyrinth;
+import com.example.minimarioparty.Minispiel;
+import com.example.minimarioparty.SchereSteinPapier.SchereSteinPapierMiniSpiel;
+import com.example.minimarioparty.TicTacToe.TicTacToeMinispiel;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
@@ -15,7 +20,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -28,11 +32,12 @@ import java.util.List;
 public class Hauptgame extends Application {
     private final static Spieler[] spieler = new Spieler[2];
     public static Boolean finished = true;
-    private static Spieler aktuellerSpieler;
-    private static Spieler naesterSpieler;
+    private static int aktuellerSpieler;
+    private static Stage stage;
+
     private static Ellipse nichtAktuellerSpielerEllipse;
     private static Ellipse aktuellerSpielerEllipse;
-    private static Rectangle wurfel2Rect;
+    private static ImageView wurfel2ImageView;
     protected static Feld[] felder = new Feld[100];
     private static Label aktuellerSpielerLable;
     private static Label nichtAktuellerSpielerLable;
@@ -48,11 +53,14 @@ public class Hauptgame extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        this.stage = stage;
         final String SPIELER1FARBE = "#7eb774";
         final String SPIELER2FARBE = "ed7b84";
 
         Pane p = new Pane();
+        p.setMinSize(1000,800);
         p.setMaxSize(1000,800);
+        p.setStyle("-fx-background-color: #ffffff");
 
         Label MarioParty= new Label("Mini Mario Party");
         MarioParty.setLayoutX(800);
@@ -68,12 +76,13 @@ public class Hauptgame extends Application {
         spielerreihenfolge.setFont(new Font("System",20));
         p.getChildren().add(spielerreihenfolge);
 
-        aktuellerSpielerEllipse = new Ellipse(10,15); //hier Farbe anpassen
+        aktuellerSpielerEllipse = new Ellipse(10,15);
 
-        nichtAktuellerSpielerEllipse = new Ellipse(10,15);// hier Farbe anpassen
+        nichtAktuellerSpielerEllipse = new Ellipse(10,15);
 
-         aktuellerSpielerLable = new Label("",aktuellerSpielerEllipse);
-         nichtAktuellerSpielerLable = new Label("",nichtAktuellerSpielerEllipse);
+        aktuellerSpielerLable = new Label("",aktuellerSpielerEllipse);
+        nichtAktuellerSpielerLable = new Label("",nichtAktuellerSpielerEllipse);
+
 
 
 
@@ -93,19 +102,17 @@ public class Hauptgame extends Application {
         wuerfelLable.setFont(new Font("System",24));
         wuerfelLable.setAlignment(Pos.CENTER);
 
-        Rectangle wurfel1Rect = new Rectangle(50, 50);
-        wurfel1Rect.setLayoutY(500);
-        wurfel1Rect.setLayoutX(820);
-        wurfel1Rect.setFill(Paint.valueOf("#8361ff"));
-        wurfel1Rect.setArcHeight(5);
-        wurfel1Rect.setArcWidth(5);
+        ImageView wurfel1ImageView = new ImageView(new Image("NormalerWurfelBild.JPG"));
+        wurfel1ImageView.setFitWidth(50);
+        wurfel1ImageView.setFitHeight(50);
+        wurfel1ImageView.setLayoutY(500);
+        wurfel1ImageView.setLayoutX(820);
 
-        wurfel2Rect = new Rectangle(50,50);
-        wurfel2Rect.setLayoutY(500);
-        wurfel2Rect.setLayoutX(930);
-        wurfel2Rect.setFill(Paint.valueOf("#ffffff"));
-        wurfel2Rect.setArcHeight(5);
-        wurfel2Rect.setArcWidth(5);
+        wurfel2ImageView = new ImageView();
+        wurfel2ImageView.setLayoutY(500);
+        wurfel2ImageView.setLayoutX(930);
+        wurfel2ImageView.setFitWidth(50);
+        wurfel2ImageView.setFitHeight(50);
 
         wuerfel1Lable = new Label("");
         wuerfel1Lable.setPrefWidth(50);
@@ -138,7 +145,7 @@ public class Hauptgame extends Application {
         wuefelbutton.setLayoutX(810);
         wuefelbutton.setOnAction(event-> zug());
 
-        p.getChildren().addAll(wurfel1Rect,wurfel2Rect,wuerfelLable,wuerfel1Lable,wuerfel2Lable,wuefelbutton,wuerfelSUMLable);
+        p.getChildren().addAll(wurfel1ImageView, wurfel2ImageView,wuerfelLable,wuerfel1Lable,wuerfel2Lable,wuefelbutton,wuerfelSUMLable);
 
         Image hintergrundimage = new Image("Spielbrett.jpg"); //Hier wenn vorhanden Bild einfügen
         ImageView spielfeldhintergrund = new ImageView();
@@ -170,10 +177,9 @@ public class Hauptgame extends Application {
         td.showAndWait();
         String spielername = td.getEditor().getText();
 
-        aktuellerSpieler = new Spieler(spielername,false,SPIELER1FARBE);
-        naesterSpieler = new Spieler("Computer",true,SPIELER2FARBE);
-        spieler[0]  = aktuellerSpieler;
-        spieler[1]  = naesterSpieler;
+
+        spieler[0]  = new Spieler(spielername,false,SPIELER1FARBE);
+        spieler[1]  = new Spieler("Computer",true,SPIELER2FARBE);
         setFelder();
 
         addMinispiele();
@@ -184,7 +190,7 @@ public class Hauptgame extends Application {
 
         stage.show();
 
-        if(aktuellerSpieler.isComputer())zug();
+        if(aktuellerSpieler==1)zug();
 
 
 
@@ -196,7 +202,18 @@ public class Hauptgame extends Application {
         minispielListe.add(new Labyrinth());
         minispielListe.add(new Labyrinth());
         minispielListe.add(new Labyrinth());
-        minispielListe.add(new TestMiniSpiel());
+        minispielListe.add(new BallonMiniSpiel());
+        minispielListe.add(new BallonMiniSpiel());
+        minispielListe.add(new BallonMiniSpiel());
+        minispielListe.add(new BlackJackMinispiel());
+        minispielListe.add(new BlackJackMinispiel());
+        minispielListe.add(new BlackJackMinispiel());
+        minispielListe.add(new TicTacToeMinispiel());
+        minispielListe.add(new TicTacToeMinispiel());
+        minispielListe.add(new TicTacToeMinispiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
     }
 
     public void setFelder(){
@@ -348,9 +365,7 @@ public class Hauptgame extends Application {
     }
 
     public static void changeSpieler(){
-        Spieler p = naesterSpieler;
-        naesterSpieler = aktuellerSpieler;
-        aktuellerSpieler = p;
+        aktuellerSpieler = (aktuellerSpieler-1)*(aktuellerSpieler-1);
     }
 
     public static void nextSpieler(){
@@ -362,7 +377,7 @@ public class Hauptgame extends Application {
         PauseTransition pause2 = new PauseTransition(Duration.seconds(2));
         pause2.setOnFinished(event -> {
 
-            if(aktuellerSpieler.isComputer()){
+            if(aktuellerSpieler==1){
                 zug();
             }else{
                 wuefelbutton.setVisible(true);
@@ -377,33 +392,61 @@ public class Hauptgame extends Application {
 
     public static void zug(){
         wuefelbutton.setVisible(false);
+        int wurfelsumme = spieler[aktuellerSpieler].bewegeSpieler();
+        if(wurfelsumme!= 0){
+            wuerfelSUMLable.setText(String.valueOf(wurfelsumme));
 
-        wuerfelSUMLable.setText(String.valueOf(aktuellerSpieler.bewegeSpieler()));
+            if(aktuellerSpieler==1){
+                figurComputer.setLayoutX(spieler[aktuellerSpieler].getPosition().getX()+50);
+                figurComputer.setLayoutY(spieler[aktuellerSpieler].getPosition().getY()+50);
 
-        if(aktuellerSpieler.isComputer()){
-            figurComputer.setLayoutX(aktuellerSpieler.getPosition().getX()+50);
-            figurComputer.setLayoutY(aktuellerSpieler.getPosition().getY()+50);
+            }else{
+                figurSpieler.setLayoutX(spieler[aktuellerSpieler].getPosition().getX()+25);
+                figurSpieler.setLayoutY(spieler[aktuellerSpieler].getPosition().getY()+25);
 
+            }
+
+            if(spieler[aktuellerSpieler].getPosition() instanceof Aktionsfeld){
+                finished = false;
+
+                System.out.println("start"+System.currentTimeMillis());
+
+                ((Aktionsfeld) spieler[aktuellerSpieler].getPosition()).starteMinispiel();
+
+
+            }
+
+            if(finished){
+                nextSpieler();
+            }
         }else{
-            figurSpieler.setLayoutX(aktuellerSpieler.getPosition().getX()+25);
-            figurSpieler.setLayoutY(aktuellerSpieler.getPosition().getY()+25);
-
+            gewinner(spieler[aktuellerSpieler]);
         }
 
-        if(aktuellerSpieler.getPosition() instanceof Aktionsfeld){
-            finished = false;
-
-            System.out.println("start"+System.currentTimeMillis());
-
-                ((Aktionsfeld) aktuellerSpieler.getPosition()).starteMinispiel();
 
 
+
+    }
+    public static void gewinner(Spieler gewinner){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Spiel beendet");
+
+        alert.setHeaderText("Spiel beendet");
+
+        if(gewinner.isComputer()){
+            alert.setContentText("Du hast leider verloren. Der Computer war wohl schneller als du!");
+
+            alert.setHeaderText("Verloren");
+        }
+        else {
+            alert.setContentText("Herzlichen Glückwunsch, " + gewinner.getName() + "! Der Computer konnte kaum mit dir mithalten");
+            alert.setHeaderText("Gewonnen");
         }
 
-        if(finished){
-            nextSpieler();
-        }
-
+        alert.show();
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+        pause.setOnFinished(event ->  stage.close());
+        pause.play();
 
     }
 
@@ -411,17 +454,18 @@ public class Hauptgame extends Application {
         wuerfel1Lable.setText("");
         wuerfel2Lable.setText("");
         wuerfelSUMLable.setText("");
-        wurfel2Rect.setVisible(false);
+        wurfel2ImageView.setVisible(false);
 
-        if(aktuellerSpieler.getWuerfelList().size()>1){
-            wurfel2Rect.setVisible(true);
-            wurfel2Rect.setFill(Paint.valueOf(aktuellerSpieler.getWuerfelList().get(1).color));
+        if(spieler[aktuellerSpieler].getWuerfelList().size()>1){
+            wurfel2ImageView.setVisible(true);
+            wurfel2ImageView.setImage(spieler[aktuellerSpieler].getWuerfelList().get(1).getBild());
         }
 
-        aktuellerSpielerEllipse.setFill(Paint.valueOf(aktuellerSpieler.getFarbe()));
-        aktuellerSpielerLable.setText(aktuellerSpieler.getName());
-        nichtAktuellerSpielerEllipse.setFill(Paint.valueOf(naesterSpieler.getFarbe()));
-        nichtAktuellerSpielerLable.setText(naesterSpieler.getName());
+        aktuellerSpielerEllipse.setFill(spieler[aktuellerSpieler].getFarbe());
+        aktuellerSpielerLable.setText(spieler[aktuellerSpieler].getName());
+        int naesterSpieler = (aktuellerSpieler-1)*(aktuellerSpieler-1);
+        nichtAktuellerSpielerEllipse.setFill(spieler[naesterSpieler].getFarbe());
+        nichtAktuellerSpielerLable.setText(spieler[naesterSpieler].getName());
 
 
     }
