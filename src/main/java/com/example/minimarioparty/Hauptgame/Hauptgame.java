@@ -58,7 +58,9 @@ public class Hauptgame extends Application {
         final String SPIELER2FARBE = "ed7b84";
 
         Pane p = new Pane();
+        p.setMinSize(1000,800);
         p.setMaxSize(1000,800);
+        p.setStyle("-fx-background-color: #ffffff");
 
         Label MarioParty= new Label("Mini Mario Party");
         MarioParty.setLayoutX(800);

@@ -34,11 +34,13 @@ public  abstract class Minispiel extends Application {
     protected String spielanleitungText = "";
 
     private static boolean pauseGame= false;
+    protected Stage stage;
 
 
 
 
     public void start(Stage stage) throws IOException {
+        this.stage = stage;
 
         menuRectangle.setLayoutX(0);
         menuRectangle.setLayoutY(0);
