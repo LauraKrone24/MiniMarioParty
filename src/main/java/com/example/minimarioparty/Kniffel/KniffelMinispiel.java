@@ -241,13 +241,10 @@ public class KniffelMinispiel extends Minispiel {
 
         beenden.setOnAction(ActiveEvent -> {
             wuerfeln.setVisible(false);
-            if (istComputerDran == false) {
-                beenden.setVisible(true);
-                autoZaehlen();
-                spielerZugBeendet();
-            } else {
-                beenden.setVisible(false);
-            }
+            beenden.setVisible(false);
+            autoZaehlen();
+            spielerZugBeendet();
+
         });
 
         winLoseLabel = new Label();
@@ -376,7 +373,7 @@ public class KniffelMinispiel extends Minispiel {
         istComputerDran = true;
 
 
-        if (istComputerDran == true) {
+        if (istComputerDran) {
             hatSpielerGespielt = false;
 
 
@@ -690,7 +687,7 @@ public class KniffelMinispiel extends Minispiel {
             }
         }
 
-        if (istComputerDran == false && hatSpielerGespielt == true) {
+        if (!istComputerDran && hatSpielerGespielt) {
             punkteSpieler += punkte;
             System.out.println("Punkte die dem Spieler hinzugefuegt werden " + punkte);
             System.out.println("Punkte Spieler in Zaehlen() " + punkteSpieler);
@@ -701,7 +698,7 @@ public class KniffelMinispiel extends Minispiel {
             punktePruefung();
             punkteSpielerLabel.setText("Punkte des Spielers: " + punkteSpieler);
 
-        } else if (istComputerDran == true && wurdenPunkteGezaehlt && wuerfelCounter == 3) {
+        } else if (istComputerDran && wurdenPunkteGezaehlt && wuerfelCounter == 3) {
             punkteComputer += punkte;
             istComputerDran = false;
             zahlen.clear();
@@ -715,7 +712,7 @@ public class KniffelMinispiel extends Minispiel {
             wurdenPunkteGezaehlt = true;
             wuerfeln.setVisible(true);
             amZugLabel.setText("Spieler ist am Zug");
-        } else if (istComputerDran == true && punkte >= schwierigkeitsLevel || wuerfelCounter == 3) {
+        } else if (istComputerDran && punkte >= schwierigkeitsLevel || wuerfelCounter == 3) {
             wurdenPunkteGezaehlt = true;
             punkteComputer += punkte;
             istComputerDran = false;
