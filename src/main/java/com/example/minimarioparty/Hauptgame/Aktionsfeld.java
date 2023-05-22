@@ -18,7 +18,7 @@ public class Aktionsfeld extends Feld {
 
 
 
-    public int getMinispielnummer(){
+    private int getMinispielnummer(){
         return (int) (Math.random()*Hauptgame.minispielListe.size());
     }
 

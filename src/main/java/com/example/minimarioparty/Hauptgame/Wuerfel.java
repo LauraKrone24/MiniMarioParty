@@ -5,9 +5,9 @@ import javafx.scene.image.Image;
 
 public abstract class Wuerfel {
     private final String name;
-    int start;
-    int end;
-    Image bild;
+    private final int start;
+    private final int end;
+    private final Image bild;
 
 
     public Wuerfel(String name, int start, int end,String bildString){

@@ -48,7 +48,7 @@ public class Spieler {
         wuerfelList.add(wuerfel);
 
     }
-    public int wuerfeln(){
+    private int wuerfeln(){
         int ergebnis = 0;
         for (Wuerfel w : wuerfelList){
             ergebnis = ergebnis + w.wuerfeln();
@@ -69,7 +69,7 @@ public class Spieler {
 
         }else {
             this.position = Hauptgame.felder[99];
-            wuerfeln = 0;
+            Hauptgame.setGewonnen(true);
         }
 
         return wuerfeln;
