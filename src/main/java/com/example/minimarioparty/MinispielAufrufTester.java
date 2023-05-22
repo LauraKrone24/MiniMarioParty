@@ -4,6 +4,7 @@ import com.example.minimarioparty.BallonPlatzen.BallonMiniSpiel;
 import com.example.minimarioparty.BlackJack.BlackJackMinispiel;
 import com.example.minimarioparty.Huerdenlauf.Huerdenlauf;
 import com.example.minimarioparty.Labyrinth.Labyrinth;
+import com.example.minimarioparty.SchiffeVersenken.SchiffeVersenken;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,7 +22,7 @@ public class MinispielAufrufTester extends Application {
         startButton.setPrefHeight(200);
         startButton.setPrefWidth(200);
         startButton.setOnAction(actionEvent -> {
-            Minispiel test = new Huerdenlauf(); // Hier Minispielklassennamen zum Testen einfügen
+            Minispiel test = new SchiffeVersenken(); // Hier Minispielklassennamen zum Testen einfügen
             test.setLeicht(true);
             try{
                 test.start(new Stage());
