@@ -632,7 +632,6 @@ public class KniffelMinispiel extends Minispiel {
         boolean grStrasse = false;
 
 
-
         // Prüfung auf kleine Strasse
 
         for (int i = 0; i <= 3; i++) {
