@@ -2,6 +2,7 @@ package com.example.minimarioparty.Hauptgame;
 
 import com.example.minimarioparty.BallonPlatzen.BallonMiniSpiel;
 import com.example.minimarioparty.BlackJack.BlackJackMinispiel;
+import com.example.minimarioparty.Huerdenlauf.Huerdenlauf;
 import com.example.minimarioparty.Labyrinth.Labyrinth;
 import com.example.minimarioparty.Minispiel;
 import com.example.minimarioparty.SchereSteinPapier.SchereSteinPapierMiniSpiel;
@@ -198,18 +199,22 @@ public class Hauptgame extends Application {
         minispielListe.add(new Labyrinth());
         minispielListe.add(new Labyrinth());
         minispielListe.add(new Labyrinth());
+        minispielListe.add(new Huerdenlauf());
         minispielListe.add(new BallonMiniSpiel());
         minispielListe.add(new BallonMiniSpiel());
         minispielListe.add(new BallonMiniSpiel());
+        minispielListe.add(new Huerdenlauf());
         minispielListe.add(new BlackJackMinispiel());
         minispielListe.add(new BlackJackMinispiel());
         minispielListe.add(new BlackJackMinispiel());
         minispielListe.add(new TicTacToeMinispiel());
         minispielListe.add(new TicTacToeMinispiel());
         minispielListe.add(new TicTacToeMinispiel());
+        minispielListe.add(new Huerdenlauf());
         minispielListe.add(new SchereSteinPapierMiniSpiel());
         minispielListe.add(new SchereSteinPapierMiniSpiel());
         minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new Huerdenlauf());
     }
 
     private void setFelder(){
