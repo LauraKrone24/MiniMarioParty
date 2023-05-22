@@ -191,10 +191,6 @@ public class Hauptgame extends Application {
         stage.show();
 
         if(aktuellerSpieler==1)zug();
-
-
-
-
     }
 
     private void addMinispiele() {
@@ -216,7 +212,7 @@ public class Hauptgame extends Application {
         minispielListe.add(new SchereSteinPapierMiniSpiel());
     }
 
-    public void setFelder(){
+    private void setFelder(){
         int x = 25;
         int y = 700;
         for (int i = 0; i <= 9; i++) {
@@ -344,7 +340,10 @@ public class Hauptgame extends Application {
                 int speicher = feld.getNumber();
                 int a = feld.getX();
                 int b = feld.getY();
-                felder[speicher -1] = new Aktionsfeld(speicher,a,b);
+                if(feld.getNumber()!=100){
+                    felder[speicher -1] = new Aktionsfeld(speicher,a,b);
+                }
+
 
             }
 
@@ -357,14 +356,14 @@ public class Hauptgame extends Application {
 
     }
 
-    public void chooseStartspieler(){
+    private void chooseStartspieler(){
         double  i = Math.random();
         if(i<=0.5){
             changeSpieler();
         }
     }
 
-    public static void changeSpieler(){
+    private static void changeSpieler(){
         aktuellerSpieler = (aktuellerSpieler-1)*(aktuellerSpieler-1);
     }
 
@@ -390,38 +389,42 @@ public class Hauptgame extends Application {
 
 
 
-    public static void zug(){
+    private static void zug(){
         wuefelbutton.setVisible(false);
         int wurfelsumme = spieler[aktuellerSpieler].bewegeSpieler();
-        if(wurfelsumme!= 0){
-            wuerfelSUMLable.setText(String.valueOf(wurfelsumme));
 
-            if(aktuellerSpieler==1){
-                figurComputer.setLayoutX(spieler[aktuellerSpieler].getPosition().getX()+50);
-                figurComputer.setLayoutY(spieler[aktuellerSpieler].getPosition().getY()+50);
+        wuerfelSUMLable.setText(String.valueOf(wurfelsumme));
 
-            }else{
-                figurSpieler.setLayoutX(spieler[aktuellerSpieler].getPosition().getX()+25);
-                figurSpieler.setLayoutY(spieler[aktuellerSpieler].getPosition().getY()+25);
+        if(aktuellerSpieler==1){
+            figurComputer.setLayoutX(spieler[aktuellerSpieler].getPosition().getX()+50);
+            figurComputer.setLayoutY(spieler[aktuellerSpieler].getPosition().getY()+50);
 
-            }
-
-            if(spieler[aktuellerSpieler].getPosition() instanceof Aktionsfeld){
-                finished = false;
-
-                System.out.println("start"+System.currentTimeMillis());
-
-                ((Aktionsfeld) spieler[aktuellerSpieler].getPosition()).starteMinispiel();
-
-
-            }
-
-            if(finished){
-                nextSpieler();
-            }
         }else{
-            gewinner(spieler[aktuellerSpieler]);
+            figurSpieler.setLayoutX(spieler[aktuellerSpieler].getPosition().getX()+25);
+            figurSpieler.setLayoutY(spieler[aktuellerSpieler].getPosition().getY()+25);
+
         }
+
+        if(spieler[aktuellerSpieler].getPosition() instanceof Aktionsfeld){
+            finished = false;
+
+            System.out.println("start"+System.currentTimeMillis());
+
+            ((Aktionsfeld) spieler[aktuellerSpieler].getPosition()).starteMinispiel();
+
+
+        }
+        if(wurfelsumme==0){
+            gewinner(spieler[aktuellerSpieler]);
+        } else if (finished) {
+            nextSpieler();
+        }
+
+
+
+
+
+
 
 
 
@@ -450,7 +453,7 @@ public class Hauptgame extends Application {
 
     }
 
-    public static void updateOberflache(){
+    private static void updateOberflache(){
         wuerfel1Lable.setText("");
         wuerfel2Lable.setText("");
         wuerfelSUMLable.setText("");
