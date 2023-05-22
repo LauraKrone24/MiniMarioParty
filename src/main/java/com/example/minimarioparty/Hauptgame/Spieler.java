@@ -69,7 +69,7 @@ public class Spieler {
 
         }else {
             this.position = Hauptgame.felder[99];
-            System.out.println("Du hast gewonnen");
+            wuerfeln = 0;
         }
 
         return wuerfeln;

@@ -23,16 +23,14 @@ public class Aktionsfeld extends Feld {
     }
 
     public void  starteMinispiel(){
-        int minispielnummer = getMinispielnummer();
-
 
         Platform.runLater(()->{
 
         try{
-            Minispiel m = Hauptgame.minispielListe.remove(minispielnummer);
+            Minispiel m = Hauptgame.minispielListe.remove(getMinispielnummer());
             Alert schwierigkeitsauswahl = new Alert(Alert.AlertType.CONFIRMATION);
             schwierigkeitsauswahl.setTitle("Minispiel Schwierigkeit");
-            schwierigkeitsauswahl.setHeaderText("Du bist auf einem Minispielfeld gelandet");
+            schwierigkeitsauswahl.setHeaderText("Du bist auf einem Minispielfeld gelandet ("+m.getClass().getSimpleName()+")");
             schwierigkeitsauswahl.setContentText("Willst du ein leichtes oder schweres Spiel ?\n(Schwere Spiele bringen dir einen besseren Bonus)");
 
             ButtonType buttonLeicht= new ButtonType("Leicht");

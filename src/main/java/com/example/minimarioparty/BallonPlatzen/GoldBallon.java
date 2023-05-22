@@ -5,8 +5,8 @@ import javafx.scene.shape.CubicCurve;
 
 public class GoldBallon extends Ballon{
     public GoldBallon(double x, double y, CubicCurve line){
-        super(x,y, Paint.valueOf("#d4af37"),line);
-        worth = 10;
+        super(x,y, Paint.valueOf("#d4af37"),line,10);
+
 
     }
 

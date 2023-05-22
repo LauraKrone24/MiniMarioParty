@@ -34,11 +34,13 @@ public  abstract class Minispiel extends Application {
     protected String spielanleitungText = "";
 
     private static boolean pauseGame= false;
+    protected Stage stage;
 
 
 
 
     public void start(Stage stage) throws IOException {
+        this.stage = stage;
 
         menuRectangle.setLayoutX(0);
         menuRectangle.setLayoutY(0);
@@ -64,9 +66,9 @@ public  abstract class Minispiel extends Application {
         spielanleitungButton.setLayoutX(875);
         spielanleitungButton.setLayoutY(35);
 
-        MinispielTitleLabel.setFont(new Font("system", 24));
+        MinispielTitleLabel.setFont(new Font("Arial black", 24));
         MinispielTitleLabel.setLayoutX(450);
-        MinispielTitleLabel.setLayoutY(35);
+        MinispielTitleLabel.setLayoutY(25);
         MinispielTitleLabel.prefWidth(150);
         MinispielTitleLabel.prefHeight(55);
         MinispielTitleLabel.setTextFill(Paint.valueOf("#ffffff"));

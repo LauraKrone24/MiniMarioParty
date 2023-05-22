@@ -1,12 +1,17 @@
 package com.example.minimarioparty.Hauptgame;
 
+import com.example.minimarioparty.BallonPlatzen.BallonMiniSpiel;
+import com.example.minimarioparty.BlackJack.BlackJackMinispiel;
+import com.example.minimarioparty.Huerdenlauf.Huerdenlauf;
 import com.example.minimarioparty.Labyrinth.Labyrinth;
 import com.example.minimarioparty.Minispiel;
-import com.example.minimarioparty.TestMiniSpiel;
+import com.example.minimarioparty.SchereSteinPapier.SchereSteinPapierMiniSpiel;
+import com.example.minimarioparty.TicTacToe.TicTacToeMinispiel;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
@@ -29,6 +34,7 @@ public class Hauptgame extends Application {
     private final static Spieler[] spieler = new Spieler[2];
     public static Boolean finished = true;
     private static int aktuellerSpieler;
+    private static Stage stage;
 
     private static Ellipse nichtAktuellerSpielerEllipse;
     private static Ellipse aktuellerSpielerEllipse;
@@ -48,11 +54,14 @@ public class Hauptgame extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        this.stage = stage;
         final String SPIELER1FARBE = "#7eb774";
         final String SPIELER2FARBE = "ed7b84";
 
         Pane p = new Pane();
+        p.setMinSize(1000,800);
         p.setMaxSize(1000,800);
+        p.setStyle("-fx-background-color: #ffffff");
 
         Label MarioParty= new Label("Mini Mario Party");
         MarioParty.setLayoutX(800);
@@ -171,7 +180,7 @@ public class Hauptgame extends Application {
 
 
         spieler[0]  = new Spieler(spielername,false,SPIELER1FARBE);
-        spieler[1]  = new Spieler("Computer",true,SPIELER2FARBE);;
+        spieler[1]  = new Spieler("Computer",true,SPIELER2FARBE);
         setFelder();
 
         addMinispiele();
@@ -183,10 +192,6 @@ public class Hauptgame extends Application {
         stage.show();
 
         if(aktuellerSpieler==1)zug();
-
-
-
-
     }
 
     private void addMinispiele() {
@@ -194,10 +199,25 @@ public class Hauptgame extends Application {
         minispielListe.add(new Labyrinth());
         minispielListe.add(new Labyrinth());
         minispielListe.add(new Labyrinth());
-        minispielListe.add(new TestMiniSpiel());
+        minispielListe.add(new Huerdenlauf());
+        minispielListe.add(new BallonMiniSpiel());
+        minispielListe.add(new BallonMiniSpiel());
+        minispielListe.add(new BallonMiniSpiel());
+        minispielListe.add(new Huerdenlauf());
+        minispielListe.add(new BlackJackMinispiel());
+        minispielListe.add(new BlackJackMinispiel());
+        minispielListe.add(new BlackJackMinispiel());
+        minispielListe.add(new TicTacToeMinispiel());
+        minispielListe.add(new TicTacToeMinispiel());
+        minispielListe.add(new TicTacToeMinispiel());
+        minispielListe.add(new Huerdenlauf());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new Huerdenlauf());
     }
 
-    public void setFelder(){
+    private void setFelder(){
         int x = 25;
         int y = 700;
         for (int i = 0; i <= 9; i++) {
@@ -325,7 +345,10 @@ public class Hauptgame extends Application {
                 int speicher = feld.getNumber();
                 int a = feld.getX();
                 int b = feld.getY();
-                felder[speicher -1] = new Aktionsfeld(speicher,a,b);
+                if(feld.getNumber()!=100){
+                    felder[speicher -1] = new Aktionsfeld(speicher,a,b);
+                }
+
 
             }
 
@@ -338,14 +361,14 @@ public class Hauptgame extends Application {
 
     }
 
-    public void chooseStartspieler(){
+    private void chooseStartspieler(){
         double  i = Math.random();
         if(i<=0.5){
             changeSpieler();
         }
     }
 
-    public static void changeSpieler(){
+    private static void changeSpieler(){
         aktuellerSpieler = (aktuellerSpieler-1)*(aktuellerSpieler-1);
     }
 
@@ -371,10 +394,11 @@ public class Hauptgame extends Application {
 
 
 
-    public static void zug(){
+    private static void zug(){
         wuefelbutton.setVisible(false);
+        int wurfelsumme = spieler[aktuellerSpieler].bewegeSpieler();
 
-        wuerfelSUMLable.setText(String.valueOf(spieler[aktuellerSpieler].bewegeSpieler()));
+        wuerfelSUMLable.setText(String.valueOf(wurfelsumme));
 
         if(aktuellerSpieler==1){
             figurComputer.setLayoutX(spieler[aktuellerSpieler].getPosition().getX()+50);
@@ -391,19 +415,50 @@ public class Hauptgame extends Application {
 
             System.out.println("start"+System.currentTimeMillis());
 
-                ((Aktionsfeld) spieler[aktuellerSpieler].getPosition()).starteMinispiel();
+            ((Aktionsfeld) spieler[aktuellerSpieler].getPosition()).starteMinispiel();
 
 
         }
-
-        if(finished){
+        if(wurfelsumme==0){
+            gewinner(spieler[aktuellerSpieler]);
+        } else if (finished) {
             nextSpieler();
         }
 
 
+
+
+
+
+
+
+
+
+    }
+    public static void gewinner(Spieler gewinner){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Spiel beendet");
+
+        alert.setHeaderText("Spiel beendet");
+
+        if(gewinner.isComputer()){
+            alert.setContentText("Du hast leider verloren. Der Computer war wohl schneller als du!");
+
+            alert.setHeaderText("Verloren");
+        }
+        else {
+            alert.setContentText("Herzlichen Glückwunsch, " + gewinner.getName() + "! Der Computer konnte kaum mit dir mithalten");
+            alert.setHeaderText("Gewonnen");
+        }
+
+        alert.show();
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+        pause.setOnFinished(event ->  stage.close());
+        pause.play();
+
     }
 
-    public static void updateOberflache(){
+    private static void updateOberflache(){
         wuerfel1Lable.setText("");
         wuerfel2Lable.setText("");
         wuerfelSUMLable.setText("");

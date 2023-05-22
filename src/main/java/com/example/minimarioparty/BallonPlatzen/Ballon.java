@@ -7,20 +7,17 @@ import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.Ellipse;
 
 public abstract class Ballon extends Ellipse {
-     int worth;
+     private final int worth;
 
-     CubicCurve line;
-
-    public void setOnPane(boolean onPane) {
-        this.onPane = onPane;
-    }
+     private final CubicCurve line;
 
     private boolean onPane = true;
 
-    public  Ballon(double x, double y, Paint c,CubicCurve line){
+    public  Ballon(double x, double y, Paint c,CubicCurve line, int worth){
 
         super(x,y,4,5);
         this.line = line;
+        this.worth = worth;
         setFill(c);
 
         setStroke(Color.BLACK);
@@ -82,6 +79,9 @@ public abstract class Ballon extends Ellipse {
 
     public double getPunkte(){
         return worth*(105-getRadiusX());
+    }
+    public void setOnPane(boolean onPane) {
+        this.onPane = onPane;
     }
 
 }
