@@ -78,7 +78,7 @@ public class KniffelMinispiel extends Minispiel {
         }
 
 
-        spielanleitungText = "Ziel des Spiels ist es, als erstes drei Runden zu gewinnen. \nEine Runde gilt als gewonnen, sobald 100 oder mehr Punkte erzielt wurden. \nDer Spieler kann bis zum zweiten Wuerfeln die Punkte manuell zaehlen. \nPro Zug kann bis zu drei Mal gewuerfelt werden, dann werden die Punkte des letzten Wuerfelns automatisch gezaehlt.\nEs gibt folgende Möglichkeiten: Zwilling (zwei Gleiche), Drilling, (drei Gleiche), Vierling (vier Gleiche), Full House (zwei Gleiche und drei Gleiche), kleine Strasse (vier Zahlen in Folge), grosse Strasse (fuenf Zahlen in Folge) und Kniffel (fuenf Gleiche).\nEs wird abwechselnd gewuerfelt - der Spieler beginnt.\nDer Spieler hat weiße Wuerfel und der Computer rote Wuerfel.";
+        spielanleitungText = "Ziel des Spiels ist es, als erstes drei Runden zu gewinnen. \nEine Runde gilt als gewonnen, sobald 100 oder mehr Punkte erzielt wurden. \nDer Spieler kann bis zum zweiten Wuerfeln die Punkte manuell zaehlen. \nPro Zug kann bis zu drei Mal gewuerfelt werden, dann werden die Punkte des letzten Wuerfelns automatisch gezaehlt.\nEs gibt folgende Möglichkeiten: Zwilling (zwei Gleiche), Drilling, (drei Gleiche), Vierling (vier Gleiche), Full House (zwei Gleiche und drei Gleiche), kleine Strasse (vier Zahlen in Folge), grosse Strasse (fuenf Zahlen in Folge) und Kniffel (fuenf Gleiche).\nSollten mehrere Zwillingspaare vorhanden sein, so wird nur eines davon gewertet.\nEs wird abwechselnd gewuerfelt - der Spieler beginnt.\nDer Spieler hat gruene Wuerfel und der Computer rote Wuerfel.";
         MinispielTitleLabel.setText("Kniffel");
 
 
@@ -111,28 +111,28 @@ public class KniffelMinispiel extends Minispiel {
         beenden.setPrefHeight(50);
 
 
-        punkteSpielerLabel.setLayoutX(10);
+        punkteSpielerLabel.setLayoutX(5);
         punkteSpielerLabel.setLayoutY(0);
         punkteSpielerLabel.setPrefWidth(150);
         punkteSpielerLabel.setPrefHeight(50);
         punkteSpielerLabel.setTextFill(Color.WHITE);
 
 
-        punkteComputerLabel.setLayoutX(10);
+        punkteComputerLabel.setLayoutX(5);
         punkteComputerLabel.setLayoutY(0);
         punkteComputerLabel.setPrefWidth(150);
         punkteComputerLabel.setPrefHeight(50);
         punkteComputerLabel.setTextFill(Color.WHITE);
 
 
-        countSpielerLabel.setLayoutX(10);
+        countSpielerLabel.setLayoutX(5);
         countSpielerLabel.setLayoutY(0);
         countSpielerLabel.setPrefWidth(150);
         countSpielerLabel.setPrefHeight(50);
         countSpielerLabel.setTextFill(Color.WHITE);
 
 
-        countComputerLabel.setLayoutX(10);
+        countComputerLabel.setLayoutX(5);
         countComputerLabel.setLayoutY(0);
         countComputerLabel.setPrefWidth(150);
         countComputerLabel.setPrefHeight(50);
@@ -196,7 +196,7 @@ public class KniffelMinispiel extends Minispiel {
         punktSpieler.setPrefHeight(50);
         punktSpieler.setLayoutX(50);
         punktSpieler.setLayoutY(50);
-        punktSpieler.setStyle("-fx-background-color: #8361FF");
+        punktSpieler.setStyle("-fx-background-color: #7eb774");
         punktSpieler.getChildren().add(punkteSpielerLabel);
 
         Pane punkteComputer = new Pane();
@@ -204,7 +204,7 @@ public class KniffelMinispiel extends Minispiel {
         punkteComputer.setPrefHeight(50);
         punkteComputer.setLayoutX(250);
         punkteComputer.setLayoutY(50);
-        punkteComputer.setStyle("-fx-background-color: #8361FF");
+        punkteComputer.setStyle("-fx-background-color: #ed7b84");
         punkteComputer.getChildren().add(punkteComputerLabel);
 
         Pane counterSpieler = new Pane();
@@ -212,7 +212,7 @@ public class KniffelMinispiel extends Minispiel {
         counterSpieler.setPrefHeight(50);
         counterSpieler.setLayoutX(600);
         counterSpieler.setLayoutY(50);
-        counterSpieler.setStyle("-fx-background-color: #8361FF");
+        counterSpieler.setStyle("-fx-background-color: #7eb774");
         counterSpieler.getChildren().add(countSpielerLabel);
 
         Pane counterComputer = new Pane();
@@ -220,7 +220,7 @@ public class KniffelMinispiel extends Minispiel {
         counterComputer.setPrefHeight(50);
         counterComputer.setLayoutX(800);
         counterComputer.setLayoutY(50);
-        counterComputer.setStyle("-fx-background-color: #8361FF");
+        counterComputer.setStyle("-fx-background-color: #ed7b84");
         counterComputer.getChildren().add(countComputerLabel);
 
         Pane amZug = new Pane();
@@ -228,7 +228,7 @@ public class KniffelMinispiel extends Minispiel {
         amZug.setPrefHeight(50);
         amZug.setLayoutX(425);
         amZug.setLayoutY(200);
-        amZug.setStyle("-fx-background-color: #8361FF");
+        amZug.setStyle("-fx-background-color: #121212");
         amZug.getChildren().add(amZugLabel);
 
 
@@ -276,7 +276,7 @@ public class KniffelMinispiel extends Minispiel {
             rundenCounterLabel.setText("Gespielte Runden: " + Integer.toString(rundenCounter));
             wuerfelCounter = 0;
             wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
-            if (countSpieler == 3) {
+            if (countSpieler == 2) {
                 gewinnauswertung();
             }
         } else if (punkteComputer >= 100 && (punkteComputer > punkteSpieler)) {
@@ -290,7 +290,7 @@ public class KniffelMinispiel extends Minispiel {
             rundenCounterLabel.setText("Gespielte Runden: " + Integer.toString(rundenCounter));
             wuerfelCounter = 0;
             wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
-            if (countComputer == 3) {
+            if (countComputer == 2) {
                 gewinnauswertung();
             }
         }
