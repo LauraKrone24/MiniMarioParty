@@ -52,7 +52,13 @@ public class SchiffeVersenken extends Minispiel {
 
         MinispielTitleLabel.setText("Schiffe Versenken");
 
-        spielanleitungText = "";
+        spielanleitungText =
+                "Du spielst den Spielmodus U-Boot-Jagd, dass bedeutet das es nur ein-kästchen schiffe gibt (U-Boote). Die U-Boote werden zu beginn des " +
+                "Spiels für dich und den Computer zufällig generiert (Schiffe können direkt an einander liegen). Deine U-Boote sind in Blau gekennzeichnet, verfehlte schüsse mit dem XXX und zerstörte U-Boote in rot." +
+                " Du bist als erstes am Zug, klicke auf eines der Felder des gegners (rechtes Spielfeld), triffst du (rote markierung) darfst du erneut feuern während dein " +
+                        "Gegner aussetzen muss. Wer zuerst die Flotte des Gegners zerstört gewinnt." +
+                        "                                                               VIEL GLÜCK & SPAß!";
+
 
 
         Pcounter = 10;
