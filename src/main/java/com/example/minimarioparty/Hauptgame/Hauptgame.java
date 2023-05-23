@@ -5,6 +5,7 @@ import com.example.minimarioparty.BlackJack.BlackJackMinispiel;
 import com.example.minimarioparty.Huerdenlauf.Huerdenlauf;
 import com.example.minimarioparty.KniffelMiniSpiel.KniffelMinispiel;
 import com.example.minimarioparty.Labyrinth.Labyrinth;
+import com.example.minimarioparty.SchiffeVersenken.SchiffeVersenken;
 import com.example.minimarioparty.Minispiel;
 import com.example.minimarioparty.SchereSteinPapier.SchereSteinPapierMiniSpiel;
 import com.example.minimarioparty.TicTacToe.TicTacToeMinispiel;
@@ -213,6 +214,11 @@ public class Hauptgame extends Application {
         minispielListe.add(new Huerdenlauf());
         minispielListe.add(new Huerdenlauf());
         minispielListe.add(new Huerdenlauf());
+        minispielListe.add(new SchiffeVersenken());
+        minispielListe.add(new SchiffeVersenken());
+        minispielListe.add(new SchiffeVersenken());
+        minispielListe.add(new SchiffeVersenken());
+
     }
 
     private static void setFelder(){
