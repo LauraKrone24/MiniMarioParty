@@ -3,7 +3,7 @@ package com.example.minimarioparty.Hauptgame;
 import com.example.minimarioparty.BallonPlatzen.BallonMiniSpiel;
 import com.example.minimarioparty.BlackJack.BlackJackMinispiel;
 import com.example.minimarioparty.Huerdenlauf.Huerdenlauf;
-import com.example.minimarioparty.Kniffel.KniffelMinispiel;
+import com.example.minimarioparty.KniffelMiniSpiel.KniffelMinispiel;
 import com.example.minimarioparty.Labyrinth.Labyrinth;
 import com.example.minimarioparty.Minispiel;
 import com.example.minimarioparty.SchereSteinPapier.SchereSteinPapierMiniSpiel;

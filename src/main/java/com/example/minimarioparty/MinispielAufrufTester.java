@@ -3,7 +3,6 @@ package com.example.minimarioparty;
 import com.example.minimarioparty.BallonPlatzen.BallonMiniSpiel;
 import com.example.minimarioparty.BlackJack.BlackJackMinispiel;
 import com.example.minimarioparty.Huerdenlauf.Huerdenlauf;
-import com.example.minimarioparty.Kniffel.KniffelMinispiel;
 import com.example.minimarioparty.Labyrinth.Labyrinth;
 import javafx.application.Application;
 import javafx.scene.Scene;

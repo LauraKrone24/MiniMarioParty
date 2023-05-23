@@ -1,4 +1,4 @@
-package com.example.minimarioparty.Kniffel;
+package com.example.minimarioparty.KniffelMiniSpiel;
 
 import com.example.minimarioparty.Hauptgame.GuterWuerfel;
 import com.example.minimarioparty.Minispiel;
