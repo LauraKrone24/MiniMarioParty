@@ -3,6 +3,7 @@ package com.example.minimarioparty.Hauptgame;
 import com.example.minimarioparty.BallonPlatzen.BallonMiniSpiel;
 import com.example.minimarioparty.BlackJack.BlackJackMinispiel;
 import com.example.minimarioparty.Huerdenlauf.Huerdenlauf;
+import com.example.minimarioparty.Kniffel.KniffelMinispiel;
 import com.example.minimarioparty.Labyrinth.Labyrinth;
 import com.example.minimarioparty.Minispiel;
 import com.example.minimarioparty.SchereSteinPapier.SchereSteinPapierMiniSpiel;
@@ -198,6 +199,9 @@ public class Hauptgame extends Application {
         minispielListe.add(new TicTacToeMinispiel());
         minispielListe.add(new TicTacToeMinispiel());
         minispielListe.add(new TicTacToeMinispiel());
+        minispielListe.add(new KniffelMinispiel());
+        minispielListe.add(new KniffelMinispiel());
+        minispielListe.add(new KniffelMinispiel());
         minispielListe.add(new Huerdenlauf());
         minispielListe.add(new SchereSteinPapierMiniSpiel());
         minispielListe.add(new SchereSteinPapierMiniSpiel());
