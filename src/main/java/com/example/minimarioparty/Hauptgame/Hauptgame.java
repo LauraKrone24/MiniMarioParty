@@ -188,24 +188,30 @@ public class Hauptgame extends Application {
         minispielListe.add(new Labyrinth());
         minispielListe.add(new Labyrinth());
         minispielListe.add(new Labyrinth());
-        minispielListe.add(new Huerdenlauf());
+        minispielListe.add(new Labyrinth());
         minispielListe.add(new BallonMiniSpiel());
         minispielListe.add(new BallonMiniSpiel());
         minispielListe.add(new BallonMiniSpiel());
-        minispielListe.add(new Huerdenlauf());
+        minispielListe.add(new BallonMiniSpiel());
+        minispielListe.add(new BlackJackMinispiel());
         minispielListe.add(new BlackJackMinispiel());
         minispielListe.add(new BlackJackMinispiel());
         minispielListe.add(new BlackJackMinispiel());
         minispielListe.add(new TicTacToeMinispiel());
         minispielListe.add(new TicTacToeMinispiel());
         minispielListe.add(new TicTacToeMinispiel());
+        minispielListe.add(new TicTacToeMinispiel());
         minispielListe.add(new KniffelMinispiel());
         minispielListe.add(new KniffelMinispiel());
         minispielListe.add(new KniffelMinispiel());
+        minispielListe.add(new KniffelMinispiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
         minispielListe.add(new Huerdenlauf());
-        minispielListe.add(new SchereSteinPapierMiniSpiel());
-        minispielListe.add(new SchereSteinPapierMiniSpiel());
-        minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new Huerdenlauf());
+        minispielListe.add(new Huerdenlauf());
         minispielListe.add(new Huerdenlauf());
     }
 
