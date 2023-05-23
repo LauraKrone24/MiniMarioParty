@@ -165,7 +165,7 @@ public class KniffelMinispiel extends Minispiel {
         runde.setPrefHeight(100);
         runde.setLayoutX(425);
         runde.setLayoutY(50);
-        runde.setStyle("-fx-background-color: #8361FF");
+        runde.setStyle("-fx-background-color: #121212");
         runde.getChildren().add(rundenCounterLabel);
 
         Pane counterWuerfel = new Pane();
@@ -228,7 +228,7 @@ public class KniffelMinispiel extends Minispiel {
         amZug.setPrefHeight(50);
         amZug.setLayoutX(425);
         amZug.setLayoutY(200);
-        amZug.setStyle("-fx-background-color: #121212");
+        amZug.setStyle("-fx-background-color: #8361FF");
         amZug.getChildren().add(amZugLabel);
 
 
@@ -584,11 +584,11 @@ public class KniffelMinispiel extends Minispiel {
             minispielrueckgabewert.setWuerfel(new SchlechterWuerfel());
 
             Platform.runLater(() -> winLoseLabel.setVisible(true));
-            if (countSpieler == 3 && countSpieler > countComputer) {
+            if (countSpieler == 2 && countSpieler > countComputer) {
                 minispielrueckgabewert.setWinner(spieler[0]);
                 Platform.runLater(() -> winLoseLabel.setText("Du hast gewonnen! :)"));
 
-            } else if (countComputer == 3 && countComputer > countSpieler) {
+            } else if (countComputer == 2 && countComputer > countSpieler) {
                 minispielrueckgabewert.setWinner(spieler[1]);
 
                 Platform.runLater(() -> winLoseLabel.setText("Der Computer hat gewonnen. :("));
