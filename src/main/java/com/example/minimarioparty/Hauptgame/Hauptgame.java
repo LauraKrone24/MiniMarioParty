@@ -59,7 +59,7 @@ public class Hauptgame extends Application {
     public void start(Stage stage) throws IOException {
         this.stage = stage;
         final String SPIELER1FARBE = "#7eb774";
-        final String SPIELER2FARBE = "ed7b84";
+        final String SPIELER2FARBE = "#ed7b84";
 
         Pane p = new Pane();
         p.setMinSize(1000,800);
