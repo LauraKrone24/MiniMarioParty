@@ -137,7 +137,7 @@ public class Hauptgame extends Application {
 
         p.getChildren().addAll(wurfel1ImageView, wurfel2ImageView,wuerfelLable,wuefelbutton,wuerfelSUMLable);
 
-        Image hintergrundimage = new Image("Spielbrett.jpg"); //Hier wenn vorhanden Bild einfügen
+        Image hintergrundimage = new Image("Spielbrett.jpg");
         ImageView spielfeldhintergrund = new ImageView();
         spielfeldhintergrund.setImage(hintergrundimage);
         spielfeldhintergrund.setFitHeight(750);
