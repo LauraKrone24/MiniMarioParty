@@ -3,6 +3,7 @@ package com.example.minimarioparty;
 import com.example.minimarioparty.BallonPlatzen.BallonMiniSpiel;
 import com.example.minimarioparty.BlackJack.BlackJackMinispiel;
 import com.example.minimarioparty.Huerdenlauf.Huerdenlauf;
+import com.example.minimarioparty.Kniffel.KniffelMinispiel;
 import com.example.minimarioparty.Labyrinth.Labyrinth;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -21,8 +22,8 @@ public class MinispielAufrufTester extends Application {
         startButton.setPrefHeight(200);
         startButton.setPrefWidth(200);
         startButton.setOnAction(actionEvent -> {
-            Minispiel test = new Huerdenlauf(); // Hier Minispielklassennamen zum Testen einfügen
-            test.setLeicht(true);
+            Minispiel test = new KniffelMinispiel(); // Hier Minispielklassennamen zum Testen einfügen
+            test.setLeicht(false);
             try{
                 test.start(new Stage());
                 Minispielrueckgabewert  back = test.getMinispielrueckgabewert();
