@@ -9,7 +9,7 @@ public class Hurdle extends Pane {
 
     public Hurdle(double x, double y, double width, double height) {
         rectangle = new Rectangle(x, y, width, height);
-        rectangle.setFill(Color.RED);
+        rectangle.setFill(Color.BLACK);
         getChildren().add(rectangle);
     }
 
