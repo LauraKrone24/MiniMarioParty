@@ -16,7 +16,7 @@ public class LabyrinthField extends Rectangle {
     private LabyrinthField top;
     private LabyrinthField bottom;
     private LabyrinthField left;
-    private int num;
+    private final int num;
 
     private LabyrinthField right;
     private final HashSet<LabyrinthField> nachbarn = new HashSet<>();

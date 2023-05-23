@@ -39,6 +39,7 @@ public class Huerdenlauf extends Minispiel {
     private boolean pGameStopped = false;
     private boolean cGameStopped = false;
 
+
     @Override
     public void start(Stage stage) throws IOException {
         this.stage = stage;

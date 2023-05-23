@@ -19,7 +19,6 @@ public  abstract class Minispiel extends Application {
 
     protected Minispielrueckgabewert minispielrueckgabewert = new Minispielrueckgabewert(true, null, null);
     protected boolean leicht;
-
     protected Pane p = new Pane();
 
     protected  Spieler[] spieler = new Spieler[2];
@@ -33,11 +32,8 @@ public  abstract class Minispiel extends Application {
 
     protected String spielanleitungText = "";
 
-    private static boolean pauseGame= false;
+    private boolean pauseGame= false;
     protected Stage stage;
-
-
-
 
     public void start(Stage stage) throws IOException {
         this.stage = stage;
@@ -118,7 +114,7 @@ public  abstract class Minispiel extends Application {
         return minispielrueckgabewert;
     }
 
-    public static boolean isPauseGame() {
+    public  boolean isPauseGame() {
         return pauseGame;
     }
 }

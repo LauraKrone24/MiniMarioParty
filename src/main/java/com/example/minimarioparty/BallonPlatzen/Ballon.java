@@ -8,9 +8,7 @@ import javafx.scene.shape.Ellipse;
 
 public abstract class Ballon extends Ellipse {
      private final int worth;
-
      private final CubicCurve line;
-
     private boolean onPane = true;
 
     public  Ballon(double x, double y, Paint c,CubicCurve line, int worth){
@@ -42,7 +40,7 @@ public abstract class Ballon extends Ellipse {
         }
 
     }
-    public void moveline(){
+    private void moveline(){
         line.setStartX(getCenterX());
         line.setStartY(getCenterY()+getRadiusY());
         line.setControlX1(getCenterX()-5);

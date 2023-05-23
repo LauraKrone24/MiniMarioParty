@@ -5,7 +5,7 @@ public class Wuerfel {
     private Image bild;
 
 
-    public Wuerfel(Image bild, int value){
+    public Wuerfel(Image bild){
         this.bild = bild;
     }
 

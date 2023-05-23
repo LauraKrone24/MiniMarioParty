@@ -78,7 +78,7 @@ public class KniffelMinispiel extends Minispiel {
         }
 
 
-        spielanleitungText = "Ziel des Spiels ist es, als erstes drei Runden zu gewinnen. \nEine Runde gilt als gewonnen, sobald 100 oder mehr Punkte erzielt wurden. \nDer Spieler kann bis zum zweiten Wuerfeln die Punkte manuell zaehlen. \nPro Zug kann bis zu drei Mal gewuerfelt werden, dann werden die Punkte des letzten Wuerfelns automatisch gezaehlt.\nEs wird abwechselnd gewuerfelt - der Spieler beginnt.\nDer Spieler hat weiße Wuerfel und der Computer rote Wuerfel.";
+        spielanleitungText = "Ziel des Spiels ist es, als erstes drei Runden zu gewinnen. \nEine Runde gilt als gewonnen, sobald 100 oder mehr Punkte erzielt wurden. \nDer Spieler kann bis zum zweiten Wuerfeln die Punkte manuell zaehlen. \nPro Zug kann bis zu drei Mal gewuerfelt werden, dann werden die Punkte des letzten Wuerfelns automatisch gezaehlt.\nEs gibt folgende Möglichkeiten: Zwilling (zwei Gleiche), Drilling, (drei Gleiche), Vierling (vier Gleiche), Full House (zwei Gleiche und drei Gleiche), kleine Strasse (vier Zahlen in Folge), grosse Strasse (fuenf Zahlen in Folge) und Kniffel (fuenf Gleiche).\nEs wird abwechselnd gewuerfelt - der Spieler beginnt.\nDer Spieler hat weiße Wuerfel und der Computer rote Wuerfel.";
         MinispielTitleLabel.setText("Kniffel");
 
 
@@ -92,7 +92,7 @@ public class KniffelMinispiel extends Minispiel {
 
         // Hintergrund
 
-        Image spielfeldHintergrund = new Image("kniffelHintergrund_test2.jpg");
+        Image spielfeldHintergrund = new Image("kniffelHintergrund.jpg");
         ImageView spielfeld = new ImageView();
         spielfeld.setFitWidth(1000);
         spielfeld.setFitHeight(700);
@@ -241,13 +241,10 @@ public class KniffelMinispiel extends Minispiel {
 
         beenden.setOnAction(ActiveEvent -> {
             wuerfeln.setVisible(false);
-            if (istComputerDran == false) {
-                beenden.setVisible(true);
-                autoZaehlen();
-                spielerZugBeendet();
-            } else {
-                beenden.setVisible(false);
-            }
+            beenden.setVisible(false);
+            autoZaehlen();
+            spielerZugBeendet();
+
         });
 
         winLoseLabel = new Label();
@@ -354,13 +351,15 @@ public class KniffelMinispiel extends Minispiel {
         amZugLabel.setTextFill(Color.WHITE);
         amZugLabel.setText("Spieler ist am Zug");
 
-        if (wuerfelCounter > 3) {
+        /*if (wuerfelCounter > 3) {
             wuerfelCounter = 0;
             System.out.println("funktioniert");
             if (rundenCounter > 3) {
-                return;
-            }
-        } else if (wuerfelCounter == 3) {
+                return;*/
+
+        if (wuerfelCounter == 3) {
+            wuerfeln.setVisible(false);
+            beenden.setVisible(false);
             autoZaehlen();
             zahlen.clear();
             spielerZugBeendet();
@@ -374,7 +373,7 @@ public class KniffelMinispiel extends Minispiel {
         istComputerDran = true;
 
 
-        if (istComputerDran == true) {
+        if (istComputerDran) {
             hatSpielerGespielt = false;
 
 
@@ -630,7 +629,6 @@ public class KniffelMinispiel extends Minispiel {
         boolean grStrasse = false;
 
 
-
         // Prüfung auf kleine Strasse
 
         for (int i = 0; i <= 3; i++) {
@@ -653,7 +651,7 @@ public class KniffelMinispiel extends Minispiel {
         if (grStrasse) {
             punkte += 50;
         } else if (klStrasse) {
-            punkte += 25;
+            punkte += 30;
         } else {
 
             boolean zwilling = false;
@@ -677,7 +675,7 @@ public class KniffelMinispiel extends Minispiel {
             if (fuenfGleiche) {
                 punkte += 100;
             } else if (zwilling && drilling) {
-                punkte += 15;
+                punkte += 25;
             } else if (vierling) {
                 punkte += 20;
             } else if (drilling) {
@@ -689,7 +687,7 @@ public class KniffelMinispiel extends Minispiel {
             }
         }
 
-        if (istComputerDran == false && hatSpielerGespielt == true) {
+        if (!istComputerDran && hatSpielerGespielt) {
             punkteSpieler += punkte;
             System.out.println("Punkte die dem Spieler hinzugefuegt werden " + punkte);
             System.out.println("Punkte Spieler in Zaehlen() " + punkteSpieler);
@@ -700,7 +698,7 @@ public class KniffelMinispiel extends Minispiel {
             punktePruefung();
             punkteSpielerLabel.setText("Punkte des Spielers: " + punkteSpieler);
 
-        } else if (istComputerDran == true && wurdenPunkteGezaehlt && wuerfelCounter == 3) {
+        } else if (istComputerDran && wurdenPunkteGezaehlt && wuerfelCounter == 3) {
             punkteComputer += punkte;
             istComputerDran = false;
             zahlen.clear();
@@ -714,7 +712,7 @@ public class KniffelMinispiel extends Minispiel {
             wurdenPunkteGezaehlt = true;
             wuerfeln.setVisible(true);
             amZugLabel.setText("Spieler ist am Zug");
-        } else if (istComputerDran == true && punkte >= schwierigkeitsLevel || wuerfelCounter == 3) {
+        } else if (istComputerDran && punkte >= schwierigkeitsLevel || wuerfelCounter == 3) {
             wurdenPunkteGezaehlt = true;
             punkteComputer += punkte;
             istComputerDran = false;
