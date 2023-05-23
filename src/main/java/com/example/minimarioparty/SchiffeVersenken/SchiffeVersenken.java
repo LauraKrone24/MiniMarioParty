@@ -158,7 +158,7 @@ public class SchiffeVersenken extends Minispiel {
 
                 } else if (Pboats[x][y] == 0) {
                     Pboats[x][y] = 1;
-                    Pbuttons[x][y].setText("X");
+                    Pbuttons[x][y].setStyle("-fx-background-color: blue; -fx-border-color: black");
                     i++;
                 }
             }
@@ -173,22 +173,12 @@ public class SchiffeVersenken extends Minispiel {
                 } else if (Cboats[x2][y2] == 0) {
 
                     Cboats[x2][y2] = 1;
-                    Cbuttons[x2][y2].setText("X");
+                    Cbuttons[x2][y2].setStyle("-fx-background-color: blue; -fx-border-color: black");
                     z++;
                 }
 
 
             }
-
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -242,10 +232,6 @@ public class SchiffeVersenken extends Minispiel {
         p.getChildren().addAll(Cgame);
 
 
-    }
-
-    public void setPcounter(int pcounter) {
-        Pcounter = pcounter;
     }
 }
 
