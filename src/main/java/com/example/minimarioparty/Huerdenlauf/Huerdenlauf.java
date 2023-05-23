@@ -313,7 +313,7 @@ public class Huerdenlauf extends Minispiel {
     }
 
     public boolean isPauseGame(PlayerObj obj) {
-        obj.isPaused = super.isPauseGame();
+        obj.setPaused(super.isPauseGame());
         return super.isPauseGame();
     }
 }
