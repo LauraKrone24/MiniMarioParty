@@ -3,7 +3,7 @@ package com.example.minimarioparty.Hauptgame;
 import com.example.minimarioparty.BallonPlatzen.BallonMiniSpiel;
 import com.example.minimarioparty.BlackJack.BlackJackMinispiel;
 import com.example.minimarioparty.Huerdenlauf.Huerdenlauf;
-import com.example.minimarioparty.Kniffel.KniffelMinispiel;
+import com.example.minimarioparty.KniffelMiniSpiel.KniffelMinispiel;
 import com.example.minimarioparty.Labyrinth.Labyrinth;
 import com.example.minimarioparty.Minispiel;
 import com.example.minimarioparty.SchereSteinPapier.SchereSteinPapierMiniSpiel;
@@ -23,6 +23,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.IOException;
@@ -58,30 +59,32 @@ public class Hauptgame extends Application {
     public void start(Stage stage) throws IOException {
         this.stage = stage;
         final String SPIELER1FARBE = "#7eb774";
-        final String SPIELER2FARBE = "ed7b84";
+        final String SPIELER2FARBE = "#ed7b84";
 
         Pane p = new Pane();
         p.setMinSize(1000,800);
         p.setMaxSize(1000,800);
         p.setStyle("-fx-background-color: #ffffff");
 
-        Label MarioParty= new Label("Mini Mario Party");
+        Label MarioParty= new Label("Mini Mario\nParty");
         MarioParty.setLayoutX(800);
         MarioParty.setLayoutY(50);
         MarioParty.setPrefWidth(200);
-        MarioParty.setFont(new Font("System",25));
+        MarioParty.setFont(new Font("Arial black",25));
+        MarioParty.setTextAlignment(TextAlignment.CENTER);
         p.getChildren().add(MarioParty);
 
         Label spielerreihenfolge= new Label("Spielerreihenfolge");
         spielerreihenfolge.setLayoutX(800);
-        spielerreihenfolge.setLayoutY(100);
+        spielerreihenfolge.setLayoutY(150);
         spielerreihenfolge.setPrefWidth(200);
         spielerreihenfolge.setFont(new Font("System",20));
+        spielerreihenfolge.setUnderline(true);
         p.getChildren().add(spielerreihenfolge);
 
-        aktuellerSpielerEllipse = new Ellipse(10,15);
+        aktuellerSpielerEllipse = new Ellipse(10,10);
 
-        nichtAktuellerSpielerEllipse = new Ellipse(10,15);
+        nichtAktuellerSpielerEllipse = new Ellipse(10,10);
 
         aktuellerSpielerLable = new Label("",aktuellerSpielerEllipse);
         nichtAktuellerSpielerLable = new Label("",nichtAktuellerSpielerEllipse);
@@ -91,7 +94,7 @@ public class Hauptgame extends Application {
 
         GridPane gp = new GridPane();
         gp.setLayoutX(800);
-        gp.setLayoutY(150);
+        gp.setLayoutY(200);
         gp.setPrefWidth(200);
         gp.add(aktuellerSpielerLable,0,0);
         gp.add(nichtAktuellerSpielerLable,0,1);
@@ -134,7 +137,7 @@ public class Hauptgame extends Application {
 
         p.getChildren().addAll(wurfel1ImageView, wurfel2ImageView,wuerfelLable,wuefelbutton,wuerfelSUMLable);
 
-        Image hintergrundimage = new Image("Spielbrett.jpg"); //Hier wenn vorhanden Bild einfügen
+        Image hintergrundimage = new Image("Spielbrett.jpg");
         ImageView spielfeldhintergrund = new ImageView();
         spielfeldhintergrund.setImage(hintergrundimage);
         spielfeldhintergrund.setFitHeight(750);
@@ -185,24 +188,30 @@ public class Hauptgame extends Application {
         minispielListe.add(new Labyrinth());
         minispielListe.add(new Labyrinth());
         minispielListe.add(new Labyrinth());
-        minispielListe.add(new Huerdenlauf());
+        minispielListe.add(new Labyrinth());
         minispielListe.add(new BallonMiniSpiel());
         minispielListe.add(new BallonMiniSpiel());
         minispielListe.add(new BallonMiniSpiel());
-        minispielListe.add(new Huerdenlauf());
+        minispielListe.add(new BallonMiniSpiel());
+        minispielListe.add(new BlackJackMinispiel());
         minispielListe.add(new BlackJackMinispiel());
         minispielListe.add(new BlackJackMinispiel());
         minispielListe.add(new BlackJackMinispiel());
         minispielListe.add(new TicTacToeMinispiel());
         minispielListe.add(new TicTacToeMinispiel());
         minispielListe.add(new TicTacToeMinispiel());
+        minispielListe.add(new TicTacToeMinispiel());
         minispielListe.add(new KniffelMinispiel());
         minispielListe.add(new KniffelMinispiel());
         minispielListe.add(new KniffelMinispiel());
+        minispielListe.add(new KniffelMinispiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new SchereSteinPapierMiniSpiel());
         minispielListe.add(new Huerdenlauf());
-        minispielListe.add(new SchereSteinPapierMiniSpiel());
-        minispielListe.add(new SchereSteinPapierMiniSpiel());
-        minispielListe.add(new SchereSteinPapierMiniSpiel());
+        minispielListe.add(new Huerdenlauf());
+        minispielListe.add(new Huerdenlauf());
         minispielListe.add(new Huerdenlauf());
     }
 

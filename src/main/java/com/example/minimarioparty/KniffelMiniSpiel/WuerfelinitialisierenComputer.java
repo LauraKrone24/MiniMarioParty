@@ -1,4 +1,4 @@
-package com.example.minimarioparty.Kniffel;
+package com.example.minimarioparty.KniffelMiniSpiel;
 
 import javafx.scene.image.Image;
 

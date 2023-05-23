@@ -74,6 +74,8 @@ public class BlackJackMinispiel  extends Minispiel {
 
 
         this.stage = stage;
+        MinispielTitleLabel.setText("BlackJack");
+        spielanleitungText = "Dies ist eine abgewandelte Variante von Blackjack.\n Die Spielregeln sind gleich wie bei Blackjack nur ohne das Ass, keine zwei Stapel und sobald beide über 21 sind haben beide verloren und es wird als unentschieden gewertet. ";
 
 
         //Spielfeld erstellen

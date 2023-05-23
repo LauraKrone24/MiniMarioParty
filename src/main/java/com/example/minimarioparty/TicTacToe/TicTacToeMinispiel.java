@@ -42,7 +42,7 @@ public class TicTacToeMinispiel extends Minispiel {
     private Button button9 = new Button();
 
     private int buttonHeightWidth = 160;
-    private int xpx= 400;
+    private int xpx= 250;
     private int computerRandom;
 
     private boolean spielerDran;
@@ -99,8 +99,8 @@ public class TicTacToeMinispiel extends Minispiel {
             spielfeldPane.setPrefWidth(500);
             spielfeldPane.setStyle("-fx-background-color: #121212;");
 
-            startSpieler.setLayoutX(100);
-            startSpieler.setLayoutY(300);
+            startSpieler.setLayoutX(420);
+            startSpieler.setLayoutY(150);
             startSpieler.setFont(Font.font("system", 20));
 
             ButtonList.forEach(ticButton -> {
@@ -183,8 +183,8 @@ public class TicTacToeMinispiel extends Minispiel {
             //wenn man es außerhalb des hauptgame spielen möchte, dann noch gewinnAuswertung methode auskommentieren
             Button neustart = new Button();
             neustart.setVisible(false);
-            neustart.setLayoutX(100);
-            neustart.setLayoutY(500);
+            neustart.setLayoutX(450);
+            neustart.setLayoutY(750);
             neustart.setPrefWidth(100);
             neustart.setPrefHeight(50);
             neustart.setText("Neustart");
@@ -194,7 +194,7 @@ public class TicTacToeMinispiel extends Minispiel {
             //für minispielrückgabewert in hauptspiel
             WinLoseLabel = new Label();
             WinLoseLabel.setPrefSize(400,50);
-            WinLoseLabel.setFont(new Font("Arial black", 45));
+            WinLoseLabel.setFont(new Font("System", 45));
             WinLoseLabel.setLayoutY(400);
             WinLoseLabel.setLayoutX(300);
             WinLoseLabel.setAlignment(Pos.CENTER);
@@ -257,7 +257,7 @@ public class TicTacToeMinispiel extends Minispiel {
                 spielerDran= false;
                 System.out.println("Spieler hat gesetzt");
                 belegteButtons.add(ButtonList.indexOf(bt));
-                bt.setFont(Font.font("Arial black", 24));
+                bt.setFont(Font.font("Arial black", 30));
                 zug++;
                 System.out.println("Zug: " + zug);
                 istSpielEnde();
@@ -298,7 +298,7 @@ public class TicTacToeMinispiel extends Minispiel {
                     System.out.println("Computer hat gesetzt");
                     belegteButtons.add(ButtonList.indexOf(bt));
 
-                    bt.setFont(Font.font("Arial black", 24));
+                    bt.setFont(Font.font("Arial black", 30));
                     zug++;
                     System.out.println("Zug: " + zug);
                     istSpielEnde();
@@ -341,9 +341,9 @@ public class TicTacToeMinispiel extends Minispiel {
                 });
                 spielerDran=true;
                 unentschieden=false;
-                startSpieler.setText("Du hast gewonnen!");
-                startSpieler.setBackground(new Background(new BackgroundFill(Paint.valueOf("#121212"), CornerRadii.EMPTY, Insets.EMPTY)));
-                startSpieler.setTextFill(Paint.valueOf("#7eb774"));
+                //startSpieler.setText("Du hast gewonnen!");
+                //startSpieler.setBackground(new Background(new BackgroundFill(Paint.valueOf("#121212"), CornerRadii.EMPTY, Insets.EMPTY)));
+                //startSpieler.setTextFill(Paint.valueOf("#7eb774"));
                 System.out.println("Spieler hat gewonnen");
                 gewinnAuswertung();
                 break;
@@ -355,9 +355,9 @@ public class TicTacToeMinispiel extends Minispiel {
                 });
                 spielerDran=true;
                 unentschieden=false;
-                startSpieler.setText("Computer hat gewonnen");
-                startSpieler.setBackground(new Background(new BackgroundFill(Paint.valueOf("#121212"), CornerRadii.EMPTY, Insets.EMPTY)));
-                startSpieler.setTextFill(Paint.valueOf("#ed7b84"));
+                //startSpieler.setText("Computer hat gewonnen");
+                //startSpieler.setBackground(new Background(new BackgroundFill(Paint.valueOf("#121212"), CornerRadii.EMPTY, Insets.EMPTY)));
+                //startSpieler.setTextFill(Paint.valueOf("#ed7b84"));
                 System.out.println("Computer hat gewonnen");
                 gewinnAuswertung();
                 break;
@@ -558,27 +558,21 @@ public class TicTacToeMinispiel extends Minispiel {
             Platform.runLater(()->WinLoseLabel.setVisible(true));
             if(leicht== true){
                 if(moglich.equals("XXX")){
-                    minispielrueckgabewert.setWinner(spieler[0]);
-                    WinLoseLabel.setTextFill(Paint.valueOf("#7eb774"));
-                    Platform.runLater(() -> WinLoseLabel.setText("Du hast gewonnen!!"));
-                    System.out.println(minispielrueckgabewert);
+                    spielerGewinnt();
 
+                }
+                else{
+                    computerGewinnt();
                 }
             }
             else{
                 if (unentschieden == true){
-                    minispielrueckgabewert.setWinner(spieler[0]);
-                    WinLoseLabel.setTextFill(Paint.valueOf("#7eb774"));
-                    Platform.runLater(() -> WinLoseLabel.setText("Du hast gewonnen!!"));
+                    spielerGewinnt();
                 }
                 else{
-                    minispielrueckgabewert.setWinner(spieler[1]);
-                    WinLoseLabel.setTextFill(Paint.valueOf("#ed7b84"));
-                    Platform.runLater(() -> WinLoseLabel.setText("Computer hat gewonnen"));
+                    computerGewinnt();
                 }
             }
-
-
 
             PauseTransition pause2 = new PauseTransition(Duration.seconds(5));
             pause2.setOnFinished(e -> stage.close());
@@ -589,6 +583,18 @@ public class TicTacToeMinispiel extends Minispiel {
 
         pause.play();
 
+    }
+
+    private void spielerGewinnt(){
+        minispielrueckgabewert.setWinner(spieler[0]);
+        WinLoseLabel.setTextFill(Paint.valueOf("#7eb774"));
+        Platform.runLater(() -> WinLoseLabel.setText("Du hast gewonnen!!"));
+    }
+
+    private void computerGewinnt(){
+        minispielrueckgabewert.setWinner(spieler[1]);
+        WinLoseLabel.setTextFill(Paint.valueOf("#ed7b84"));
+        Platform.runLater(() -> WinLoseLabel.setText("Computer hat gewonnen"));
     }
 
 

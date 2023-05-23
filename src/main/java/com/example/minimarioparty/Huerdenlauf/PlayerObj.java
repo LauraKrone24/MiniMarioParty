@@ -7,6 +7,7 @@ import javafx.scene.shape.Rectangle;
 
 public class PlayerObj extends Pane {
     boolean isJumping = false;
+    boolean isPaused = false;
     private Rectangle rectangle;
 
     public PlayerObj(double x, double y, double width, double height, Color color) {
@@ -20,6 +21,7 @@ public class PlayerObj extends Pane {
     }
     public void moveDown(double y) {
         rectangle.setY(rectangle.getY() + y);
+
     }
     public void jump() {
         if (!isJumping) {
@@ -27,7 +29,12 @@ public class PlayerObj extends Pane {
 
             new Thread(() -> {
                 for (int i = 0; i < 31; i++) {
-                    Platform.runLater(() -> moveUp(6));
+                    if (isPaused) {
+                        i--; // i bleibt dann unverändert - keine Änderung
+                    } else {
+                        Platform.runLater(() -> moveUp(6));
+                    }
+
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
@@ -36,7 +43,12 @@ public class PlayerObj extends Pane {
                 }
 
                 for (int i = 0; i < 31; i++) {
-                    Platform.runLater(() -> moveDown(6));
+                    if (isPaused) {
+                        i--;
+                    } else {
+                        Platform.runLater(() -> moveDown(6));
+                    }
+
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
@@ -48,6 +60,7 @@ public class PlayerObj extends Pane {
             }).start();
         }
     }
+
 
 
     public double getX() {
