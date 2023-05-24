@@ -5,6 +5,7 @@ import com.example.minimarioparty.BlackJack.BlackJackMinispiel;
 import com.example.minimarioparty.Huerdenlauf.Huerdenlauf;
 import com.example.minimarioparty.KniffelMiniSpiel.KniffelMinispiel;
 import com.example.minimarioparty.Labyrinth.Labyrinth;
+import com.example.minimarioparty.SchiffeVersenken.SchiffeVersenken;
 import com.example.minimarioparty.Minispiel;
 import com.example.minimarioparty.SchereSteinPapier.SchereSteinPapierMiniSpiel;
 import com.example.minimarioparty.TicTacToe.TicTacToeMinispiel;
@@ -59,7 +60,7 @@ public class Hauptgame extends Application {
     public void start(Stage stage) throws IOException {
         this.stage = stage;
         final String SPIELER1FARBE = "#7eb774";
-        final String SPIELER2FARBE = "ed7b84";
+        final String SPIELER2FARBE = "#ed7b84";
 
         Pane p = new Pane();
         p.setMinSize(1000,800);
@@ -213,6 +214,11 @@ public class Hauptgame extends Application {
         minispielListe.add(new Huerdenlauf());
         minispielListe.add(new Huerdenlauf());
         minispielListe.add(new Huerdenlauf());
+        minispielListe.add(new SchiffeVersenken());
+        minispielListe.add(new SchiffeVersenken());
+        minispielListe.add(new SchiffeVersenken());
+        minispielListe.add(new SchiffeVersenken());
+
     }
 
     private static void setFelder(){

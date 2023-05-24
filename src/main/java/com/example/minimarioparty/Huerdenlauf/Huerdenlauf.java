@@ -32,6 +32,8 @@ public class Huerdenlauf extends Minispiel {
     private AnimationTimer comGame;
     private int playerCount = 0;
     private int comCount = 0;
+
+    private int speed;
     private Label playerCounterLabel;
     private Label comCounterLabel;
     private Label startCounter;
@@ -44,11 +46,18 @@ public class Huerdenlauf extends Minispiel {
     public void start(Stage stage) throws IOException {
         this.stage = stage;
 
+        if(leicht){
+            speed = 4;
+            MinispielSchwierigkeitLable.setText("Leicht");
+        }else{
+            speed = 6;
+            MinispielSchwierigkeitLable.setText("Schwer");
+        }
+
         spielanleitungText = "Das Spiel ist ein Hürdenlauf, bei dem du als blauer Spieler über die Hürden springen musst. " +
                 "Schaffe es, 5 Hürden weiter als der Computer zu kommen, um einen normalen Würfel zu erhalten. " +
                 "Bei 10 Hürden mehr erhältst du einen guten Würfel, sonst einen schlechten Würfel. ";
         MinispielTitleLabel.setText("HürdenLauf");
-        MinispielSchwierigkeitLable.setText("");
 
         startCounter = new Label();
         startCounter.setPrefSize(400, 50);
@@ -103,7 +112,7 @@ public class Huerdenlauf extends Minispiel {
 
     private void initializePlayerPane() {
         playerPane = createGamePane(100, 1000, 350);
-        player = new PlayerObj(50, 250, 50, 50, Color.BLUE);
+        player = new PlayerObj(50, 250, 50, 50, Color.rgb(126,183,116));
         pHurdles = new ArrayList<>();
         playerCount = 0;
         playerCounterLabel = createCounterLabel(playerPane, playerCount);
@@ -121,7 +130,7 @@ public class Huerdenlauf extends Minispiel {
 
     private void initializeComputerPane() {
         computerPane = createGamePane(450, 1000, 350);
-        com = new PlayerObj(50, 250, 50, 50, Color.BLACK);
+        com = new PlayerObj(50, 250, 50, 50, Color.rgb(237,123,132));
         cHurdles = new ArrayList<>();
         comCount = 0;
         comCounterLabel = createCounterLabel(computerPane, comCount);
@@ -177,6 +186,10 @@ public class Huerdenlauf extends Minispiel {
         };
     }
     private void handlePlayerGame() {
+        if(isPauseGame(player)){
+            return;
+        }
+
         Platform.runLater(() -> {
             addHurdles(pHurdles, playerPane);
             moveHurdles(pHurdles);
@@ -191,6 +204,9 @@ public class Huerdenlauf extends Minispiel {
         });
     }
     private void handleComGame() {
+        if(isPauseGame(com)){
+            return;
+        }
         Platform.runLater(() -> {
             addHurdles(cHurdles, computerPane);
             moveHurdles(cHurdles);
@@ -238,18 +254,18 @@ public class Huerdenlauf extends Minispiel {
     }
     private void moveHurdles(List<Hurdle> hurdles) {
         for (Hurdle hurdle : hurdles) {
-            Platform.runLater(() -> hurdle.move(4)); //15-20
+            Platform.runLater(() -> hurdle.move(speed)); //4 or 6
         }
     }
-    public boolean checkCollision(PlayerObj playerObj, List<Hurdle> hurdles) {
+    private boolean checkCollision(PlayerObj playerObj, List<Hurdle> hurdles) {
         for (Hurdle hurdle : hurdles) {
-            if (playerObj.getRectangle().intersects(hurdle.getX(), hurdle.getY(), hurdle.getWidth(), hurdle.getHeight())) {
+            if (playerObj.getRectangle().intersects(hurdle.getX()-10, hurdle.getY(), hurdle.getWidth(), hurdle.getHeight())) {
                 return true;
             }
         }
         return false;
     }
-    public void stopGame(boolean pGame) {
+    private void stopGame(boolean pGame) {
         if (pGame) {
             playerGame.stop();
             pGameStopped = true;
@@ -294,5 +310,10 @@ public class Huerdenlauf extends Minispiel {
             pause2.play();
         });
         pause.play();
+    }
+
+    private boolean isPauseGame(PlayerObj obj) {
+        obj.setPaused(super.isPauseGame());
+        return super.isPauseGame();
     }
 }
