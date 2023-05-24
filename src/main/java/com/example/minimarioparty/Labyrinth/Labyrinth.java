@@ -125,7 +125,7 @@ public class Labyrinth extends Minispiel {
     }
 
     private void computermove() {
-        PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+        PauseTransition pause = new PauseTransition(Duration.seconds(0.25));
         pause.setOnFinished(event->{
 
 

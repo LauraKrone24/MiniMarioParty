@@ -22,7 +22,7 @@ public class MinispielAufrufTester extends Application {
         startButton.setPrefWidth(200);
         startButton.setOnAction(actionEvent -> {
             Minispiel test = new Labyrinth(); // Hier Minispielklassennamen zum Testen einfügen
-            test.setLeicht(true);
+            test.setLeicht(false);
             try{
                 test.start(new Stage());
                 Minispielrueckgabewert  back = test.getMinispielrueckgabewert();

@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
 public class BallonMiniSpiel extends Minispiel {
     private final Pane innerPane = new Pane();
 
-    private final int MINPUNKTE = 15000;
+    private final int MINPUNKTE = 10000;
     private final int DAUER = 60;
 
     private Label ZeitLabel;
@@ -109,7 +109,7 @@ public class BallonMiniSpiel extends Minispiel {
         ZeitLabel.setFont(new Font(22));
         ZeitLabel.setAlignment(Pos.CENTER);
 
-        PunkteLabel = new Label("/"+MINPUNKTE);
+        PunkteLabel = new Label(punkte+"/"+MINPUNKTE);
         PunkteLabel.setPrefSize(200,100);
         PunkteLabel.setLayoutY(75);
         PunkteLabel.setLayoutX(750);

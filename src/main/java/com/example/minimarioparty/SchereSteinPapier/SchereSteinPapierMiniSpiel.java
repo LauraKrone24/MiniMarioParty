@@ -56,6 +56,10 @@ public class SchereSteinPapierMiniSpiel extends Minispiel {
 
         this.stage = stage;
 
+        MinispielSchwierigkeitLable.setText("Leicht");
+        MinispielTitleLabel.setText("SchereSteinPapier");
+
+
         spielanleitungText = "Schere, Stein, Papier oder auch Schnick, Schnack, Schnuck ist ein beliebtes und super einfaches Kinderspiel. Du benötigst nur deine Finger um das gewünschte Symbol auszuwählen und einen Gegner und schon kann der Spaß beginnen.\n" +
                 "\n" +
                 "Das Spiel beinhaltet in seiner Ursprungsform drei Gesten: für Schere, Stein, Papier. Diese werden als Symbole mit der Hand dargestellt. \n" +

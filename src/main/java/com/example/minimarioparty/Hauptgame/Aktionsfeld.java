@@ -27,7 +27,10 @@ public class Aktionsfeld extends Feld {
         Platform.runLater(()->{
 
         try{
+            //Wahl des Minispiels
             Minispiel m = Hauptgame.minispielListe.remove(getMinispielnummer());
+
+            //Ausgabe Alert: Minispiel gestartet und Schwierigkeitswahl
             Alert schwierigkeitsauswahl = new Alert(Alert.AlertType.CONFIRMATION);
             schwierigkeitsauswahl.setTitle("Minispiel Schwierigkeit");
             schwierigkeitsauswahl.setHeaderText("Du bist auf einem Minispielfeld gelandet ("+m.getClass().getSimpleName()+")");
@@ -41,6 +44,7 @@ public class Aktionsfeld extends Feld {
 
             Optional<ButtonType> result = schwierigkeitsauswahl.showAndWait();
 
+            //setzten der Schwierigkeit bzw. Minispiel skippen
             if(result.get()== buttonLeicht){
                 m.setLeicht(true);
             }
@@ -51,10 +55,12 @@ public class Aktionsfeld extends Feld {
                 throw new Exception("Minispiel Skipped");
             }
 
+            //Minispiel starten und Rückgabewert sammeln
             m.start(new Stage());
             Minispielrueckgabewert minispielrueckgabewert =  m.getMinispielrueckgabewert();
 
 
+            //Ausgabe Gewinner und gewonnenen Würfel
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Minispielende");
             alert.setHeaderText(null);
@@ -62,7 +68,7 @@ public class Aktionsfeld extends Feld {
             alert.showAndWait();
 
 
-
+            //Hinzufügen gewonnener würfel
             if(!minispielrueckgabewert.getAbbruch()){
                 minispielrueckgabewert.getWinner().fuegeWuerfelhinzu(minispielrueckgabewert.getWuerfel());
             }
@@ -72,6 +78,7 @@ public class Aktionsfeld extends Feld {
             e.printStackTrace();
 
         }
+            //Wechsel zum nächsten Spieler
             Hauptgame.nextSpieler();
         });
 
