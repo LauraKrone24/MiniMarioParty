@@ -19,7 +19,6 @@ public class SchiffeVersenken extends Minispiel {
     private static Stage stage;
     private static GridPane Pgame;
     private static GridPane Cgame;
-    private static Pane WL;
     private Button[][] Pbuttons;
     private Button[][] Cbuttons;
     public static int Ccounter = 10;
@@ -255,7 +254,7 @@ public class SchiffeVersenken extends Minispiel {
                 Button button = new Button();
                 Cgame.add(button, col, row);
                 Cbuttons[row][col] = button;
-                Cbuttons[row][col].setOnAction(new CButtonClickHandler(row, col, PcounterL, Pcounter, CcounterL, Ccounter, Cboats, Pboats, Pbuttons, Cbuttons,ActionL,shots,l));
+                Cbuttons[row][col].setOnAction(new CButtonClickHandler(row, col, PcounterL, CcounterL, Cboats, Pboats, Pbuttons, Cbuttons,ActionL,shots,l));
                 Pbuttons[row][col].setStyle("-fx-border-color: black");
                 button.setPrefSize(60, 60);
                 Cgame.getChildren().addAll();
@@ -318,12 +317,7 @@ public class SchiffeVersenken extends Minispiel {
 
     }
 
-    EventHandler<ActionEvent> EndClickHandler = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-            cancel();
-        }
-    };
+    EventHandler<ActionEvent> EndClickHandler = event -> cancel();
 
 
     private static class CButtonClickHandler implements EventHandler<ActionEvent> {
@@ -332,8 +326,6 @@ public class SchiffeVersenken extends Minispiel {
         private Label label1;
         private Label label2;
         private Label action;
-        private int counter1;
-        private int counter2;
         private int[][] Cboats;
         private int[][] Pboats;
         private Button[][] Pbuttons;
@@ -343,13 +335,11 @@ public class SchiffeVersenken extends Minispiel {
 
 
 
-        public CButtonClickHandler(int row, int column, Label label1, int counter1, Label label2, int counter2, int[][] Cboats, int[][] Pboats, Button[][] Pbuttons, Button[][] Cbuttons, Label action, int[][] shots, boolean l) {
+        public CButtonClickHandler(int row, int column, Label label1, Label label2, int[][] Cboats, int[][] Pboats, Button[][] Pbuttons, Button[][] Cbuttons, Label action, int[][] shots, boolean l) {
             this.row = row;
             this.column = column;
             this.label1 = label1;
-            this.counter1 = counter1;
             this.label2 = label2;
-            this.counter2 = counter2;
             this.Cboats = Cboats;
             this.Pboats = Pboats;
             this.Pbuttons = Pbuttons;
