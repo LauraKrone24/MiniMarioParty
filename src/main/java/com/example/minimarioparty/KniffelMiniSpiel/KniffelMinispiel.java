@@ -250,9 +250,9 @@ public class KniffelMinispiel extends Minispiel {
         winLoseLabel = new Label();
         winLoseLabel.setPrefSize(400, 300);
         winLoseLabel.setFont(new Font(25));
-        winLoseLabel.setTextFill(Color.RED);
+        winLoseLabel.setTextFill(Color.BLACK);
         winLoseLabel.setLayoutX(300);
-        winLoseLabel.setLayoutY(400);
+        winLoseLabel.setLayoutY(300);
         winLoseLabel.setAlignment(Pos.CENTER);
         winLoseLabel.setVisible(false);
         p.getChildren().add(winLoseLabel);
@@ -277,6 +277,7 @@ public class KniffelMinispiel extends Minispiel {
             wuerfelCounter = 0;
             wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
             if (countSpieler == 2) {
+                p.getChildren().remove(spielfeldPane);
                 gewinnauswertung();
             }
         } else if (punkteComputer >= 100 && (punkteComputer > punkteSpieler)) {
@@ -291,6 +292,7 @@ public class KniffelMinispiel extends Minispiel {
             wuerfelCounter = 0;
             wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
             if (countComputer == 2) {
+                p.getChildren().remove(spielfeldPane);
                 gewinnauswertung();
             }
         }
@@ -586,12 +588,12 @@ public class KniffelMinispiel extends Minispiel {
             Platform.runLater(() -> winLoseLabel.setVisible(true));
             if (countSpieler == 2 && countSpieler > countComputer) {
                 minispielrueckgabewert.setWinner(spieler[0]);
-                Platform.runLater(() -> winLoseLabel.setText("Du hast gewonnen! :)"));
+                Platform.runLater(() -> winLoseLabel.setText("Der Spieler hat gewonnen! :)"));
 
             } else if (countComputer == 2 && countComputer > countSpieler) {
                 minispielrueckgabewert.setWinner(spieler[1]);
 
-                Platform.runLater(() -> winLoseLabel.setText("Der Computer hat gewonnen. :("));
+                Platform.runLater(() -> winLoseLabel.setText("Der Computer hat gewonnen! :("));
             }
 
             PauseTransition pause2 = new PauseTransition(Duration.seconds(3));
@@ -602,11 +604,11 @@ public class KniffelMinispiel extends Minispiel {
 
         pause.play();
     }
-    public int wuerfeln() {
+    /*public int wuerfeln() {
         wuerfelZahl = (int) (Math.random() * 6) + 1;
 
         return wuerfelZahl;
-    }
+    }*/
     public void zaehlenComputer() {
         if (wuerfelCounter <= 2) {
             autoZaehlen();

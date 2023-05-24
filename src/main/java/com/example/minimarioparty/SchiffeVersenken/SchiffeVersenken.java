@@ -19,7 +19,6 @@ public class SchiffeVersenken extends Minispiel {
     private static Stage stage;
     private static GridPane Pgame;
     private static GridPane Cgame;
-    private static Pane WL;
     private Button[][] Pbuttons;
     private Button[][] Cbuttons;
     public static int Ccounter = 10;
@@ -51,7 +50,7 @@ public class SchiffeVersenken extends Minispiel {
 
         spielanleitungText =
                 "Du spielst den Spielmodus U-Boot-Jagd das bedeutet, dass es nur ein-Kästchen schiffe gibt (U-Boote). Die U-Boote werden zu beginn des " +
-                "Spiels für dich und den Computer zufällig generiert (Schiffe können direkt an einander liegen). Deine U-Boote sind in Blau gekennzeichnet, verfehlte schüsse mit dem XXX und zerstörte U-Boote in rot." +
+                "Spiels für dich und den Computer zufällig generiert (Schiffe können direkt an einander liegen). Deine U-Boote sind in Grün gekennzeichnet, verfehlte schüsse mit dem XXX und zerstörte U-Boote in rot." +
                 " Du bist als erstes am Zug, klicke auf eines der Felder des gegners (rechtes Spielfeld), triffst du (rote markierung) darfst du erneut feuern während dein " +
                         "Gegner aussetzen muss. Wer zuerst die Flotte des Gegners zerstört gewinnt." +
                         "                                                               VIEL GLÜCK & SPAß!";
@@ -255,7 +254,7 @@ public class SchiffeVersenken extends Minispiel {
                 Button button = new Button();
                 Cgame.add(button, col, row);
                 Cbuttons[row][col] = button;
-                Cbuttons[row][col].setOnAction(new CButtonClickHandler(row, col, PcounterL, Pcounter, CcounterL, Ccounter, Cboats, Pboats, Pbuttons, Cbuttons,ActionL,shots,l));
+                Cbuttons[row][col].setOnAction(new CButtonClickHandler(row, col, PcounterL, CcounterL, Cboats, Pboats, Pbuttons, Cbuttons,ActionL,shots,l));
                 Pbuttons[row][col].setStyle("-fx-border-color: black");
                 button.setPrefSize(60, 60);
                 Cgame.getChildren().addAll();
@@ -279,7 +278,7 @@ public class SchiffeVersenken extends Minispiel {
 
             if(Pboats[row][col]==1){
 
-                Pbuttons[row][col].setStyle("-fx-background-color: blue; -fx-border-color: black");
+                Pbuttons[row][col].setStyle("-fx-background-color: #7eb774; -fx-border-color: black");
                 row++;
 
             }
@@ -318,12 +317,7 @@ public class SchiffeVersenken extends Minispiel {
 
     }
 
-    EventHandler<ActionEvent> EndClickHandler = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-            cancel();
-        }
-    };
+    EventHandler<ActionEvent> EndClickHandler = event -> cancel();
 
 
     private static class CButtonClickHandler implements EventHandler<ActionEvent> {
@@ -332,8 +326,6 @@ public class SchiffeVersenken extends Minispiel {
         private Label label1;
         private Label label2;
         private Label action;
-        private int counter1;
-        private int counter2;
         private int[][] Cboats;
         private int[][] Pboats;
         private Button[][] Pbuttons;
@@ -343,13 +335,11 @@ public class SchiffeVersenken extends Minispiel {
 
 
 
-        public CButtonClickHandler(int row, int column, Label label1, int counter1, Label label2, int counter2, int[][] Cboats, int[][] Pboats, Button[][] Pbuttons, Button[][] Cbuttons, Label action, int[][] shots, boolean l) {
+        public CButtonClickHandler(int row, int column, Label label1, Label label2, int[][] Cboats, int[][] Pboats, Button[][] Pbuttons, Button[][] Cbuttons, Label action, int[][] shots, boolean l) {
             this.row = row;
             this.column = column;
             this.label1 = label1;
-            this.counter1 = counter1;
             this.label2 = label2;
-            this.counter2 = counter2;
             this.Cboats = Cboats;
             this.Pboats = Pboats;
             this.Pbuttons = Pbuttons;
@@ -368,7 +358,7 @@ public class SchiffeVersenken extends Minispiel {
                 if (Cboats[row][column] == 1) {
                     action.setText("TREFFER! DU DARFST NOCHMAL SCHIEßEN!");
                     Cboats[row][column] = 0;
-                    Cbuttons[row][column].setStyle("-fx-background-color: red");
+                    Cbuttons[row][column].setStyle("-fx-background-color: red; -fx-border-color: black");
                     SchiffeVersenken.setCcounter(getCcounter() - 1);
                     label2.setText("Verbleibende U-Boote:" + " " + SchiffeVersenken.getCcounter());
                 } else {
@@ -384,7 +374,7 @@ public class SchiffeVersenken extends Minispiel {
                         if (Pboats[x][y] == 1) {
 
                             Pboats[x][y] = 0;
-                            Pbuttons[x][y].setStyle("-fx-background-color: red");
+                            Pbuttons[x][y].setStyle("-fx-background-color: red; -fx-border-color: black");
                             SchiffeVersenken.setPcounter(getPcounter() - 1);
                             label1.setText("Verbleibende U-Boote:" + " " + SchiffeVersenken.getPcounter());
                             shots[x][y] = 1;
@@ -406,7 +396,7 @@ public class SchiffeVersenken extends Minispiel {
             if(Cboats[row][column] == 1){
                 action.setText("TREFFER! DU DARFST NOCHMAL SCHIEßEN!");
                 Cboats[row][column] = 0;
-                Cbuttons[row][column].setStyle("-fx-background-color: red");
+                Cbuttons[row][column].setStyle("-fx-background-color: red; -fx-border-color: black");
                 SchiffeVersenken.setCcounter(getCcounter()-1);
                 label2.setText("Verbleibende U-Boote:" + " " + SchiffeVersenken.getCcounter());
             }
@@ -423,7 +413,7 @@ public class SchiffeVersenken extends Minispiel {
                     if(Pboats[x][y] == 1){
 
                         Pboats[x][y] = 0;
-                        Pbuttons[x][y].setStyle("-fx-background-color: red");
+                        Pbuttons[x][y].setStyle("-fx-background-color: red; -fx-border-color: black");
                         SchiffeVersenken.setPcounter(getPcounter()-1);
                         label1.setText("Verbleibende U-Boote:" + " " + SchiffeVersenken.getPcounter());
 
