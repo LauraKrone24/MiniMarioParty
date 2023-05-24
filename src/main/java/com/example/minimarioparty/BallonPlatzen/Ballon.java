@@ -57,15 +57,16 @@ public abstract class Ballon extends Ellipse {
 
         while (onPane){
 
-            final int finalx = (int) (Math.random()*10*direktionX);
-            final int finaly = (int) (Math.random()*10*direktionY);
+            final int finalMoveX = (int) (Math.random()*10*direktionX);
+            final int finalMoveY = (int) (Math.random()*10*direktionY);
             Platform.runLater(() -> {
-                if(getCenterX()+finalx<=850 && getCenterX()+finalx>=50){
-                    setCenterX(getCenterX()+finalx);
+                if(getCenterX()+finalMoveX<=850 && getCenterX()+finalMoveX>=50){
+                    setCenterX(getCenterX()+finalMoveX);
                 }
-                if(getCenterY()+finaly<=550 && getCenterY()+finaly>=50){
-                    setCenterY(getCenterY()+finaly);
+                if(getCenterY()+finalMoveY<=550 && getCenterY()+finalMoveY>=50){
+                    setCenterY(getCenterY()+finalMoveY);
                 }
+
                 moveline();
 
             });
