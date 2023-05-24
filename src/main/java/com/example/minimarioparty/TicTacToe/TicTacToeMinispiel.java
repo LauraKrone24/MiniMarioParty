@@ -45,7 +45,7 @@ public class TicTacToeMinispiel extends Minispiel {
 
     private boolean spielerDran;
     private boolean unentschieden;
-    //private boolean leicht =false;
+
     private final Label startSpieler = new Label();
     private Label WinLoseLabel;
     private int zug = 0;
@@ -53,8 +53,6 @@ public class TicTacToeMinispiel extends Minispiel {
     private final List<Integer> belegteButtons = new ArrayList<>();
     private final ArrayList<Button> ButtonList = new ArrayList<>(Arrays.asList(button1,button2, button3, button4, button5,button6,button7,button8,button9));
 
-    //falls das Spiel einzeln getestet wird, für die schwere Variante
-    // bitte den nächsten Kommentar auskommentieren
 
     //tictactoe schwer variablen
     private final String spielerX = "X";

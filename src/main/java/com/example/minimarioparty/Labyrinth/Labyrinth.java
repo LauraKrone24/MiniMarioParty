@@ -121,7 +121,6 @@ public class Labyrinth extends Minispiel {
                     case W -> setAktuellesSpielerFeld(aktuellesFeldSpieler.getTop());
                     case S -> setAktuellesSpielerFeld(aktuellesFeldSpieler.getBottom());
                     case D -> setAktuellesSpielerFeld(aktuellesFeldSpieler.getRight());
-
                 }
 
                 });
