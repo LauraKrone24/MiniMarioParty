@@ -9,18 +9,16 @@ import java.util.List;
 
 public class LabyrinthField extends Rectangle {
     private int selectValue;
-
     private static int number = 0;
     private boolean markiert =  false;
-
     private LabyrinthField top;
     private LabyrinthField bottom;
     private LabyrinthField left;
     private final int num;
-
     private LabyrinthField right;
     private final HashSet<LabyrinthField> nachbarn = new HashSet<>();
     private List<LabyrinthField> suchPfad = new ArrayList<>();
+
     public LabyrinthField(int selectvalue, double x, double y){
         super(30,30);
         number++;
@@ -31,14 +29,11 @@ public class LabyrinthField extends Rectangle {
         setLayoutY(y);
         this.num = number;
     }
-    public List<LabyrinthField> getSuchPfad(){
-        return suchPfad;
-    }
 
+    //Setter Methoden
     public void setSuchPfad(List<LabyrinthField> suchPfad) {
         this.suchPfad = suchPfad;
     }
-
     private void setColor(){
         switch (selectValue) {
             case 1 -> {
@@ -46,13 +41,17 @@ public class LabyrinthField extends Rectangle {
                 setMarkiert(true);
             }// Feld = Mauer
             case 2 ->  {
-                setFill(Paint.valueOf("#006600"));
+                setFill(Paint.valueOf("#7eb774"));
                 setMarkiert(false);
-            }// Feld = Aktuelles Feld
+            }// Feld = Aktuelles Feld Spieler
             case 3 ->  {
                 setFill(Paint.valueOf("#660000"));
                 setMarkiert(false);
             }// Feld = Ziel
+            case 4 ->  {
+                setFill(Paint.valueOf("#ed7b84"));
+                setMarkiert(false);
+            }// Feld = Aktuelles Feld Computer
 
             default -> {
                 setFill(Paint.valueOf("#ffffff"));
@@ -64,11 +63,6 @@ public class LabyrinthField extends Rectangle {
         this.selectValue = s;
         setColor();
     }
-
-    public LabyrinthField getTop() {
-        return top;
-    }
-
     public void setTop(LabyrinthField top) {
         this.top = top;
         if(top!=null){
@@ -77,24 +71,10 @@ public class LabyrinthField extends Rectangle {
         }
 
     }
-
-    public LabyrinthField getBottom() {
-        return bottom;
-    }
-
     public void setBottom(LabyrinthField bottom) {
         this.bottom = bottom;
         nachbarn.add(bottom);
     }
-
-    public int getSelectValue() {
-        return selectValue;
-    }
-
-    public LabyrinthField getLeft() {
-        return left;
-    }
-
     public void setLeft(LabyrinthField left) {
         this.left = left;
         if(left!=null){
@@ -102,28 +82,40 @@ public class LabyrinthField extends Rectangle {
             left.setRight(this);
         }
     }
-
-    public LabyrinthField getRight() {
-        return right;
-    }
-
     public void setRight(LabyrinthField right) {
         this.right = right;
         nachbarn.add(right);
     }
+    public void setMarkiert(boolean markiert) {
+        this.markiert = markiert;
+    }
 
+    //Getter Methoden
     public HashSet<LabyrinthField> getNachbarn() {
         return nachbarn;
     }
-
 
     public boolean isMarkiert() {
         return markiert;
     }
 
-    public void setMarkiert(boolean markiert) {
-        this.markiert = markiert;
-    }
-
     public int getNum() {return num;}
+    public int getSelectValue() {
+        return selectValue;
+    }
+    public LabyrinthField getRight() {
+        return right;
+    }
+    public LabyrinthField getLeft() {
+        return left;
+    }
+    public LabyrinthField getBottom() {
+        return bottom;
+    }
+    public LabyrinthField getTop() {
+        return top;
+    }
+    public List<LabyrinthField> getSuchPfad(){
+        return suchPfad;
+    }
 }
