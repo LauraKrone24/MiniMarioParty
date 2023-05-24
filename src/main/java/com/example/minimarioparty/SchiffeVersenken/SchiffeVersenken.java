@@ -51,7 +51,7 @@ public class SchiffeVersenken extends Minispiel {
 
         spielanleitungText =
                 "Du spielst den Spielmodus U-Boot-Jagd das bedeutet, dass es nur ein-Kästchen schiffe gibt (U-Boote). Die U-Boote werden zu beginn des " +
-                "Spiels für dich und den Computer zufällig generiert (Schiffe können direkt an einander liegen). Deine U-Boote sind in Blau gekennzeichnet, verfehlte schüsse mit dem XXX und zerstörte U-Boote in rot." +
+                "Spiels für dich und den Computer zufällig generiert (Schiffe können direkt an einander liegen). Deine U-Boote sind in Grün gekennzeichnet, verfehlte schüsse mit dem XXX und zerstörte U-Boote in rot." +
                 " Du bist als erstes am Zug, klicke auf eines der Felder des gegners (rechtes Spielfeld), triffst du (rote markierung) darfst du erneut feuern während dein " +
                         "Gegner aussetzen muss. Wer zuerst die Flotte des Gegners zerstört gewinnt." +
                         "                                                               VIEL GLÜCK & SPAß!";
@@ -279,7 +279,7 @@ public class SchiffeVersenken extends Minispiel {
 
             if(Pboats[row][col]==1){
 
-                Pbuttons[row][col].setStyle("-fx-background-color: blue; -fx-border-color: black");
+                Pbuttons[row][col].setStyle("-fx-background-color: #7eb774; -fx-border-color: black");
                 row++;
 
             }
@@ -368,7 +368,7 @@ public class SchiffeVersenken extends Minispiel {
                 if (Cboats[row][column] == 1) {
                     action.setText("TREFFER! DU DARFST NOCHMAL SCHIEßEN!");
                     Cboats[row][column] = 0;
-                    Cbuttons[row][column].setStyle("-fx-background-color: red");
+                    Cbuttons[row][column].setStyle("-fx-background-color: red; -fx-border-color: black");
                     SchiffeVersenken.setCcounter(getCcounter() - 1);
                     label2.setText("Verbleibende U-Boote:" + " " + SchiffeVersenken.getCcounter());
                 } else {
@@ -384,7 +384,7 @@ public class SchiffeVersenken extends Minispiel {
                         if (Pboats[x][y] == 1) {
 
                             Pboats[x][y] = 0;
-                            Pbuttons[x][y].setStyle("-fx-background-color: red");
+                            Pbuttons[x][y].setStyle("-fx-background-color: red; -fx-border-color: black");
                             SchiffeVersenken.setPcounter(getPcounter() - 1);
                             label1.setText("Verbleibende U-Boote:" + " " + SchiffeVersenken.getPcounter());
                             shots[x][y] = 1;
@@ -406,7 +406,7 @@ public class SchiffeVersenken extends Minispiel {
             if(Cboats[row][column] == 1){
                 action.setText("TREFFER! DU DARFST NOCHMAL SCHIEßEN!");
                 Cboats[row][column] = 0;
-                Cbuttons[row][column].setStyle("-fx-background-color: red");
+                Cbuttons[row][column].setStyle("-fx-background-color: red; -fx-border-color: black");
                 SchiffeVersenken.setCcounter(getCcounter()-1);
                 label2.setText("Verbleibende U-Boote:" + " " + SchiffeVersenken.getCcounter());
             }
@@ -423,7 +423,7 @@ public class SchiffeVersenken extends Minispiel {
                     if(Pboats[x][y] == 1){
 
                         Pboats[x][y] = 0;
-                        Pbuttons[x][y].setStyle("-fx-background-color: red");
+                        Pbuttons[x][y].setStyle("-fx-background-color: red; -fx-border-color: black");
                         SchiffeVersenken.setPcounter(getPcounter()-1);
                         label1.setText("Verbleibende U-Boote:" + " " + SchiffeVersenken.getPcounter());
 
