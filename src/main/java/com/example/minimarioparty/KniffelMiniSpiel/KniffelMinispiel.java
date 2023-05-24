@@ -250,9 +250,9 @@ public class KniffelMinispiel extends Minispiel {
         winLoseLabel = new Label();
         winLoseLabel.setPrefSize(400, 300);
         winLoseLabel.setFont(new Font(25));
-        winLoseLabel.setTextFill(Color.RED);
+        winLoseLabel.setTextFill(Color.BLACK);
         winLoseLabel.setLayoutX(300);
-        winLoseLabel.setLayoutY(400);
+        winLoseLabel.setLayoutY(300);
         winLoseLabel.setAlignment(Pos.CENTER);
         winLoseLabel.setVisible(false);
         p.getChildren().add(winLoseLabel);
@@ -277,6 +277,7 @@ public class KniffelMinispiel extends Minispiel {
             wuerfelCounter = 0;
             wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
             if (countSpieler == 2) {
+                p.getChildren().remove(spielfeldPane);
                 gewinnauswertung();
             }
         } else if (punkteComputer >= 100 && (punkteComputer > punkteSpieler)) {
@@ -291,6 +292,7 @@ public class KniffelMinispiel extends Minispiel {
             wuerfelCounter = 0;
             wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
             if (countComputer == 2) {
+                p.getChildren().remove(spielfeldPane);
                 gewinnauswertung();
             }
         }
