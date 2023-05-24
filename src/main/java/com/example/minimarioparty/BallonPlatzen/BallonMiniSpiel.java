@@ -109,7 +109,7 @@ public class BallonMiniSpiel extends Minispiel {
         ZeitLabel.setFont(new Font(22));
         ZeitLabel.setAlignment(Pos.CENTER);
 
-        PunkteLabel = new Label("/"+MINPUNKTE);
+        PunkteLabel = new Label(punkte+"/"+MINPUNKTE);
         PunkteLabel.setPrefSize(200,100);
         PunkteLabel.setLayoutY(75);
         PunkteLabel.setLayoutX(750);
