@@ -9,7 +9,7 @@ import javafx.scene.shape.Ellipse;
 public abstract class Ballon extends Ellipse {
      private final int worth;
      private final CubicCurve line;
-    private boolean onPane = true;
+     private boolean onPane = true;
 
     public  Ballon(double x, double y, Paint c,CubicCurve line, int worth){
 

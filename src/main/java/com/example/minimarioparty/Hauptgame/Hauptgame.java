@@ -60,7 +60,7 @@ public class Hauptgame extends Application {
     public void start(Stage stage) throws IOException {
         //Oberfläche erstellen
 
-        this.stage = stage;
+        Hauptgame.stage = stage;
         final String SPIELER1FARBE = "#7eb774";
         final String SPIELER2FARBE = "#ed7b84";
 
