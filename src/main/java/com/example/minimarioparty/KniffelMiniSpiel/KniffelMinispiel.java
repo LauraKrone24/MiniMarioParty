@@ -32,7 +32,6 @@ public class KniffelMinispiel extends Minispiel {
     private int countComputer = 0;
     private int rundenCounter = 0;
     private int wuerfelCounter = 0;
-    private int wuerfelZahl;
     private boolean istComputerDran;
     private boolean hatSpielerGespielt;
     private boolean wurdenPunkteGezaehlt;
@@ -40,7 +39,7 @@ public class KniffelMinispiel extends Minispiel {
     int schwierigkeitsLevel = 0;
 
     List<Integer> zahlen = new ArrayList<>();
-    private List<Integer> letzteZahlen = new ArrayList<>();
+    private final List<Integer> letzteZahlen = new ArrayList<>();
 
     Label punkteSpielerLabel = new Label("Punkte des Spielers: " + punkteSpieler);
 
@@ -235,9 +234,7 @@ public class KniffelMinispiel extends Minispiel {
         // An spielfeldPane übergeben
         spielfeldPane.getChildren().addAll(spielfeld, wuerfeln, beenden, wuerfelSpieler1, wuerfelSpieler2, wuerfelSpieler3, wuerfelSpieler4, wuerfelSpieler5, wuerfelComputer1, wuerfelComputer2, wuerfelComputer3, wuerfelComputer4, wuerfelComputer5, counterWuerfel, punktSpieler, punkteComputer, counterSpieler, counterComputer, runde, amZug);
         beenden.setVisible(false);
-        wuerfeln.setOnAction(actionEvent -> {
-            wuerfelnSpieler();
-        });
+        wuerfeln.setOnAction(actionEvent -> wuerfelnSpieler());
 
         beenden.setOnAction(ActiveEvent -> {
             wuerfeln.setVisible(false);
@@ -273,12 +270,16 @@ public class KniffelMinispiel extends Minispiel {
             countSpieler++;
             countSpielerLabel.setText("Rundensiege Spieler: " + countSpieler);
             rundenCounter++;
-            rundenCounterLabel.setText("Gespielte Runden: " + Integer.toString(rundenCounter));
+            rundenCounterLabel.setText("Gespielte Runden: " + rundenCounter);
             wuerfelCounter = 0;
             wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
             if (countSpieler == 2) {
-                p.getChildren().remove(spielfeldPane);
-                gewinnauswertung();
+                PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                pause.setOnFinished(event -> {
+                    p.getChildren().remove(spielfeldPane);
+                    gewinnauswertung();
+                });
+                pause.play();
             }
         } else if (punkteComputer >= 100 && (punkteComputer > punkteSpieler)) {
             punkteSpieler = 0;
@@ -288,12 +289,17 @@ public class KniffelMinispiel extends Minispiel {
             countComputer++;
             countComputerLabel.setText("Rundensiege Computer: " + countComputer);
             rundenCounter++;
-            rundenCounterLabel.setText("Gespielte Runden: " + Integer.toString(rundenCounter));
+            rundenCounterLabel.setText("Gespielte Runden: " + rundenCounter);
             wuerfelCounter = 0;
             wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
             if (countComputer == 2) {
-                p.getChildren().remove(spielfeldPane);
-                gewinnauswertung();
+                PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                pause.setOnFinished(event -> {
+                    p.getChildren().remove(spielfeldPane);
+                    gewinnauswertung();
+                });
+                pause.play();
+
             }
         }
     }
@@ -353,11 +359,6 @@ public class KniffelMinispiel extends Minispiel {
         amZugLabel.setTextFill(Color.WHITE);
         amZugLabel.setText("Spieler ist am Zug");
 
-        /*if (wuerfelCounter > 3) {
-            wuerfelCounter = 0;
-            System.out.println("funktioniert");
-            if (rundenCounter > 3) {
-                return;*/
 
         if (wuerfelCounter == 3) {
             wuerfeln.setVisible(false);
@@ -375,18 +376,18 @@ public class KniffelMinispiel extends Minispiel {
         istComputerDran = true;
 
 
-        if (istComputerDran) {
-            hatSpielerGespielt = false;
+
+        hatSpielerGespielt = false;
 
 
-            PauseTransition pause = new PauseTransition(Duration.seconds(2));
-            pause.setOnFinished(event -> {
-                wuerfelVorgangComputer();
-                wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
-                punkte = 0;
-            });
-            pause.play();
-        }
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+            wuerfelVorgangComputer();
+            wuerfelCounterLabel.setText(wuerfelCounter + " Mal gewuerfelt");
+            punkte = 0;
+        });
+        pause.play();
+
         istComputerDran = false;
     }
 
@@ -454,11 +455,7 @@ public class KniffelMinispiel extends Minispiel {
         amZugLabel.setText("Computer ist am Zug");
         zaehlenComputer();
         final boolean istComputerDranFinal = istComputerDran;
-        if (punkte >= schwierigkeitsLevel) {
-            punkteErreicht = true;
-        } else {
-            punkteErreicht = false;
-        }
+        punkteErreicht = punkte >= schwierigkeitsLevel;
         punkte = 0;
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
         pause.setOnFinished(event -> {
@@ -604,11 +601,7 @@ public class KniffelMinispiel extends Minispiel {
 
         pause.play();
     }
-    /*public int wuerfeln() {
-        wuerfelZahl = (int) (Math.random() * 6) + 1;
 
-        return wuerfelZahl;
-    }*/
     public void zaehlenComputer() {
         if (wuerfelCounter <= 2) {
             autoZaehlen();
@@ -693,8 +686,6 @@ public class KniffelMinispiel extends Minispiel {
                 punkte += 15;
             } else if (zwilling) {
                 punkte += 10;
-            } else {
-                punkte += 0;
             }
         }
 
