@@ -32,6 +32,7 @@ public class Labyrinth extends Minispiel {
     @Override
 
     public void start(Stage stage) throws IOException {
+        //Setzten der Werte für Leicht bzw. Schwer
 
         if(leicht){
             minispielrueckgabewert.setWuerfel(new SchlechterWuerfel());
@@ -41,14 +42,17 @@ public class Labyrinth extends Minispiel {
             MinispielSchwierigkeitLable.setText("Schwer");
         }
 
+        //OberflächenAttribute
         Pane gamePane = new Pane();
         gamePane.setPrefSize(630,630);
         gamePane.setLayoutX(200);
         gamePane.setLayoutY(150);
 
         MinispielTitleLabel.setText("Labyrinth Minispiel");
-
         spielanleitungText = "Ziel des Spiels ist es schneller als der Computer durch das Laberinth zum roten Zielfeld in der Mitte zu gelangen. Steuere dafür über die Tasten a,w,s und d. ";
+
+
+        // Erstellen des Labyrinths
         List<LabyrinthField> spielerpfad;
         do{
             createFeld();
@@ -60,10 +64,6 @@ public class Labyrinth extends Minispiel {
         }while(spielerpfad.isEmpty()||computerpfad.isEmpty());
 
 
-
-
-
-
         for(LabyrinthField[] a: Arrays.stream(feld).toList()){
             for(LabyrinthField b: a){
                 if(b.getSelectValue()!=1){b.setMarkiert(false);}
@@ -73,6 +73,7 @@ public class Labyrinth extends Minispiel {
         p.getChildren().addAll(gamePane);
 
 
+        //Startoberfläche bauen
         countDownWin = new Label("3");
         countDownWin.setFont(new Font(100));
         countDownWin.setLayoutX(350);
@@ -87,21 +88,23 @@ public class Labyrinth extends Minispiel {
         hideRect.setFill(Paint.valueOf("#ffffff"));
 
         p.getChildren().addAll(hideRect,countDownWin);
+
         new Thread(()->{
+            //Countdown zum Start
             for(int i = 3;i>0;i--){
                 int finalI = i;
                 Platform.runLater(()->countDownWin.setText(String.valueOf(finalI)));
                 try{Thread.sleep(1000);}catch(Exception e){System.out.println("Sleep wurde unterbrochen");}
-                while(isPauseGame()){ try{Thread.sleep(100);}catch(Exception e){System.out.println("Sleep wurde unterbrochen");}}
-
+                warten();
             }
             try{Thread.sleep(1000);}catch(Exception e){System.out.println("Sleep wurde unterbrochen");}
-            while(isPauseGame()){ try{Thread.sleep(100);}catch(Exception e){System.out.println("Sleep wurde unterbrochen");}}
+            warten();
             Platform.runLater(()->countDownWin.setText("Start"));
             try{Thread.sleep(500);}catch(Exception e){System.out.println("Sleep wurde unterbrochen");}
             Platform.runLater(()->{
                 countDownWin.setVisible(false);
                 hideRect.setVisible(false);
+                //aktiveren der Spielerbewegung
                 p.setOnKeyPressed(e -> {
                 switch (e.getCode()){
                     case A -> setAktuellesSpielerFeld(aktuellesFeldSpieler.getLeft());
@@ -113,6 +116,7 @@ public class Labyrinth extends Minispiel {
 
                 });
              });
+            // Computer starten
             computermove();
 
         }).start();
@@ -121,7 +125,7 @@ public class Labyrinth extends Minispiel {
     }
 
     private void computermove() {
-        PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+        PauseTransition pause = new PauseTransition(Duration.seconds(0.25));
         pause.setOnFinished(event->{
 
 
@@ -133,12 +137,13 @@ public class Labyrinth extends Minispiel {
                     Platform.runLater(()->{
                         aktuellesFeldComputer.changeSelectvalue(0);
                         aktuellesFeldComputer = computerpfad.remove(0);
-                        aktuellesFeldComputer.changeSelectvalue(2);
+                        aktuellesFeldComputer.changeSelectvalue(4);
                     });
 
                 }
+                // Warten, wenn Spielanleitung geöffnet
                 new Thread(()->{
-                    while (isPauseGame()){try{Thread.sleep(100);}catch(Exception e){System.out.println("Sleep wurde unterbrochen");}}
+                    warten();
                     computermove();
                 }).start();
 
@@ -156,10 +161,12 @@ public class Labyrinth extends Minispiel {
     private void linkeHandAlgorithmusZug(){
 
         LabyrinthField choosenFeld;
+        // Abfrage, ob das Feld links von der aktuellen Richtung frei ist
         if(chooseField(direction+1)!=null &&!chooseField(direction+1).isMarkiert()){
             direction= direction+1;
             if(direction ==4)direction=0;
         }
+        // drehen nach rechts bis in die richtung ein freies Feld ist
         do{
             choosenFeld = chooseField(direction);
             if(chooseField(direction)==null||choosenFeld.isMarkiert()){
@@ -168,16 +175,18 @@ public class Labyrinth extends Minispiel {
             }
         }while(choosenFeld==null||choosenFeld.isMarkiert());
 
+        // setzten des nächsten Computerfelds
         LabyrinthField finalChoosenFeld = choosenFeld;
         Platform.runLater(()->{
             aktuellesFeldComputer.changeSelectvalue(0);
             aktuellesFeldComputer = finalChoosenFeld;
-            aktuellesFeldComputer.changeSelectvalue(2);
+            aktuellesFeldComputer.changeSelectvalue(4);
         });
 
     }
 
     private LabyrinthField chooseField(int d){
+        // Rückgabe des Feldes für den Linken-Hand-Algorithmus abhängig von der übergebenen Richtung
         LabyrinthField choosenFeld;
         choosenFeld = switch (d%4){
             case 1-> aktuellesFeldComputer.getRight();
@@ -189,12 +198,14 @@ public class Labyrinth extends Minispiel {
         return choosenFeld;
     }
     private void setAktuellesSpielerFeld(LabyrinthField neuesFeld){
+        // Setzten des aktuellen Spielerfelds, wenn möglich
         if(neuesFeld!=null){
             if(neuesFeld.getSelectValue()!=1){
                 Platform.runLater(()->{
                     aktuellesFeldSpieler.changeSelectvalue(0);
                     aktuellesFeldSpieler = neuesFeld;
                     aktuellesFeldSpieler.changeSelectvalue(2);
+                    //Abfrage, ob Ziel erreicht ist
                     if(aktuellesFeldSpieler.getNum()==zielFeld.getNum()){
                         win(true);
                         gewonnen = true;
@@ -207,6 +218,7 @@ public class Labyrinth extends Minispiel {
 
     }
     private void win(Boolean win){
+        // Ausgabe des Gewinners
         Platform.runLater(()->{
             p.setOnKeyPressed(e -> {});
             minispielrueckgabewert.setAbbruch(false);
@@ -224,14 +236,21 @@ public class Labyrinth extends Minispiel {
                 countDownWin.setText("Du hast verloren");
             }
         });
+        // Beenden des Spiels
         PauseTransition pause = new PauseTransition(Duration.seconds(5));
         pause.setOnFinished(event -> stage.close());
         pause.play();
 
     }
 
+    private void warten(){
+        //Methode zum Warten, wenn Minispiel anleitung offen ist.
+        while(isPauseGame()){ try{Thread.sleep(100);}catch(Exception e){System.out.println("Sleep wurde unterbrochen");}}
+    }
 
 
+
+    // Funktionen zum Spielfeld erstellen
     private void createFeld(){
         feld = new LabyrinthField[21][21];
 
@@ -258,7 +277,7 @@ public class Labyrinth extends Minispiel {
         aktuellesFeldSpieler.changeSelectvalue(2);
 
         aktuellesFeldComputer = feld[0][20];
-        aktuellesFeldComputer.changeSelectvalue(2);
+        aktuellesFeldComputer.changeSelectvalue(4);
         zielFeld = feld[10][10];
         zielFeld.changeSelectvalue(3);
         feld[10][9].changeSelectvalue(0);

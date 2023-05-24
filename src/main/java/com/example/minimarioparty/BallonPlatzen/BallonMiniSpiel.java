@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
 public class BallonMiniSpiel extends Minispiel {
     private final Pane innerPane = new Pane();
 
-    private final int MINPUNKTE = 15000;
+    private final int MINPUNKTE = 10000;
     private final int DAUER = 60;
 
     private Label ZeitLabel;
@@ -70,12 +70,15 @@ public class BallonMiniSpiel extends Minispiel {
         b.setLayoutX(450);
         b.setLayoutY(400);
         b.setOnAction(event->{
-            System.out.println("Button pressed ");
+            //Oberfläche für Gamestart vorbereiten
             b.setVisible(false);
             spielanleitungButton.setVisible(false);
+
             DecimalFormat df = new DecimalFormat("0");
             long Startzeit = System.currentTimeMillis();
             Endzeit= Startzeit + DAUER*1000;
+
+            //Timer starten
             new Thread(()->{
                 try{
                     while(Endzeit>=System.currentTimeMillis()){
@@ -88,9 +91,12 @@ public class BallonMiniSpiel extends Minispiel {
                     System.out.println("InterruptedException");
                 }
             }).start();
+            //ersten Ballon zu erzeugen
             ballonErzeugen();
 
         });
+
+        //Labels und andere Oberflächenattribute setzen und hinzufügen
 
         innerPane.setPrefSize(900,600);
         innerPane.setLayoutX(50);
@@ -103,7 +109,7 @@ public class BallonMiniSpiel extends Minispiel {
         ZeitLabel.setFont(new Font(22));
         ZeitLabel.setAlignment(Pos.CENTER);
 
-        PunkteLabel = new Label("/"+MINPUNKTE);
+        PunkteLabel = new Label(punkte+"/"+MINPUNKTE);
         PunkteLabel.setPrefSize(200,100);
         PunkteLabel.setLayoutY(75);
         PunkteLabel.setLayoutX(750);
@@ -120,6 +126,8 @@ public class BallonMiniSpiel extends Minispiel {
 
         p.getChildren().addAll(hintergrund,innerPane,b,ZeitLabel, PunkteLabel,WinLoseLabel);
 
+
+        //Aufruf des Minispiel Konstruktors
         super.start(stage);
     }
     private void ballonErzeugen(){
@@ -127,6 +135,7 @@ public class BallonMiniSpiel extends Minispiel {
         int x = (int) (Math.random()*800+50);
         int y = (int) (Math.random()*500+50);
 
+        //Linie erzeugen und setzen
         CubicCurve line = new CubicCurve();
         line.setStroke(Color.BLACK);
         line.setStrokeWidth(0.25);
@@ -139,38 +148,44 @@ public class BallonMiniSpiel extends Minispiel {
         line.setEndX(x);
         line.setEndY(y+20);
 
-        Ballon b;
+        //Ballon mit zufälliger Art erzeugen
+        Ballon ballon;
 
         float ballonart = (float)  Math.random()*ballonarten;
 
         if(ballonart>2){
-            b = new BlackBallon(x,y,line);
+            ballon = new BlackBallon(x,y,line);
         } else if (ballonart>1.85) {
-            b = new GoldBallon(x,y,line);
+            ballon = new GoldBallon(x,y,line);
         }else{
-            b = new NormalerBallon(x,y,line);
+            ballon = new NormalerBallon(x,y,line);
         }
 
+        innerPane.getChildren().addAll(line,ballon);
 
-        innerPane.getChildren().addAll(line,b);
-        b.setOnMouseClicked(e->{
-                punkte = punkte + (int) b.getPunkte();
+        //Button platzen lassen
+        ballon.setOnMouseClicked(e->{
+                punkte = punkte + (int) ballon.getPunkte();
                 Platform.runLater(()-> PunkteLabel.setText(punkte+"/"+MINPUNKTE));
-                Platform.runLater(()->innerPane.getChildren().removeAll(b,line));
+                Platform.runLater(()->innerPane.getChildren().removeAll(ballon,line));
+                ballon.setOnPane(false);
 
         });
+        // Ballon bewegen lassen
         if(!leicht){
-            new Thread(b::move).start();
+            new Thread(ballon::move).start();
         }
 
+        // Ballon wachsen lassen
         new Thread(()->{
-            b.grow(faktor);
-            b.setOnPane(false);
+            ballon.grow(faktor);
+            ballon.setOnPane(false);
             PauseTransition pause = new PauseTransition(Duration.seconds((double)1/faktor));
-            pause.setOnFinished(event -> Platform.runLater(()->innerPane.getChildren().removeAll(b,line)));
+            pause.setOnFinished(event -> Platform.runLater(()->innerPane.getChildren().removeAll(ballon,line)));
             pause.play();
         }).start();
 
+        // Neuen Ballon nach Pause erzeugen bzw. Spiel beenden
         PauseTransition pause = new PauseTransition(Duration.seconds(0.25));
         pause.setOnFinished(event -> {
 
@@ -179,7 +194,6 @@ public class BallonMiniSpiel extends Minispiel {
 
             }
             else{
-                System.out.println("Zeit vorbei");
                 gewinnauswertung();
             }
 
@@ -189,7 +203,9 @@ public class BallonMiniSpiel extends Minispiel {
 
     }
 
-    private void gewinnauswertung() {
+    private void gewinnauswertung()
+    {
+        //Ausgabe des Gewinners nach Pause
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
         pause.setOnFinished(event -> {
 
@@ -206,6 +222,7 @@ public class BallonMiniSpiel extends Minispiel {
                 Platform.runLater(()->WinLoseLabel.setText("Du hast leider verloren"));
             }
 
+            //Beenden des Minispiels nach Pause
             PauseTransition pause2 = new PauseTransition(Duration.seconds(5));
             pause2.setOnFinished(e -> stage.close());
             pause2.play();

@@ -8,7 +8,7 @@ public class BreitensucheImLabyrinth {
 	public static List<LabyrinthField> findWay(LabyrinthField startFeld,
 											   LabyrinthField zielFeld) {
 
-
+		//Variablen initialisieren
 		List<LabyrinthField> ergebnisPfad = new ArrayList<>();
 		Queue<LabyrinthField> labyrinthFieldQueue = new LinkedList<>();
 		labyrinthFieldQueue.add(startFeld);
@@ -17,12 +17,14 @@ public class BreitensucheImLabyrinth {
 		while (!labyrinthFieldQueue.isEmpty() && ergebnisPfad.isEmpty()) {
 			LabyrinthField aktuellerKnoten = labyrinthFieldQueue.remove();
 
+			// Wenn Zielfeld, ergebnispfad erstellen
 			if (aktuellerKnoten.getNum() == zielFeld.getNum()) {
 
 				ergebnisPfad.addAll(aktuellerKnoten.getSuchPfad());
 				ergebnisPfad.add(aktuellerKnoten);
 				
 			} else {
+				// sonst noch nicht markierte Nachbarn markieren, in die Queue einfügen und Suchpfad setzten
 				for (LabyrinthField nachbar : aktuellerKnoten.getNachbarn() ) {
 					if (!nachbar.isMarkiert()) {
 

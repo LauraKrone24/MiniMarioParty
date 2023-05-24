@@ -58,6 +58,8 @@ public class Hauptgame extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        //Oberfläche erstellen
+
         this.stage = stage;
         final String SPIELER1FARBE = "#7eb774";
         final String SPIELER2FARBE = "#ed7b84";
@@ -89,9 +91,6 @@ public class Hauptgame extends Application {
 
         aktuellerSpielerLable = new Label("",aktuellerSpielerEllipse);
         nichtAktuellerSpielerLable = new Label("",nichtAktuellerSpielerEllipse);
-
-
-
 
         GridPane gp = new GridPane();
         gp.setLayoutX(800);
@@ -163,24 +162,29 @@ public class Hauptgame extends Application {
         Scene scene = new Scene(p,1000,800);
         stage.setTitle("Mini Mario Party");
         stage.setScene(scene);
+        //Dialog um Spielernamen eingeben zu lassen
         TextInputDialog td = new TextInputDialog();
         td.setHeaderText("Gib deinen Namen ein");
         td.showAndWait();
         String spielername = td.getEditor().getText();
 
-
+        //Spieler erstellen
         spieler[0]  = new Spieler(spielername,false,SPIELER1FARBE);
         spieler[1]  = new Spieler("Computer",true,SPIELER2FARBE);
+        //Felder erstellen
         setFelder();
 
+        // Minispiel objekte erstellen
         addMinispiele();
 
-
+        //Startspieler wählen und Oberfläche updaten
         chooseStartspieler();
         updateOberflache();
 
+        //Spiel anzeigen
         stage.show();
 
+        // ggf. Computerzug starten
         if(aktuellerSpieler==1)zug();
     }
 
@@ -366,6 +370,7 @@ public class Hauptgame extends Application {
     }
 
     private static void chooseStartspieler(){
+        //zufällige Wahl des Startspielers
         double  i = Math.random();
         if(i<=0.5){
             changeSpieler();
@@ -378,10 +383,13 @@ public class Hauptgame extends Application {
 
     public static void nextSpieler(){
         finished = true;
+        //Spielerwechsel
         changeSpieler();
+        //Updated der Oberfläche nach Pause
         PauseTransition pause = new PauseTransition(Duration.seconds(1));
         pause.setOnFinished(event -> updateOberflache());
         pause.play();
+        //Nach Pause Computerzug bzw. Würfelbutton freigeben
         PauseTransition pause2 = new PauseTransition(Duration.seconds(2));
         pause2.setOnFinished(event -> {
 
@@ -396,12 +404,9 @@ public class Hauptgame extends Application {
 
     }
 
-
-
     private static void zug(){
         wuefelbutton.setVisible(false);
-
-
+        //Spieler bewegen
         wuerfelSUMLable.setText(String.valueOf(spieler[aktuellerSpieler].bewegeSpieler()));
 
         if(aktuellerSpieler==1){
@@ -413,7 +418,7 @@ public class Hauptgame extends Application {
             figurSpieler.setLayoutY(spieler[aktuellerSpieler].getPosition().getY()+25);
 
         }
-
+        //ggf. Minispiel warten
         if(spieler[aktuellerSpieler].getPosition() instanceof Aktionsfeld){
             finished = false;
 
@@ -421,23 +426,16 @@ public class Hauptgame extends Application {
 
 
         }
+        //Gewinnabfrage
         if(gewonnen){
             gewinner(spieler[aktuellerSpieler]);
         } else if (finished) {
             nextSpieler();
         }
 
-
-
-
-
-
-
-
-
-
     }
     private static void gewinner(Spieler gewinner){
+        //Ausgabe des Gewinners
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Spiel beendet");
 
@@ -452,8 +450,9 @@ public class Hauptgame extends Application {
             alert.setContentText("Herzlichen Glückwunsch, " + gewinner.getName() + "! Der Computer konnte kaum mit dir mithalten");
             alert.setHeaderText("Gewonnen");
         }
-
         alert.show();
+
+        //Schließen des Spiels
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
         pause.setOnFinished(event ->  stage.close());
         pause.play();
@@ -465,11 +464,12 @@ public class Hauptgame extends Application {
         wuerfelSUMLable.setText("");
         wurfel2ImageView.setVisible(false);
 
+        //ggf. zweiten Würfel einblenden
         if(spieler[aktuellerSpieler].getWuerfelList().size()>1){
             wurfel2ImageView.setVisible(true);
             wurfel2ImageView.setImage(spieler[aktuellerSpieler].getWuerfelList().get(1).getBild());
         }
-
+        //Reihenfolge updaten
         aktuellerSpielerEllipse.setFill(spieler[aktuellerSpieler].getFarbe());
         aktuellerSpielerLable.setText(spieler[aktuellerSpieler].getName());
         int naesterSpieler = (aktuellerSpieler-1)*(aktuellerSpieler-1);
@@ -479,6 +479,7 @@ public class Hauptgame extends Application {
 
     }
 
+    //getter und setter methoden
     public static Spieler[] getSpieler() {
         return spieler;
     }

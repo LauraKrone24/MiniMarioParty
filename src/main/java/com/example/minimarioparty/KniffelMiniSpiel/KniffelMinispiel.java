@@ -78,7 +78,7 @@ public class KniffelMinispiel extends Minispiel {
         }
 
 
-        spielanleitungText = "Ziel des Spiels ist es, als erstes drei Runden zu gewinnen. \nEine Runde gilt als gewonnen, sobald 100 oder mehr Punkte erzielt wurden. \nDer Spieler kann bis zum zweiten Wuerfeln die Punkte manuell zaehlen. \nPro Zug kann bis zu drei Mal gewuerfelt werden, dann werden die Punkte des letzten Wuerfelns automatisch gezaehlt.\nEs gibt folgende Möglichkeiten: Zwilling (zwei Gleiche), Drilling, (drei Gleiche), Vierling (vier Gleiche), Full House (zwei Gleiche und drei Gleiche), kleine Strasse (vier Zahlen in Folge), grosse Strasse (fuenf Zahlen in Folge) und Kniffel (fuenf Gleiche).\nSollten mehrere Zwillingspaare vorhanden sein, so wird nur eines davon gewertet.\nEs wird abwechselnd gewuerfelt - der Spieler beginnt.\nDer Spieler hat gruene Wuerfel und der Computer rote Wuerfel.";
+        spielanleitungText = "Ziel des Spiels ist es, als erstes zwei Runden zu gewinnen. \nEine Runde gilt als gewonnen, sobald 100 oder mehr Punkte erzielt wurden. \nDer Spieler kann bis zum zweiten Wuerfeln die Punkte manuell zaehlen. \nPro Zug kann bis zu drei Mal gewuerfelt werden, dann werden die Punkte des letzten Wuerfelns automatisch gezaehlt.\nEs gibt folgende Möglichkeiten: Zwilling (zwei Gleiche), Drilling, (drei Gleiche), Vierling (vier Gleiche), Full House (zwei Gleiche und drei Gleiche), kleine Strasse (vier Zahlen in Folge), grosse Strasse (fuenf Zahlen in Folge) und Kniffel (fuenf Gleiche).\nSollten mehrere Zwillingspaare vorhanden sein, so wird nur eines davon gewertet.\nEs wird abwechselnd gewuerfelt - der Spieler beginnt.\nDer Spieler hat gruene Wuerfel und der Computer rote Wuerfel.";
         MinispielTitleLabel.setText("Kniffel");
 
 
@@ -632,7 +632,13 @@ public class KniffelMinispiel extends Minispiel {
         // Prüfung auf kleine Strasse
 
         for (int i = 0; i <= 3; i++) {
-            if (Collections.frequency(letzteZahlen, i) >= 1 && Collections.frequency(letzteZahlen, i + 1) >= 1 && Collections.frequency(letzteZahlen, i + 2) >= 1 && Collections.frequency(letzteZahlen, i + 3) >= 1) {
+            if (letzteZahlen.contains(1) && letzteZahlen.contains(2) && letzteZahlen.contains(3) && letzteZahlen.contains(4)) {
+                klStrasse = true;
+                break;
+            } else if (letzteZahlen.contains(2) && letzteZahlen.contains(3) && letzteZahlen.contains(4) && letzteZahlen.contains(5)) {
+                klStrasse = true;
+                break;
+            } else if (letzteZahlen.contains(3) && letzteZahlen.contains(4) && letzteZahlen.contains(5) && letzteZahlen.contains(6)) {
                 klStrasse = true;
                 break;
             }
@@ -641,7 +647,10 @@ public class KniffelMinispiel extends Minispiel {
         // Pruefung grosse Strasse
 
         for (int i = 0; i <= 2; i++) {
-            if (Collections.frequency(letzteZahlen, i) >= 1 && Collections.frequency(letzteZahlen, i + 1) >= 1 && Collections.frequency(letzteZahlen, i + 2) >= 1 && Collections.frequency(letzteZahlen, i + 3) >= 1 && Collections.frequency(letzteZahlen, i + 3) >= 1 && Collections.frequency(letzteZahlen, i + 4) >= 1) {
+            if (letzteZahlen.contains(1) && letzteZahlen.contains(2) && letzteZahlen.contains(3) && letzteZahlen.contains(4) && letzteZahlen.contains(5)) {
+                grStrasse = true;
+                break;
+            } else if (letzteZahlen.contains(2) && letzteZahlen.contains(3) && letzteZahlen.contains(4) && letzteZahlen.contains(5) && letzteZahlen.contains(6)) {
                 grStrasse = true;
                 break;
             }
