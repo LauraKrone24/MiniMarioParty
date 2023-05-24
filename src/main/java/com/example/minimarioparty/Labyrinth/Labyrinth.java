@@ -7,12 +7,15 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,10 +46,17 @@ public class Labyrinth extends Minispiel {
         }
 
         //OberflächenAttribute
+        ImageView hintergrund = new ImageView(new Image("LabyrinthBG.jpg"));
+        hintergrund.setFitHeight(700);
+        hintergrund.setFitWidth(1000);
+        hintergrund.setLayoutX(0);
+        hintergrund.setLayoutY(100);
+
+
         Pane gamePane = new Pane();
         gamePane.setPrefSize(630,630);
         gamePane.setLayoutX(200);
-        gamePane.setLayoutY(150);
+        gamePane.setLayoutY(125);
 
         MinispielTitleLabel.setText("Labyrinth Minispiel");
         spielanleitungText = "Ziel des Spiels ist es schneller als der Computer durch das Laberinth zum roten Zielfeld in der Mitte zu gelangen. Steuere dafür über die Tasten a,w,s und d. ";
@@ -70,19 +80,19 @@ public class Labyrinth extends Minispiel {
                 gamePane.getChildren().add(b);
             }
         }
-        p.getChildren().addAll(gamePane);
+        p.getChildren().addAll(hintergrund,gamePane);
 
 
         //Startoberfläche bauen
         countDownWin = new Label("3");
         countDownWin.setFont(new Font(100));
         countDownWin.setLayoutX(350);
-        countDownWin.setLayoutY(400);
+        countDownWin.setLayoutY(375);
         countDownWin.setPrefSize(300,100);
         countDownWin.setAlignment(Pos.CENTER);
 
         hideRect = new Rectangle(630,630);
-        hideRect.setLayoutY(150);
+        hideRect.setLayoutY(125);
         hideRect.setLayoutX(200);
         hideRect.setOpacity(0.95);
         hideRect.setFill(Paint.valueOf("#ffffff"));

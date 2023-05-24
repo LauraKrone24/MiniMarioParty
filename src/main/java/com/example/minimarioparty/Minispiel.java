@@ -38,6 +38,8 @@ public  abstract class Minispiel extends Application {
     public void start(Stage stage) throws IOException {
         this.stage = stage;
 
+        p.setStyle("-fx-background-color: #ffffff");
+
         menuRectangle.setLayoutX(0);
         menuRectangle.setLayoutY(0);
         menuRectangle.setWidth(1000);
