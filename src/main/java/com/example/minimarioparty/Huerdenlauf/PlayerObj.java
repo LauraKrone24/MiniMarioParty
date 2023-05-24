@@ -6,8 +6,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class PlayerObj extends Pane {
-    boolean isJumping = false;
-    boolean isPaused = false;
+    private boolean isJumping = false;
+    private boolean isPaused = false;
     private Rectangle rectangle;
 
     public PlayerObj(double x, double y, double width, double height, Color color) {
@@ -70,5 +70,9 @@ public class PlayerObj extends Pane {
     public double getY() {return  rectangle.getY(); }
     public javafx.scene.shape.Rectangle getRectangle() {
         return rectangle;
+    }
+
+    public void setPaused(boolean paused){
+        isPaused = paused;
     }
 }

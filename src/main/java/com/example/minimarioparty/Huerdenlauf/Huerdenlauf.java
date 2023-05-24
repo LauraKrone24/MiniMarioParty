@@ -257,7 +257,7 @@ public class Huerdenlauf extends Minispiel {
             Platform.runLater(() -> hurdle.move(speed)); //4 or 6
         }
     }
-    public boolean checkCollision(PlayerObj playerObj, List<Hurdle> hurdles) {
+    private boolean checkCollision(PlayerObj playerObj, List<Hurdle> hurdles) {
         for (Hurdle hurdle : hurdles) {
             if (playerObj.getRectangle().intersects(hurdle.getX()-10, hurdle.getY(), hurdle.getWidth(), hurdle.getHeight())) {
                 return true;
@@ -265,7 +265,7 @@ public class Huerdenlauf extends Minispiel {
         }
         return false;
     }
-    public void stopGame(boolean pGame) {
+    private void stopGame(boolean pGame) {
         if (pGame) {
             playerGame.stop();
             pGameStopped = true;
@@ -312,8 +312,8 @@ public class Huerdenlauf extends Minispiel {
         pause.play();
     }
 
-    public boolean isPauseGame(PlayerObj obj) {
-        obj.isPaused = super.isPauseGame();
+    private boolean isPauseGame(PlayerObj obj) {
+        obj.setPaused(super.isPauseGame());
         return super.isPauseGame();
     }
 }

@@ -78,7 +78,7 @@ public class KniffelMinispiel extends Minispiel {
         }
 
 
-        spielanleitungText = "Ziel des Spiels ist es, als erstes drei Runden zu gewinnen. \nEine Runde gilt als gewonnen, sobald 100 oder mehr Punkte erzielt wurden. \nDer Spieler kann bis zum zweiten Wuerfeln die Punkte manuell zaehlen. \nPro Zug kann bis zu drei Mal gewuerfelt werden, dann werden die Punkte des letzten Wuerfelns automatisch gezaehlt.\nEs gibt folgende Möglichkeiten: Zwilling (zwei Gleiche), Drilling, (drei Gleiche), Vierling (vier Gleiche), Full House (zwei Gleiche und drei Gleiche), kleine Strasse (vier Zahlen in Folge), grosse Strasse (fuenf Zahlen in Folge) und Kniffel (fuenf Gleiche).\nSollten mehrere Zwillingspaare vorhanden sein, so wird nur eines davon gewertet.\nEs wird abwechselnd gewuerfelt - der Spieler beginnt.\nDer Spieler hat gruene Wuerfel und der Computer rote Wuerfel.";
+        spielanleitungText = "Ziel des Spiels ist es, als erstes zwei Runden zu gewinnen. \nEine Runde gilt als gewonnen, sobald 100 oder mehr Punkte erzielt wurden. \nDer Spieler kann bis zum zweiten Wuerfeln die Punkte manuell zaehlen. \nPro Zug kann bis zu drei Mal gewuerfelt werden, dann werden die Punkte des letzten Wuerfelns automatisch gezaehlt.\nEs gibt folgende Möglichkeiten: Zwilling (zwei Gleiche), Drilling, (drei Gleiche), Vierling (vier Gleiche), Full House (zwei Gleiche und drei Gleiche), kleine Strasse (vier Zahlen in Folge), grosse Strasse (fuenf Zahlen in Folge) und Kniffel (fuenf Gleiche).\nSollten mehrere Zwillingspaare vorhanden sein, so wird nur eines davon gewertet.\nEs wird abwechselnd gewuerfelt - der Spieler beginnt.\nDer Spieler hat gruene Wuerfel und der Computer rote Wuerfel.";
         MinispielTitleLabel.setText("Kniffel");
 
 

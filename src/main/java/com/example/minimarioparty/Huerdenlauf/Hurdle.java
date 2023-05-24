@@ -15,8 +15,6 @@ public class Hurdle extends Pane {
 
     public void move(int speed) {
         rectangle.setX(rectangle.getX() - speed);
-        /*rectangle.setWidth(rectangle.getWidth());
-        rectangle.setHeight(rectangle.getHeight());*/
     }
 
     public double getX() {
