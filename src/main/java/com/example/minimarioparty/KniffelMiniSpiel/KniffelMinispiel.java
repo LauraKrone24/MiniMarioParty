@@ -632,7 +632,13 @@ public class KniffelMinispiel extends Minispiel {
         // Prüfung auf kleine Strasse
 
         for (int i = 0; i <= 3; i++) {
-            if (Collections.frequency(letzteZahlen, i) >= 1 && Collections.frequency(letzteZahlen, i + 1) >= 1 && Collections.frequency(letzteZahlen, i + 2) >= 1 && Collections.frequency(letzteZahlen, i + 3) >= 1) {
+            if (letzteZahlen.contains(1) && letzteZahlen.contains(2) && letzteZahlen.contains(3) && letzteZahlen.contains(4)) {
+                klStrasse = true;
+                break;
+            } else if (letzteZahlen.contains(2) && letzteZahlen.contains(3) && letzteZahlen.contains(4) && letzteZahlen.contains(5)) {
+                klStrasse = true;
+                break;
+            } else if (letzteZahlen.contains(3) && letzteZahlen.contains(4) && letzteZahlen.contains(5) && letzteZahlen.contains(6)) {
                 klStrasse = true;
                 break;
             }
@@ -641,7 +647,10 @@ public class KniffelMinispiel extends Minispiel {
         // Pruefung grosse Strasse
 
         for (int i = 0; i <= 2; i++) {
-            if (Collections.frequency(letzteZahlen, i) >= 1 && Collections.frequency(letzteZahlen, i + 1) >= 1 && Collections.frequency(letzteZahlen, i + 2) >= 1 && Collections.frequency(letzteZahlen, i + 3) >= 1 && Collections.frequency(letzteZahlen, i + 3) >= 1 && Collections.frequency(letzteZahlen, i + 4) >= 1) {
+            if (letzteZahlen.contains(1) && letzteZahlen.contains(2) && letzteZahlen.contains(3) && letzteZahlen.contains(4) && letzteZahlen.contains(5)) {
+                grStrasse = true;
+                break;
+            } else if (letzteZahlen.contains(2) && letzteZahlen.contains(3) && letzteZahlen.contains(4) && letzteZahlen.contains(5) && letzteZahlen.contains(6)) {
                 grStrasse = true;
                 break;
             }

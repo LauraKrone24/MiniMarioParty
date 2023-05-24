@@ -1,14 +1,8 @@
 package com.example.minimarioparty.SchiffeVersenken;
-
 import com.example.minimarioparty.Hauptgame.GuterWuerfel;
 import com.example.minimarioparty.Hauptgame.SchlechterWuerfel;
 import com.example.minimarioparty.Minispiel;
-
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -21,7 +15,7 @@ import javafx.stage.Stage;
 
 public class SchiffeVersenken extends Minispiel {
 
-
+// Globale Variablen setzen
     private static Stage stage;
     private static GridPane Pgame;
     private static GridPane Cgame;
@@ -43,23 +37,26 @@ public class SchiffeVersenken extends Minispiel {
     public static Label ActionL;
     public int[][] shots = new int[6][6];
     public static boolean Pwin = false;
-    public boolean l = leicht;
+    public static boolean l;
+
 
     @Override
     public void start(Stage stage) throws IOException {
+// Zuweisung der Stage
         this.stage = stage;
-        System.out.println(leicht);
-
+        setL(leicht);
+// UI an das Minispiel anpassen
         MinispielTitleLabel.setText("Schiffe Versenken");
+        MinispielSchwierigkeitLable.setText(l? "leicht": "schwer");
 
         spielanleitungText =
-                "Du spielst den Spielmodus U-Boot-Jagd, dass bedeutet das es nur ein-kästchen schiffe gibt (U-Boote). Die U-Boote werden zu beginn des " +
+                "Du spielst den Spielmodus U-Boot-Jagd das bedeutet, dass es nur ein-Kästchen schiffe gibt (U-Boote). Die U-Boote werden zu beginn des " +
                 "Spiels für dich und den Computer zufällig generiert (Schiffe können direkt an einander liegen). Deine U-Boote sind in Blau gekennzeichnet, verfehlte schüsse mit dem XXX und zerstörte U-Boote in rot." +
                 " Du bist als erstes am Zug, klicke auf eines der Felder des gegners (rechtes Spielfeld), triffst du (rote markierung) darfst du erneut feuern während dein " +
                         "Gegner aussetzen muss. Wer zuerst die Flotte des Gegners zerstört gewinnt." +
                         "                                                               VIEL GLÜCK & SPAß!";
 
-
+// Label und Counter setzen
 
         Pcounter = 10;
         Ccounter = 10;
@@ -104,6 +101,7 @@ public class SchiffeVersenken extends Minispiel {
         ActionL.setFont(new Font("system",20));
         ActionL.setTextFill(Color.RED);
 
+// Spieler gewinnt nicht, Label setzen
         PlayerLoose = new Label();
         PlayerLoose.setText("Du hast verloren und erhältst keinen Würfel!");
         PlayerLoose.setPrefSize(500,100);
@@ -113,6 +111,7 @@ public class SchiffeVersenken extends Minispiel {
         PlayerLoose.setTextFill(Color.BLACK);
         PlayerLoose.setVisible(false);
 
+// Spieler gewinnt, Label setzen
         PlayerWins = new Label();
         PlayerWins.setText("Du hast gewonnen und erhältst einen schlechten Würfel!");
         PlayerWins.setPrefSize(500,100);
@@ -122,6 +121,7 @@ public class SchiffeVersenken extends Minispiel {
         PlayerWins.setTextFill(Color.BLACK);
         PlayerWins.setVisible(false);
 
+// Abschluss-button setzen
         end = new Button();
         end.setText("Zurück zur Lobby");
         end.setPrefSize(400,100);
@@ -131,27 +131,91 @@ public class SchiffeVersenken extends Minispiel {
         end.setOnAction(EndClickHandler);
         end.setVisible(false);
 
+// Methodenaufruf
         generateBoats();
         initPgame();
         initCgame();
         ColorPboats();
         ColorCgame();
+
+// Anhängen der Objekte an das Haupt-Pane
         p.getChildren().addAll(CcounterL, PcounterL, PlayerL,ComputerL,PlayerLoose,PlayerWins,end, ActionL);
 
+// Start der Stage
         super.start(stage);
+
+    }
+
+    // Boote generieren
+    public void generateBoats(){
+
+        // Instanzvariablen setzen
+        Pboats = new int[6][6];
+        Cboats = new int[6][6];
+        int i = 0;
+        int z = 0;
+
+        // Boote des Spielers
+        while(i < 10 ) {
+
+            // Koordinaten generieren
+            int x = (int) (Math.random() * 6);
+            int y = (int) (Math.random() * 6);
+
+            // Überprüfung der Koordinaten (schon belegt?)
+            if (Pboats[x][y] == 1) {
+
+                continue;
+
+            } else if (Pboats[x][y] == 0) {
+                Pboats[x][y] = 1;
+
+                i++;
+            }
+        }
+        // Boote des Computers
+        while(z < 10){
+
+            // Koordinaten generieren
+            int x2 = (int) (Math.random() * 6);
+            int y2 = (int) (Math.random() * 6);
+
+            // Überprüfung der Koordinaten (schon belegt?)
+            if(Cboats[x2][y2] == 1){
+
+                continue;
+
+            } else if (Cboats[x2][y2] == 0) {
+
+                Cboats[x2][y2] = 1;
+
+                z++;
+            }
+
 
         }
 
 
+    }
+
+
     private void initPgame(){
 
+        //Anlegen des Spieler-Spielfeldes
         Pgame = new GridPane();
+
+        //Layout des Spielfeldes setze
         Pgame.setLayoutX(100);
         Pgame.setLayoutY(200);
 
+        //Reihe und Spalte setzen
         int col = 0;
         int row = 0;
+
+        //Button Array anlegen
         Pbuttons = new Button[6][6];
+
+        //Alle Felder mit Buttons füllen
         while(col < 6){
 
             while(row < 6){
@@ -169,59 +233,41 @@ public class SchiffeVersenken extends Minispiel {
 
 
         }
+
+        //Spielfeld and das Haupt-Pane anhängen
         p.getChildren().addAll(Pgame);
 
 
 
     }
 
-    EventHandler<ActionEvent> EndClickHandler = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-            cancel();
+    private void initCgame() {
+
+        Cgame = new GridPane();
+        Cgame.setLayoutX(560);
+        Cgame.setLayoutY(200);
+        int col = 0;
+        int row = 0;
+        Cbuttons = new Button[6][6];
+        while (col < 6) {
+
+            while (row < 6) {
+                Button button = new Button();
+                Cgame.add(button, col, row);
+                Cbuttons[row][col] = button;
+                Cbuttons[row][col].setOnAction(new CButtonClickHandler(row, col, PcounterL, Pcounter, CcounterL, Ccounter, Cboats, Pboats, Pbuttons, Cbuttons,ActionL,shots,l));
+                Pbuttons[row][col].setStyle("-fx-border-color: black");
+                button.setPrefSize(60, 60);
+                Cgame.getChildren().addAll();
+                row++;
+                System.out.println("button" + " " + row + " " + col);
+            }
+            row = 0;
+            col = col + 1;
+
+
         }
-    };
-
-    public void generateBoats(){
-        Pboats = new int[6][6];
-        Cboats = new int[6][6];
-        int i = 0;
-        int z = 0;
-
-
-            while(i < 10 ) {
-
-                int x = (int) (Math.random() * 6);
-                int y = (int) (Math.random() * 6);
-                if (Pboats[x][y] == 1) {
-
-                    continue;
-
-                } else if (Pboats[x][y] == 0) {
-                    Pboats[x][y] = 1;
-
-                    i++;
-                }
-            }
-            while(z < 10){
-                int x2 = (int) (Math.random() * 6);
-                int y2 = (int) (Math.random() * 6);
-
-                if(Cboats[x2][y2] == 1){
-
-                    continue;
-
-                } else if (Cboats[x2][y2] == 0) {
-
-                    Cboats[x2][y2] = 1;
-
-                    z++;
-                }
-
-
-            }
-
-
+        p.getChildren().addAll(Cgame);
     }
 
     public void ColorPboats(){
@@ -250,6 +296,35 @@ public class SchiffeVersenken extends Minispiel {
         }
 
     }
+
+    public void ColorCgame(){
+
+        int row = 0;
+        int col = 0;
+
+        while(col < 6){
+
+            Cbuttons[row][col].setStyle("-fx-border-color: black");
+            row++;
+
+            if(!(row < 6)){
+                row = 0;
+                col++;
+            }
+
+
+
+        }
+
+    }
+
+    EventHandler<ActionEvent> EndClickHandler = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            cancel();
+        }
+    };
+
 
     private static class CButtonClickHandler implements EventHandler<ActionEvent> {
         private int row;
@@ -377,85 +452,6 @@ public class SchiffeVersenken extends Minispiel {
 
     }
 
-
-    private void initCgame() {
-
-        Cgame = new GridPane();
-        Cgame.setLayoutX(560);
-        Cgame.setLayoutY(200);
-        int col = 0;
-        int row = 0;
-        Cbuttons = new Button[6][6];
-        while (col < 6) {
-
-            while (row < 6) {
-                Button button = new Button();
-                Cgame.add(button, col, row);
-                Cbuttons[row][col] = button;
-                Cbuttons[row][col].setOnAction(new CButtonClickHandler(row, col, PcounterL, Pcounter, CcounterL, Ccounter, Cboats, Pboats, Pbuttons, Cbuttons,ActionL,shots,l));
-                Pbuttons[row][col].setStyle("-fx-border-color: black");
-                button.setPrefSize(60, 60);
-                Cgame.getChildren().addAll();
-                row++;
-                System.out.println("button" + " " + row + " " + col);
-            }
-            row = 0;
-            col = col + 1;
-
-
-        }
-        p.getChildren().addAll(Cgame);
-    }
-    public void ColorCgame(){
-
-        int row = 0;
-        int col = 0;
-
-        while(col < 6){
-
-                Cbuttons[row][col].setStyle("-fx-border-color: black");
-                row++;
-
-            if(!(row < 6)){
-                row = 0;
-                col++;
-            }
-
-
-
-        }
-
-    }
-
-    public Label WL(int PlayerWin){
-
-
-
-
-        if(PlayerWin == 1){
-
-            Pgame.setVisible(false);
-            Cgame.setVisible(false);
-            PcounterL.setVisible(false);
-            PlayerL.setVisible(false);
-            CcounterL.setVisible(false);
-
-            return PlayerWins;
-
-
-        }else if(PlayerWin == -1){
-
-            Pgame.setVisible(false);
-            Cgame.setVisible(false);
-
-            return PlayerLoose;
-
-        }
-
-        return null;
-
-    }
-
     public static void Gewinnueberpruefung(){
 
 
@@ -484,6 +480,9 @@ public class SchiffeVersenken extends Minispiel {
             ActionL.setVisible(false);
             end.setVisible(true);
             Pwin = true;
+            if(!isL()){
+                PlayerWins.setText("Du hast Gewonnen und erhältst einen guten Würfel!");
+            }
             System.out.println("Game result:" + " " + "Player wins.");
 
 
@@ -499,21 +498,23 @@ public class SchiffeVersenken extends Minispiel {
 
     public void cancel(){
 
-
         if(Pwin) {
             if (l) {
                 minispielrueckgabewert.setWuerfel(new SchlechterWuerfel());
             } else {
                 minispielrueckgabewert.setWuerfel(new GuterWuerfel());
-                end.setText("Du hast gewonnen und erhältst einen guten Würfel!");
+
             }
             minispielrueckgabewert.setWinner(spieler[0]);
         }else{
             minispielrueckgabewert.setWinner(spieler[1]);
+
         }
         minispielrueckgabewert.setAbbruch(false);
         stage.close();
     }
+
+// Getter und Setter
 
     public static int getCcounter() {
         return Ccounter;
@@ -531,7 +532,13 @@ public class SchiffeVersenken extends Minispiel {
         Pcounter = pcounter;
     }
 
+    public static boolean isL() {
+        return l;
+    }
 
+    public void setL(boolean l) {
+        this.l = l;
+    }
 }
 
 
