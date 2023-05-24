@@ -60,7 +60,7 @@ public class TicTacToeMinispiel extends Minispiel {
     private final String spielerX = "X";
     private final String computerO = "O";
     private final String nichBelegt = "";
-    int computerCalculated;
+    private int computerCalculated;
 
 
 
