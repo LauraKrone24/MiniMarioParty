@@ -353,6 +353,10 @@ public class TicTacToeMinispiel extends Minispiel {
                 break;
 
             }else if(zug==9){
+                ButtonList.forEach(ticButton ->{
+                    ticButton.setDisable(true);
+
+                });
                 unentschieden=true;
                 gewinnAuswertung();
 
