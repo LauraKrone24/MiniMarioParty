@@ -588,12 +588,12 @@ public class KniffelMinispiel extends Minispiel {
             Platform.runLater(() -> winLoseLabel.setVisible(true));
             if (countSpieler == 2 && countSpieler > countComputer) {
                 minispielrueckgabewert.setWinner(spieler[0]);
-                Platform.runLater(() -> winLoseLabel.setText("Du hast gewonnen! :)"));
+                Platform.runLater(() -> winLoseLabel.setText("Der Spieler hat gewonnen! :)"));
 
             } else if (countComputer == 2 && countComputer > countSpieler) {
                 minispielrueckgabewert.setWinner(spieler[1]);
 
-                Platform.runLater(() -> winLoseLabel.setText("Der Computer hat gewonnen. :("));
+                Platform.runLater(() -> winLoseLabel.setText("Der Computer hat gewonnen! :("));
             }
 
             PauseTransition pause2 = new PauseTransition(Duration.seconds(3));
@@ -604,11 +604,11 @@ public class KniffelMinispiel extends Minispiel {
 
         pause.play();
     }
-    public int wuerfeln() {
+    /*public int wuerfeln() {
         wuerfelZahl = (int) (Math.random() * 6) + 1;
 
         return wuerfelZahl;
-    }
+    }*/
     public void zaehlenComputer() {
         if (wuerfelCounter <= 2) {
             autoZaehlen();
